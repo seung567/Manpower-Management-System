@@ -22,11 +22,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
-public class WorkerContView extends JFrame {
+public class WorkerContInsertView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField workerContNameTF;
-	private JTextField workerCodeTx;
 	private JTextField workerContSdateTx;
 	private JTextField workerContEdateTx;
 	private JTextField recontNumTx;
@@ -35,6 +33,8 @@ public class WorkerContView extends JFrame {
 	private JTextField accBankTx;
 	private JTextField accNameTx;
 
+	
+	WorkerInsertView workerInsertView = null;
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +45,7 @@ public class WorkerContView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WorkerContView frame = new WorkerContView();
+					WorkerContInsertView frame = new WorkerContInsertView();
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -62,6 +62,7 @@ public class WorkerContView extends JFrame {
 							}
 						}
 					});
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,9 +73,17 @@ public class WorkerContView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorkerContView() {
+	
+	public WorkerContInsertView(WorkerInsertView view) {
+		System.out.println("3   " + view);
+		this.workerInsertView = view;
+		workerAction();
+	}
+	
+	
+	public WorkerContInsertView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 623);
+		setBounds(100, 100, 561, 542);
 		contentPane = new JPanel();
 //		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBackground(new Color(181, 218, 255));
@@ -83,43 +92,16 @@ public class WorkerContView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel reqContLabel = new JLabel("계약상세정보");
+		JLabel reqContLabel = new JLabel("계약정보등록");
 		reqContLabel.setBounds(12, 10, 132, 34);
 		reqContLabel.setFont(new Font("맑은 고딕", Font.BOLD, 21));
 		contentPane.add(reqContLabel);
-
-		JLabel workerContCodeLabel = new JLabel("[고용계약번호]");
-		workerContCodeLabel.setBackground(new Color(255, 255, 255));
-		workerContCodeLabel.setForeground(new Color(0, 0, 0));
-		workerContCodeLabel.setBounds(11, 85, 120, 28);
-		workerContCodeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-		contentPane.add(workerContCodeLabel);
-
-		JLabel workerNameLabel = new JLabel("이름");
-		workerNameLabel.setBounds(51, 143, 40, 27);
-		workerNameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		contentPane.add(workerNameLabel);
-
-		workerContNameTF = new JTextField();
-		workerContNameTF.setBounds(103, 141, 120, 29);
-		contentPane.add(workerContNameTF);
-		workerContNameTF.setColumns(10);
-
-		workerCodeTx = new JTextField();
-		workerCodeTx.setBounds(388, 141, 120, 29);
-		workerCodeTx.setColumns(10);
-		contentPane.add(workerCodeTx);
-
-		JLabel workerCodeLabel = new JLabel("파견인력번호");
-		workerCodeLabel.setBounds(253, 141, 120, 27);
-		workerCodeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		contentPane.add(workerCodeLabel);
 
 		JPanel workerContPanel = new JPanel();
 		workerContPanel.setBackground(new Color(192, 192, 192));
 		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
 		workerContPanel.setBackground(new Color(181, 218, 255));
-		workerContPanel.setBounds(12, 234, 255, 168);
+		workerContPanel.setBounds(12, 155, 255, 168);
 		contentPane.add(workerContPanel);
 		workerContPanel.setLayout(null);
 
@@ -167,19 +149,19 @@ public class WorkerContView extends JFrame {
 
 		JLabel contPeriodLabel1 = new JLabel("계약기간");
 		contPeriodLabel1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		contPeriodLabel1.setBounds(12, 209, 67, 15);
+		contPeriodLabel1.setBounds(12, 130, 67, 15);
 		contentPane.add(contPeriodLabel1);
 
 		JLabel contDateLabel = new JLabel("계약일 [계약일]");
 		contDateLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
-		contDateLabel.setBounds(405, 434, 132, 28);
+		contDateLabel.setBounds(405, 359, 132, 28);
 		contentPane.add(contDateLabel);
 
 		JPanel accInfoPanel = new JPanel();
 		accInfoPanel.setLayout(null);
 		accInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
 		accInfoPanel.setBackground(new Color(181, 218, 255));
-		accInfoPanel.setBounds(282, 234, 255, 128);
+		accInfoPanel.setBounds(282, 155, 255, 128);
 		contentPane.add(accInfoPanel);
 
 		JLabel accNumLabel = new JLabel("입금계좌번호");
@@ -215,23 +197,19 @@ public class WorkerContView extends JFrame {
 
 		JLabel accInfoLabel = new JLabel("수당지급정보");
 		accInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		accInfoLabel.setBounds(282, 209, 91, 15);
+		accInfoLabel.setBounds(282, 130, 91, 15);
 		contentPane.add(accInfoLabel);
 
-		JLabel contDateLabel_1 = new JLabel("관리자 [관리자]");
-		contDateLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
-		contDateLabel_1.setBounds(405, 472, 132, 28);
-		contentPane.add(contDateLabel_1);
-
-		JButton applyBtn = new JButton("\uD655\uC778");
+		JButton applyBtn = new JButton("파견 지원자 등록");
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new WorkerView();
+				workerInsertView.dispose();
+			
 			}
 		});
 		applyBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		applyBtn.setBounds(193, 506, 159, 48);
+		applyBtn.setBounds(167, 422, 210, 48);
 		contentPane.add(applyBtn);
 		
 		
