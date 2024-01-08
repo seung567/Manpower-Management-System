@@ -22,11 +22,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
-public class WorkerContView extends JFrame {
+public class WorkerContInfoView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField workerContNameTF;
-	private JTextField workerCodeTx;
 	private JTextField workerContSdateTx;
 	private JTextField workerContEdateTx;
 	private JTextField recontNumTx;
@@ -35,17 +33,19 @@ public class WorkerContView extends JFrame {
 	private JTextField accBankTx;
 	private JTextField accNameTx;
 
+	
+	WorkerInsertView workerInsertView = null;
 	/**
 	 * Launch the application.
 	 */
 	
-	// °è¾àÁ¤º¸ view
+	// ê³„ì•½ì •ë³´ view
 	
-	public static void workerAction() {
+	public static void Action() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WorkerContView frame = new WorkerContView();
+					WorkerContInfoView frame = new WorkerContInfoView();
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -55,13 +55,14 @@ public class WorkerContView extends JFrame {
 							// TODO Auto-generated method stub
 							// super.windowClosing(e);
 
-							int result = JOptionPane.showConfirmDialog(frame, "Ã¢À» ´İÀ¸½Ã°Ú½À´Ï±î?", "È®ÀÎ",
+							int result = JOptionPane.showConfirmDialog(frame, "ì°½ì„ ë‹«ìœ¼ì‹œê² ìŠµë‹ˆê¹Œ?", "í™•ì¸",
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
 							}
 						}
 					});
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,9 +73,10 @@ public class WorkerContView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorkerContView() {
+	public WorkerContInfoView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 623);
+		setBounds(100, 100, 561, 542);
+		setLocationRelativeTo(null); // ì°½ ê°€ìš´ë° ì •ë ¬ - [JIN]
 		contentPane = new JPanel();
 //		contentPane.setBackground(new Color(192, 192, 192));
 		contentPane.setBackground(new Color(181, 218, 255));
@@ -83,49 +85,22 @@ public class WorkerContView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel reqContLabel = new JLabel("°è¾à»ó¼¼Á¤º¸");
+		JLabel reqContLabel = new JLabel("ê³„ì•½ì •ë³´í™•ì¸");
 		reqContLabel.setBounds(12, 10, 132, 34);
-		reqContLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 21));
+		reqContLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 21));
 		contentPane.add(reqContLabel);
-
-		JLabel workerContCodeLabel = new JLabel("[°í¿ë°è¾à¹øÈ£]");
-		workerContCodeLabel.setBackground(new Color(255, 255, 255));
-		workerContCodeLabel.setForeground(new Color(0, 0, 0));
-		workerContCodeLabel.setBounds(11, 85, 120, 28);
-		workerContCodeLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
-		contentPane.add(workerContCodeLabel);
-
-		JLabel workerNameLabel = new JLabel("ÀÌ¸§");
-		workerNameLabel.setBounds(51, 143, 40, 27);
-		workerNameLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		contentPane.add(workerNameLabel);
-
-		workerContNameTF = new JTextField();
-		workerContNameTF.setBounds(103, 141, 120, 29);
-		contentPane.add(workerContNameTF);
-		workerContNameTF.setColumns(10);
-
-		workerCodeTx = new JTextField();
-		workerCodeTx.setBounds(388, 141, 120, 29);
-		workerCodeTx.setColumns(10);
-		contentPane.add(workerCodeTx);
-
-		JLabel workerCodeLabel = new JLabel("ÆÄ°ßÀÎ·Â¹øÈ£");
-		workerCodeLabel.setBounds(253, 141, 120, 27);
-		workerCodeLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		contentPane.add(workerCodeLabel);
 
 		JPanel workerContPanel = new JPanel();
 		workerContPanel.setBackground(new Color(192, 192, 192));
 		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
 		workerContPanel.setBackground(new Color(181, 218, 255));
-		workerContPanel.setBounds(12, 234, 255, 168);
+		workerContPanel.setBounds(12, 155, 255, 168);
 		contentPane.add(workerContPanel);
 		workerContPanel.setLayout(null);
 
-		JLabel workerContSdateTitel = new JLabel("°è¾à½ÃÀÛÀÏ");
+		JLabel workerContSdateTitel = new JLabel("ê³„ì•½ì‹œì‘ì¼");
 		workerContSdateTitel.setBounds(28, 12, 77, 27);
-		workerContSdateTitel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		workerContSdateTitel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		workerContPanel.add(workerContSdateTitel);
 
 		workerContSdateTx = new JTextField();
@@ -133,8 +108,8 @@ public class WorkerContView extends JFrame {
 		workerContSdateTx.setColumns(10);
 		workerContPanel.add(workerContSdateTx);
 
-		JLabel workerContEdateTitel = new JLabel("°è¾à¸¸·áÀÏ");
-		workerContEdateTitel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		JLabel workerContEdateTitel = new JLabel("ê³„ì•½ë§Œë£Œì¼");
+		workerContEdateTitel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		workerContEdateTitel.setBounds(28, 50, 77, 27);
 		workerContPanel.add(workerContEdateTitel);
 
@@ -143,9 +118,9 @@ public class WorkerContView extends JFrame {
 		workerContEdateTx.setBounds(117, 50, 116, 30);
 		workerContPanel.add(workerContEdateTx);
 
-		JLabel recontNumTitel = new JLabel("Àç°è¾àÈ½¼ö");
+		JLabel recontNumTitel = new JLabel("ì¬ê³„ì•½íšŸìˆ˜");
 		recontNumTitel.setBackground(new Color(255, 128, 128));
-		recontNumTitel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		recontNumTitel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		recontNumTitel.setBounds(28, 86, 70, 27);
 		workerContPanel.add(recontNumTitel);
 
@@ -154,8 +129,8 @@ public class WorkerContView extends JFrame {
 		recontNumTx.setBounds(117, 87, 116, 30);
 		workerContPanel.add(recontNumTx);
 
-		JLabel contPeriodLabel = new JLabel("°è¾à±â°£");
-		contPeriodLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		JLabel contPeriodLabel = new JLabel("ê³„ì•½ê¸°ê°„");
+		contPeriodLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		contPeriodLabel.setBackground(new Color(255, 128, 128));
 		contPeriodLabel.setBounds(28, 123, 70, 27);
 		workerContPanel.add(contPeriodLabel);
@@ -165,25 +140,25 @@ public class WorkerContView extends JFrame {
 		contPeriodTx.setBounds(117, 124, 116, 30);
 		workerContPanel.add(contPeriodTx);
 
-		JLabel contPeriodLabel1 = new JLabel("°è¾à±â°£");
-		contPeriodLabel1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-		contPeriodLabel1.setBounds(12, 209, 67, 15);
+		JLabel contPeriodLabel1 = new JLabel("ê³„ì•½ê¸°ê°„");
+		contPeriodLabel1.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+		contPeriodLabel1.setBounds(12, 130, 67, 15);
 		contentPane.add(contPeriodLabel1);
 
-		JLabel contDateLabel = new JLabel("°è¾àÀÏ [°è¾àÀÏ]");
-		contDateLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 17));
-		contDateLabel.setBounds(405, 434, 132, 28);
+		JLabel contDateLabel = new JLabel("ê³„ì•½ì¼ [ê³„ì•½ì¼]");
+		contDateLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 17));
+		contDateLabel.setBounds(405, 334, 132, 28);
 		contentPane.add(contDateLabel);
 
 		JPanel accInfoPanel = new JPanel();
 		accInfoPanel.setLayout(null);
 		accInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
 		accInfoPanel.setBackground(new Color(181, 218, 255));
-		accInfoPanel.setBounds(282, 234, 255, 128);
+		accInfoPanel.setBounds(282, 155, 255, 128);
 		contentPane.add(accInfoPanel);
 
-		JLabel accNumLabel = new JLabel("ÀÔ±İ°èÁÂ¹øÈ£");
-		accNumLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		JLabel accNumLabel = new JLabel("ì…ê¸ˆê³„ì¢Œë²ˆí˜¸");
+		accNumLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		accNumLabel.setBounds(21, 12, 84, 27);
 		accInfoPanel.add(accNumLabel);
 
@@ -192,8 +167,8 @@ public class WorkerContView extends JFrame {
 		accNumTx.setBounds(117, 13, 116, 30);
 		accInfoPanel.add(accNumTx);
 
-		JLabel accBankLabel = new JLabel("ÀÔ±İÀºÇà¸í");
-		accBankLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		JLabel accBankLabel = new JLabel("ì…ê¸ˆì€í–‰ëª…");
+		accBankLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		accBankLabel.setBounds(21, 49, 77, 27);
 		accInfoPanel.add(accBankLabel);
 
@@ -202,8 +177,8 @@ public class WorkerContView extends JFrame {
 		accBankTx.setBounds(117, 50, 116, 30);
 		accInfoPanel.add(accBankTx);
 
-		JLabel accNameLabel = new JLabel("¿¹±İÁÖ");
-		accNameLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		JLabel accNameLabel = new JLabel("ì˜ˆê¸ˆì£¼");
+		accNameLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 14));
 		accNameLabel.setBackground(new Color(255, 128, 128));
 		accNameLabel.setBounds(21, 86, 70, 27);
 		accInfoPanel.add(accNameLabel);
@@ -213,25 +188,21 @@ public class WorkerContView extends JFrame {
 		accNameTx.setBounds(117, 87, 116, 30);
 		accInfoPanel.add(accNameTx);
 
-		JLabel accInfoLabel = new JLabel("¼ö´çÁö±ŞÁ¤º¸");
-		accInfoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-		accInfoLabel.setBounds(282, 209, 91, 15);
+		JLabel accInfoLabel = new JLabel("ìˆ˜ë‹¹ì§€ê¸‰ì •ë³´");
+		accInfoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+		accInfoLabel.setBounds(282, 130, 91, 15);
 		contentPane.add(accInfoLabel);
 
-		JLabel contDateLabel_1 = new JLabel("°ü¸®ÀÚ [°ü¸®ÀÚ]");
-		contDateLabel_1.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 17));
-		contDateLabel_1.setBounds(405, 472, 132, 28);
-		contentPane.add(contDateLabel_1);
-
-		JButton applyBtn = new JButton("\uD655\uC778");
+		JButton applyBtn = new JButton("í™•ì¸");
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new WorkerView();
+				workerInsertView.dispose();
+			
 			}
 		});
-		applyBtn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
-		applyBtn.setBounds(193, 506, 159, 48);
+		applyBtn.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
+		applyBtn.setBounds(167, 422, 210, 48);
 		contentPane.add(applyBtn);
 		
 		
@@ -243,6 +214,19 @@ public class WorkerContView extends JFrame {
 		JLabel logoLabel = new JLabel(changeIcon);
 		logoLabel.setBounds(413, 10, 120, 100);
 		contentPane.add(logoLabel);
+		
+		JLabel workernumberLabel = new JLabel("íŒŒê²¬ì¸ë ¥ë²ˆí˜¸");
+		workernumberLabel.setBounds(12, 73, 84, 28);
+		contentPane.add(workernumberLabel);
+		
+		JLabel workernumberLabel_1 = new JLabel("íŒŒê²¬ì¸ë ¥ë²ˆí˜¸");
+		workernumberLabel_1.setBounds(101, 73, 84, 28);
+		contentPane.add(workernumberLabel_1);
+		
+		JLabel contDateLabel_1 = new JLabel("ê´€ë¦¬ì [ê´€ë¦¬ì]");
+		contDateLabel_1.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.PLAIN, 17));
+		contDateLabel_1.setBounds(405, 375, 132, 28);
+		contentPane.add(contDateLabel_1);
 
 	}
 }

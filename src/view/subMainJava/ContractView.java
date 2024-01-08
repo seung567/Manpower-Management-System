@@ -1,4 +1,4 @@
-package view;
+package view.subMainJava;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -17,7 +17,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.ImageIcon;
 
-public class WorkerView extends JFrame {
+public class ContractView extends JFrame {
 
 	private JPanel managerMainPanel;
 
@@ -28,7 +28,7 @@ public class WorkerView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WorkerView frame = new WorkerView();
+					ContractView frame = new ContractView();
 					
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -41,7 +41,7 @@ public class WorkerView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorkerView() {
+	public ContractView() {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -50,7 +50,7 @@ public class WorkerView extends JFrame {
 			e.printStackTrace();
 		}
 
-		// ¸ŞÀÎ ¼³Á¤
+		// ë©”ì¸ ì„¤ì •
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1636, 891);
 		managerMainPanel = new JPanel();
@@ -61,13 +61,13 @@ public class WorkerView extends JFrame {
 		setContentPane(managerMainPanel);
 		managerMainPanel.setLayout(null);
 
-		// ¿ìÃø»ó´Ü "ÇØ¿ÜÆÄ°ß½Ã½ºÅÛ" ·Î°í
-		JLabel mainLogo = new JLabel("ÇØ¿ÜÆÄ°ß°ü¸®");
+		// ìš°ì¸¡ìƒë‹¨ "í•´ì™¸íŒŒê²¬ì‹œìŠ¤í…œ" ë¡œê³ 
+		JLabel mainLogo = new JLabel("íŒŒê²¬ê³„ì•½ê´€ë¦¬");
 		mainLogo.setBounds(1478, 9, 155, 32);
-		mainLogo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		mainLogo.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		managerMainPanel.add(mainLogo);
 		
-		//Å×ÀÌºí¹Ú½º º¯¼ö¸íÀº workerListTB
+		//í…Œì´ë¸”ë°•ìŠ¤ ë³€ìˆ˜ëª…ì€ workerListTB
 		
 		JPanel workerListPanel = new JPanel();
 		workerListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -79,82 +79,70 @@ public class WorkerView extends JFrame {
 		workerInfoPanel.setBounds(904, 109, 704, 659);
 		managerMainPanel.add(workerInfoPanel);
 
-		JButton workerBtn = new JButton("ÆÄ°ßÀÎ·Â°ü¸®");
+		JButton workerBtn = new JButton("íŒŒê²¬ì¸ë ¥ê´€ë¦¬");
 		workerBtn.setForeground(new Color(0, 0, 0));
 		workerBtn.setBackground(new Color(0, 0, 0));
 		workerBtn.setBounds(147, 36, 142, 46);
 		managerMainPanel.add(workerBtn);
 
-		JButton reqBtn = new JButton("ÆÄ°ß¿äÃ»°ü¸®");
+		JButton reqBtn = new JButton("íŒŒê²¬ìš”ì²­ê´€ë¦¬");
 		reqBtn.setBounds(297, 36, 142, 46);
 		managerMainPanel.add(reqBtn);
 
-		JButton reqCountBtn = new JButton("°è¾à°ü¸®");
+		JButton reqCountBtn = new JButton("ê³„ì•½ê´€ë¦¬");
 		reqCountBtn.setBounds(447, 36, 142, 46);
 		managerMainPanel.add(reqCountBtn);
 
-		JButton sheetBtn = new JButton("Á¤»ê°ü¸®");
+		JButton sheetBtn = new JButton("ì •ì‚°ê´€ë¦¬");
 		sheetBtn.setBounds(597, 36, 142, 46);
 		managerMainPanel.add(sheetBtn);
 
-		JButton payBtn = new JButton("¼ö´ç°ü¸®");
+		JButton payBtn = new JButton("ìˆ˜ë‹¹ê´€ë¦¬");
 		payBtn.setBounds(747, 36, 142, 46);
 		
 		managerMainPanel.add(payBtn);
-
-		JButton reqInfoBtn = new JButton("°è¾àÁ¤º¸È®ÀÎ");
-		reqInfoBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new WorkerContView().workerAction();
-			}
-		});
-		reqInfoBtn.setBounds(1166, 784, 142, 46);
-		managerMainPanel.add(reqInfoBtn);
-
-		JButton visaInsertBtn = new JButton("ºñÀÚÁ¤º¸µî·Ï");
-		visaInsertBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new VisaView().visaInfoAction();
-			}
-		});
-		visaInsertBtn.setBounds(1316, 784, 142, 46);
-		managerMainPanel.add(visaInsertBtn);
 		
 		ImageIcon icon = new ImageIcon("C:\\Users\\bri\\Desktop\\1x\\Artboard 2.png");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(162, 50, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
 		
-		JButton workerInsertBtn = new JButton("ÆÄ°ßÀÎ·Âµî·Ï");
-		workerInsertBtn.setBackground(new Color(255, 255, 255));
-		workerInsertBtn.setForeground(new Color(255, 255, 255));
+		JButton workerInsertBtn = new JButton("íŒŒê²¬ê³„ì•½ë°˜ë ¤");
+		workerInsertBtn.setBackground(new Color(0, 0, 0));
+		workerInsertBtn.setForeground(new Color(0, 0, 0));
 		workerInsertBtn.setIcon(changeIcon);
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WorkerInsertView().workerInsertAction();
+//				new WorkerInsertView().workerInsertAction();
 			}
 		});
 		workerInsertBtn.setBounds(1466, 784, 142, 46);
 		managerMainPanel.add(workerInsertBtn);
 
-		JLabel mainViewLogoLabel = new JLabel("ÇØ¿ÜÆÄ°ß°ü¸®");
-		mainViewLogoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		JLabel mainViewLogoLabel = new JLabel("í•´ì™¸íŒŒê²¬ê´€ë¦¬");
+		mainViewLogoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		mainViewLogoLabel.setBounds(12, -2, 208, 55);
 		managerMainPanel.add(mainViewLogoLabel);
 
-		JLabel workerListLabel = new JLabel("ÆÄ°ßÀÎ·Â¸ñ·Ï");
-		workerListLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		JLabel workerListLabel = new JLabel("íŒŒê²¬ê³„ì•½ëª©ë¡");
+		workerListLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		workerListLabel.setBounds(12, 75, 113, 33);
 		managerMainPanel.add(workerListLabel);
 
-		JLabel workerinfoLabel = new JLabel("\uD30C\uACAC\uC778\uC6D0\uC0C1\uC138\uC815\uBCF4");
-		workerinfoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		JLabel workerinfoLabel = new JLabel("íŒŒê²¬ê³„ì•½ì •ë³´");
+		workerinfoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		workerinfoLabel.setBounds(904, 75, 135, 33);
 		managerMainPanel.add(workerinfoLabel);
 
-		JLabel managerLogoLabel = new JLabel("<°ü¸®ÀÚ>");
-		managerLogoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		JLabel managerLogoLabel = new JLabel("<ê´€ë¦¬ì>");
+		managerLogoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		managerLogoLabel.setBounds(22, 27, 208, 55);
 		managerMainPanel.add(managerLogoLabel);
+		
+		JButton workerInsertBtn_1 = new JButton("íŒŒê²¬ê³„ì•½ìŠ¹ì¸");
+		workerInsertBtn_1.setForeground(Color.BLACK);
+		workerInsertBtn_1.setBackground(Color.BLACK);
+		workerInsertBtn_1.setBounds(1312, 784, 142, 46);
+		managerMainPanel.add(workerInsertBtn_1);
 	}
 }
