@@ -77,15 +77,15 @@ public class WorkerVisaView extends JFrame {
 	 */
 	public WorkerVisaView() {
 
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			// UIManager.put("Button.background", Color.RED);
-			// Icon defaultIcon = new ImageIcon("path/to/defaultIcon.png");
-			// UIManager.put("OptionPane.informationIcon", defaultIcon);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			// UIManager.put("Button.background", Color.RED);
+//			// Icon defaultIcon = new ImageIcon("path/to/defaultIcon.png");
+//			// UIManager.put("OptionPane.informationIcon", defaultIcon);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 539, 585);
