@@ -79,7 +79,7 @@ public class WorkerContInfoView extends JFrame {
 		setLocationRelativeTo(null); // 창 가운데 정렬 - [JIN]
 		contentPane = new JPanel();
 //		contentPane.setBackground(new Color(192, 192, 192));
-		contentPane.setBackground(new Color(181, 218, 255));
+		contentPane.setBackground(new Color(220,226,240));
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		setContentPane(contentPane);
@@ -194,6 +194,8 @@ public class WorkerContInfoView extends JFrame {
 		contentPane.add(accInfoLabel);
 
 		JButton applyBtn = new JButton("확인");
+		applyBtn.setForeground(new Color(80, 88, 108));
+		applyBtn.setBackground(new Color(80, 88, 108));
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
