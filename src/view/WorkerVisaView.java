@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class VisaView extends JFrame {
+public class WorkerVisaView extends JFrame {
 
 	private JPanel visaContent;
 	private JTextField visaSDateTx;
@@ -35,24 +35,25 @@ public class VisaView extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void visaInfoAction() {
+	public static void Action() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 
-					VisaView frame = new VisaView();
+					WorkerVisaView frame = new WorkerVisaView();
 					frame.setVisible(true);
 
-					// ±âº» x ´­·¯µµ Ã¢¸¸²¨Áö°Ô °¡´É
+					// ê¸°ë³¸ x ëˆŒëŸ¬ë„ ì°½ë§Œêº¼ì§€ê²Œ ê°€ëŠ¥
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 					frame.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosing(WindowEvent e) {
+							
 							// TODO Auto-generated method stub
 							// super.windowClosing(e);
 
-							int result = JOptionPane.showConfirmDialog(frame, "Ã¢À» ´İÀ¸½Ã°Ú½À´Ï±î?", "È®ÀÎ",
+							int result = JOptionPane.showConfirmDialog(frame, "ì°½ì„ ë‹«ìœ¼ì‹œê² ìŠµë‹ˆê¹Œ?", "í™•ì¸",
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
@@ -61,20 +62,20 @@ public class VisaView extends JFrame {
 						}
 					});
 
-				} // try Á¾·á
+				} // try ì¢…ë£Œ
 				catch (Exception e) {
 					e.printStackTrace();
-				} // catch Á¾·á
+				} // catch ì¢…ë£Œ
 
 			}
-		}); // ¾î³ª´Ï¸Ó½º Å¬·¡½º Á¾·á
+		}); // ì–´ë‚˜ë‹ˆë¨¸ìŠ¤ í´ë˜ìŠ¤ ì¢…ë£Œ
 
-	} // class Á¾·á
+	} // class ì¢…ë£Œ
 
 	/**
 	 * Create the frame.
 	 */
-	public VisaView() {
+	public WorkerVisaView() {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -96,9 +97,9 @@ public class VisaView extends JFrame {
 		setContentPane(visaContent);
 		visaContent.setLayout(null);
 
-		JLabel visaMainLogoLabel = new JLabel("ºñÀÚµî·Ï");
+		JLabel visaMainLogoLabel = new JLabel("ë¹„ìë“±ë¡");
 		visaMainLogoLabel.setBounds(12, 10, 68, 24);
-		visaMainLogoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 17));
+		visaMainLogoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 17));
 		visaContent.add(visaMainLogoLabel);
 
 		JPanel visaIssuInfoPanel = new JPanel();
@@ -108,8 +109,8 @@ public class VisaView extends JFrame {
 		visaContent.add(visaIssuInfoPanel);
 		visaIssuInfoPanel.setLayout(null);
 
-		JLabel visaSDateLabel = new JLabel("ºñÀÚ¹ß±ŞÀÏ");
-		visaSDateLabel.setBounds(12, 12, 69, 24);
+		JLabel visaSDateLabel = new JLabel("ë¹„ìë°œê¸‰ì¼");
+		visaSDateLabel.setBounds(34, 12, 69, 24);
 		visaIssuInfoPanel.add(visaSDateLabel);
 
 		visaSDateTx = new JTextField();
@@ -117,7 +118,7 @@ public class VisaView extends JFrame {
 		visaIssuInfoPanel.add(visaSDateTx);
 		visaSDateTx.setColumns(10);
 
-		JLabel visaEsDateLabel = new JLabel("ºñÀÚ¹ß±Ş¿¹Á¤ÀÏ");
+		JLabel visaEsDateLabel = new JLabel("ë¹„ìë°œê¸‰ì˜ˆì •ì¼");
 		visaEsDateLabel.setBounds(12, 47, 87, 24);
 		visaIssuInfoPanel.add(visaEsDateLabel);
 
@@ -126,67 +127,69 @@ public class VisaView extends JFrame {
 		visaEsDateTx.setBounds(123, 47, 116, 26);
 		visaIssuInfoPanel.add(visaEsDateTx);
 
-		JLabel minPeriodLabel = new JLabel("ºñÀÚ¹ß±ŞÃÖ¼Ò±â°£");
+		JLabel minPeriodLabel = new JLabel("ë¹„ìë°œê¸‰ìµœì†Œê¸°ê°„");
 		minPeriodLabel.setBounds(12, 82, 96, 24);
 		visaIssuInfoPanel.add(minPeriodLabel);
 
 		minPeriodTx = new JTextField();
+		minPeriodTx.setEditable(false);
 		minPeriodTx.setColumns(10);
 		minPeriodTx.setBounds(123, 81, 116, 26);
+		minPeriodTx.setText("í…ŒìŠ¤íŠ¸");
 		visaIssuInfoPanel.add(minPeriodTx);
 
-		JLabel visaInfoLabel1 = new JLabel("ºñÀÚ¹ß±ŞÁ¤º¸");
-		visaInfoLabel1.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+		JLabel visaInfoLabel1 = new JLabel("ë¹„ìë°œê¸‰ì •ë³´");
+		visaInfoLabel1.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
 		visaInfoLabel1.setBounds(12, 225, 85, 15);
 		visaContent.add(visaInfoLabel1);
 
-		JLabel workerCodeLabel = new JLabel("ÆÄ°ßÀÎ·Â°ü¸®¹øÈ£");
+		JLabel workerCodeLabel = new JLabel("íŒŒê²¬ì¸ë ¥ê´€ë¦¬ë²ˆí˜¸");
 		workerCodeLabel.setBounds(63, 126, 129, 15);
-		workerCodeLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+		workerCodeLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 16));
 		visaContent.add(workerCodeLabel);
 
-		JLabel workerCodeNumLabel = new JLabel("[ÀÎ·Â¹øÈ£ÀÔ·ÂÀ§Ä¡]");
+		JLabel workerCodeNumLabel = new JLabel("[ì¸ë ¥ë²ˆí˜¸ì…ë ¥ìœ„ì¹˜]");
 		workerCodeNumLabel.setBounds(57, 158, 140, 15);
-		workerCodeNumLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+		workerCodeNumLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 16));
 		visaContent.add(workerCodeNumLabel);
 
-		JLabel contryTitleLabel = new JLabel("±¹°¡¼±ÅÃ");
+		JLabel contryTitleLabel = new JLabel("êµ­ê°€ì„ íƒ");
 		contryTitleLabel.setBounds(251, 109, 64, 24);
-		contryTitleLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+		contryTitleLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 16));
 		visaContent.add(contryTitleLabel);
 
-		JLabel visaInfoLabel = new JLabel("ºñÀÚÁ¤º¸");
-		visaInfoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+		JLabel visaInfoLabel = new JLabel("ë¹„ìì •ë³´");
+		visaInfoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
 		visaInfoLabel.setBounds(276, 225, 57, 15);
 		visaContent.add(visaInfoLabel);
 
-		// new DefaultComboBoxModel ´Â ÄŞº¸¹Ú½ºÀÇ µ¥ÀÌÅÍ¸¦ È¿À²ÀûÀ¸·Î °ü¸® ÇÏ±â À§ÇØ »ç¿ë
+		// new DefaultComboBoxModel ëŠ” ì½¤ë³´ë°•ìŠ¤ì˜ ë°ì´í„°ë¥¼ íš¨ìœ¨ì ìœ¼ë¡œ ê´€ë¦¬ í•˜ê¸° ìœ„í•´ ì‚¬ìš©
 
-		String[] contryList = { "ÇÑ±¹", "¹Ì±¹", "ÇÁ¶û½º", "ºê¶óÁú" }; // ±¹°¡¼±ÅÃ ¸®½ºÆ®
+		String[] contryList = { "í•œêµ­", "ë¯¸êµ­", "í”„ë‘ìŠ¤", "ë¸Œë¼ì§ˆ" }; // êµ­ê°€ì„ íƒ ë¦¬ìŠ¤íŠ¸
 
 		JComboBox contryCombox = new JComboBox();
 		contryCombox.setModel(new DefaultComboBoxModel(contryList));
 		contryCombox.setBounds(364, 109, 146, 23);
 		visaContent.add(contryCombox);
 
-		JLabel visaCkLabel = new JLabel("ºñÀÚ¹ß±Ş¿©ºÎ");
-		visaCkLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+		JLabel visaCkLabel = new JLabel("ë¹„ìë°œê¸‰ì—¬ë¶€");
+		visaCkLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 16));
 		visaCkLabel.setBounds(251, 141, 96, 24);
 		visaContent.add(visaCkLabel);
 
-		String[] visaCheckList = { "¹Ì¹ß±Ş", "¹ß±ŞÁß", "¹ß±Ş¿Ï·á" }; // ºñÀÚ ¹ß±Ş ¿©ºÎ ¼±ÅÃ ¸®½ºÆ®
+		String[] visaCheckList = { "ë¯¸ë°œê¸‰", "ë°œê¸‰ì¤‘", "ë°œê¸‰ì™„ë£Œ" }; // ë¹„ì ë°œê¸‰ ì—¬ë¶€ ì„ íƒ ë¦¬ìŠ¤íŠ¸
 
 		JComboBox visaCkCombox = new JComboBox();
 		visaCkCombox.setModel(new DefaultComboBoxModel(visaCheckList));
 		visaCkCombox.setBounds(364, 141, 146, 23);
 		visaContent.add(visaCkCombox);
 
-		JLabel visaIssuerLabel = new JLabel("ºñÀÚ¹ß±ŞÃ³");
-		visaIssuerLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 16));
+		JLabel visaIssuerLabel = new JLabel("ë¹„ìë°œê¸‰ì²˜");
+		visaIssuerLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 16));
 		visaIssuerLabel.setBounds(251, 179, 80, 15);
 		visaContent.add(visaIssuerLabel);
 
-		String[] visaIssuerList = { "ÁÖÇÑ´ë»ç°ü", "ÁÖ¹Ì´ë»ç°ü", "ÁÖÇÁ¶û½º´ë»ç°ü", "ÁÖºê¶óÁú´ë»ç°ü" }; // ±¹°¡¼±ÅÃ ¸®½ºÆ®
+		String[] visaIssuerList = { "ì£¼í•œëŒ€ì‚¬ê´€", "ì£¼ë¯¸ëŒ€ì‚¬ê´€", "ì£¼í”„ë‘ìŠ¤ëŒ€ì‚¬ê´€", "ì£¼ë¸Œë¼ì§ˆëŒ€ì‚¬ê´€" }; // êµ­ê°€ì„ íƒ ë¦¬ìŠ¤íŠ¸
 
 		JComboBox visaIssuerLabelCombox = new JComboBox();
 		visaIssuerLabelCombox.setModel(new DefaultComboBoxModel(visaIssuerList));
@@ -200,7 +203,7 @@ public class VisaView extends JFrame {
 		visaInfoPanel.setBounds(276, 250, 234, 128);
 		visaContent.add(visaInfoPanel);
 
-		JLabel visaSDateLabel_1 = new JLabel("ºñÀÚÀ¯È¿±â°£");
+		JLabel visaSDateLabel_1 = new JLabel("ë¹„ììœ íš¨ê¸°ê°„");
 		visaSDateLabel_1.setBounds(12, 12, 80, 24);
 		visaInfoPanel.add(visaSDateLabel_1);
 
@@ -209,7 +212,7 @@ public class VisaView extends JFrame {
 		textField.setBounds(104, 12, 116, 26);
 		visaInfoPanel.add(textField);
 
-		JLabel visaEsDateLabel_1 = new JLabel("ºñÀÚÀ¯Çü");
+		JLabel visaEsDateLabel_1 = new JLabel("ë¹„ììœ í˜•");
 		visaEsDateLabel_1.setBounds(12, 47, 87, 24);
 		visaInfoPanel.add(visaEsDateLabel_1);
 
@@ -218,11 +221,11 @@ public class VisaView extends JFrame {
 		textField_1.setBounds(104, 47, 116, 26);
 		visaInfoPanel.add(textField_1);
 
-		JButton visaInsertBtn = new JButton("ºñÀÚÁ¤º¸µî·Ï");
+		JButton visaInsertBtn = new JButton("ë¹„ìì •ë³´ë“±ë¡");
 		visaInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new WorkerView();
+
+				
 			}
 		});
 		visaInsertBtn.setBounds(196, 422, 129, 37);

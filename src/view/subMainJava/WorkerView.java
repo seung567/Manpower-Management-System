@@ -1,4 +1,4 @@
-package view;
+package view.subMainJava;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -16,8 +16,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
 
-public class ReqView extends JFrame {
+public class WorkerView extends JFrame {
 
 	private JPanel managerMainPanel;
 
@@ -28,7 +29,7 @@ public class ReqView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ReqView frame = new ReqView();
+					WorkerView frame = new WorkerView();
 					
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -41,7 +42,7 @@ public class ReqView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ReqView() {
+	public WorkerView() {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -50,7 +51,7 @@ public class ReqView extends JFrame {
 			e.printStackTrace();
 		}
 
-		// ¸ŞÀÎ ¼³Á¤
+		// ë©”ì¸ ì„¤ì •
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1636, 891);
 		managerMainPanel = new JPanel();
@@ -61,13 +62,13 @@ public class ReqView extends JFrame {
 		setContentPane(managerMainPanel);
 		managerMainPanel.setLayout(null);
 
-		// ¿ìÃø»ó´Ü "ÇØ¿ÜÆÄ°ß½Ã½ºÅÛ" ·Î°í
-		JLabel mainLogo = new JLabel("ÆÄ°ß¿äÃ»°ü¸®");
+		// ìš°ì¸¡ìƒë‹¨ "í•´ì™¸íŒŒê²¬ì‹œìŠ¤í…œ" ë¡œê³ 
+		JLabel mainLogo = new JLabel("íŒŒê²¬ì¸ë ¥ê´€ë¦¬");
 		mainLogo.setBounds(1478, 9, 155, 32);
-		mainLogo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		mainLogo.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		managerMainPanel.add(mainLogo);
 		
-		//Å×ÀÌºí¹Ú½º º¯¼ö¸íÀº workerListTB
+		//í…Œì´ë¸”ë°•ìŠ¤ ë³€ìˆ˜ëª…ì€ workerListTB
 		
 		JPanel workerListPanel = new JPanel();
 		workerListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -79,68 +80,82 @@ public class ReqView extends JFrame {
 		workerInfoPanel.setBounds(904, 109, 704, 659);
 		managerMainPanel.add(workerInfoPanel);
 
-		JButton workerBtn = new JButton("ÆÄ°ßÀÎ·Â°ü¸®");
+		JButton workerBtn = new JButton("íŒŒê²¬ì¸ë ¥ê´€ë¦¬");
 		workerBtn.setForeground(new Color(0, 0, 0));
 		workerBtn.setBackground(new Color(0, 0, 0));
-		workerBtn.setBounds(147, 36, 142, 46);
+		workerBtn.setBounds(137, 53, 142, 46);
 		managerMainPanel.add(workerBtn);
 
-		JButton reqBtn = new JButton("ÆÄ°ß¿äÃ»°ü¸®");
-		reqBtn.setBounds(297, 36, 142, 46);
+		JButton reqBtn = new JButton("íŒŒê²¬ìš”ì²­ê´€ë¦¬");
+		reqBtn.setBounds(293, 53, 142, 46);
 		managerMainPanel.add(reqBtn);
 
-		JButton reqCountBtn = new JButton("°è¾à°ü¸®");
-		reqCountBtn.setBounds(447, 36, 142, 46);
+		JButton reqCountBtn = new JButton("ê³„ì•½ê´€ë¦¬");
+		reqCountBtn.setBounds(443, 53, 142, 46);
 		managerMainPanel.add(reqCountBtn);
 
-		JButton sheetBtn = new JButton("Á¤»ê°ü¸®");
-		sheetBtn.setBounds(597, 36, 142, 46);
+		JButton sheetBtn = new JButton("ì •ì‚°ê´€ë¦¬");
+		sheetBtn.setBounds(597, 53, 142, 46);
 		managerMainPanel.add(sheetBtn);
 
-		JButton payBtn = new JButton("¼ö´ç°ü¸®");
-		payBtn.setBounds(747, 36, 142, 46);
+		JButton payBtn = new JButton("ìˆ˜ë‹¹ê´€ë¦¬");
+		payBtn.setBounds(750, 53, 142, 46);
 		
 		managerMainPanel.add(payBtn);
+
+		JButton reqInfoBtn = new JButton("ê³„ì•½ì •ë³´í™•ì¸");
+		reqInfoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				new WorkerContInfoView().workerAction();
+			}
+		});
+		reqInfoBtn.setBounds(1166, 784, 142, 46);
+		managerMainPanel.add(reqInfoBtn);
+
+		JButton visaInsertBtn = new JButton("ë¹„ìì •ë³´ë“±ë¡");
+		visaInsertBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				new WorkerVisaView().visaInfoAction();
+			}
+		});
+		visaInsertBtn.setBounds(1316, 784, 142, 46);
+		managerMainPanel.add(visaInsertBtn);
 		
 		ImageIcon icon = new ImageIcon("C:\\Users\\bri\\Desktop\\1x\\Artboard 2.png");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(162, 50, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
 		
-		JButton workerInsertBtn = new JButton("ÆÄ°ß¿äÃ»È®ÀÎ");
-//		workerInsertBtn.setBackground(new Color(255, 255, 255));
-//		workerInsertBtn.setForeground(new Color(255, 255, 255));
-//		workerInsertBtn.setIcon(changeIcon);
+		JButton workerInsertBtn = new JButton("íŒŒê²¬ì¸ë ¥ë“±ë¡");
+		workerInsertBtn.setBackground(new Color(255, 255, 255));
+		workerInsertBtn.setForeground(new Color(255, 255, 255));
+		workerInsertBtn.setIcon(changeIcon);
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WorkerInsertView().workerInsertAction();
+//				new WorkerInsertView().workerInsertAction();
 			}
 		});
 		workerInsertBtn.setBounds(1466, 784, 142, 46);
 		managerMainPanel.add(workerInsertBtn);
 
-		JLabel mainViewLogoLabel = new JLabel("ÇØ¿ÜÆÄ°ß°ü¸®");
-		mainViewLogoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		JLabel mainViewLogoLabel = new JLabel("í•´ì™¸íŒŒê²¬ê´€ë¦¬");
+		mainViewLogoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		mainViewLogoLabel.setBounds(12, -2, 208, 55);
 		managerMainPanel.add(mainViewLogoLabel);
 
-		JLabel workerListLabel = new JLabel("ÆÄ°ßÀÎ·Â¸ñ·Ï");
-		workerListLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		JLabel workerListLabel = new JLabel("íŒŒê²¬ì¸ë ¥ëª©ë¡");
+		workerListLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		workerListLabel.setBounds(12, 75, 113, 33);
 		managerMainPanel.add(workerListLabel);
 
 		JLabel workerinfoLabel = new JLabel("\uD30C\uACAC\uC778\uC6D0\uC0C1\uC138\uC815\uBCF4");
-		workerinfoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		workerinfoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 		workerinfoLabel.setBounds(904, 75, 135, 33);
 		managerMainPanel.add(workerinfoLabel);
 
-		JLabel managerLogoLabel = new JLabel("<°ü¸®ÀÚ>");
-		managerLogoLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		JLabel managerLogoLabel = new JLabel("<ê´€ë¦¬ì>");
+		managerLogoLabel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		managerLogoLabel.setBounds(22, 27, 208, 55);
 		managerMainPanel.add(managerLogoLabel);
-		
-		JButton workerInsertBtn_1 = new JButton("ÆÄ°ßÀÎ·Â¹èÄ¡");
-		workerInsertBtn_1.setBounds(1300, 784, 142, 46);
-		managerMainPanel.add(workerInsertBtn_1);
 	}
 }
