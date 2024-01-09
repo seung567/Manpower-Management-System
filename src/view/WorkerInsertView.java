@@ -79,9 +79,9 @@ public class WorkerInsertView extends JFrame {
 	 */
 	public WorkerInsertView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 491, 633);
+		setBounds(100, 100, 491, 643);
 		workerInsertMainPanel = new JPanel();
-		workerInsertMainPanel.setBackground(new Color(181, 218, 255));
+		workerInsertMainPanel.setBackground(new Color(242, 170, 76));
 		workerInsertMainPanel.setBorder(
 				new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
@@ -90,24 +90,25 @@ public class WorkerInsertView extends JFrame {
 
 		JLabel workerInsertLabel = new JLabel("파견인력등록");
 		workerInsertLabel.setBounds(12, 10, 112, 27);
-		workerInsertLabel.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+		workerInsertLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		workerInsertMainPanel.add(workerInsertLabel);
 
 		JLabel loginLabel = new JLabel("로그인 정보");
-		loginLabel.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		loginLabel.setBounds(12, 84, 70, 15);
+		loginLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		loginLabel.setBounds(12, 84, 81, 15);
 		workerInsertMainPanel.add(loginLabel);
 
 		JPanel loginInfoPanel = new JPanel();
-		loginInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
-		loginInfoPanel.setBackground(new Color(181, 218, 255));
-		loginInfoPanel.setBounds(12, 101, 451, 74);
+		loginInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		loginInfoPanel.setBackground(new Color(16, 24, 32));
+		loginInfoPanel.setBounds(12, 104, 451, 74);
 		workerInsertMainPanel.add(loginInfoPanel);
 		loginInfoPanel.setLayout(null);
 
 		JLabel workerIDLabel = new JLabel("아이디");
+		workerIDLabel.setForeground(new Color(255, 255, 255));
 		workerIDLabel.setBounds(76, 10, 45, 21);
-		workerIDLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerIDLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		loginInfoPanel.add(workerIDLabel);
 
 		workerIDTx = new JTextField();
@@ -116,7 +117,8 @@ public class WorkerInsertView extends JFrame {
 		loginInfoPanel.add(workerIDTx);
 
 		JLabel workerPWLabel = new JLabel("비밀번호");
-		workerPWLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerPWLabel.setForeground(new Color(255, 255, 255));
+		workerPWLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerPWLabel.setBounds(76, 41, 69, 21);
 		loginInfoPanel.add(workerPWLabel);
 
@@ -126,30 +128,32 @@ public class WorkerInsertView extends JFrame {
 		loginInfoPanel.add(workerPWTx);
 
 		JButton workerIDCkBtn = new JButton("중복체크");
-		workerIDCkBtn.setForeground(new Color(0, 0, 0));
+		workerIDCkBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerIDCkBtn.setForeground(new Color(255, 255, 255));
 		workerIDCkBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 중복체크 메소드
 			}
 		});
-		workerIDCkBtn.setBackground(new Color(0, 0, 0));
+		workerIDCkBtn.setBackground(new Color(16, 24, 32));
 		workerIDCkBtn.setBounds(287, 10, 97, 21);
 		loginInfoPanel.add(workerIDCkBtn);
 
 		JLabel basicLabel = new JLabel("기본정보");
-		basicLabel.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		basicLabel.setBounds(12, 185, 70, 15);
+		basicLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		basicLabel.setBounds(12, 188, 70, 15);
 		workerInsertMainPanel.add(basicLabel);
 
 		JPanel basicInfoPanel = new JPanel();
-		basicInfoPanel.setBackground(new Color(181, 218, 255));
+		basicInfoPanel.setBackground(new Color(16, 24, 32));
 		basicInfoPanel.setLayout(null);
-		basicInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
-		basicInfoPanel.setBounds(12, 202, 451, 107);
+		basicInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		basicInfoPanel.setBounds(12, 207, 451, 107);
 		workerInsertMainPanel.add(basicInfoPanel);
 
 		JLabel workerNameLabel = new JLabel("이름");
-		workerNameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerNameLabel.setForeground(new Color(255, 255, 255));
+		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerNameLabel.setBounds(12, 10, 45, 21);
 		basicInfoPanel.add(workerNameLabel);
 
@@ -159,7 +163,8 @@ public class WorkerInsertView extends JFrame {
 		basicInfoPanel.add(workerNameTx);
 
 		JLabel workerTelLabel = new JLabel("전화번호");
-		workerTelLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerTelLabel.setForeground(new Color(255, 255, 255));
+		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerTelLabel.setBounds(12, 41, 69, 21);
 		basicInfoPanel.add(workerTelLabel);
 
@@ -169,7 +174,8 @@ public class WorkerInsertView extends JFrame {
 		basicInfoPanel.add(workerTelTx);
 
 		JLabel workerAddrLabel = new JLabel("주소");
-		workerAddrLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerAddrLabel.setForeground(new Color(255, 255, 255));
+		workerAddrLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerAddrLabel.setBounds(12, 72, 45, 21);
 		basicInfoPanel.add(workerAddrLabel);
 
@@ -179,7 +185,8 @@ public class WorkerInsertView extends JFrame {
 		basicInfoPanel.add(workerAddrTx);
 
 		JLabel workerRnumLabel = new JLabel("주민번호");
-		workerRnumLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerRnumLabel.setForeground(new Color(255, 255, 255));
+		workerRnumLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerRnumLabel.setBounds(179, 10, 69, 21);
 		basicInfoPanel.add(workerRnumLabel);
 
@@ -189,7 +196,8 @@ public class WorkerInsertView extends JFrame {
 		basicInfoPanel.add(workerRnumTx);
 
 		JLabel workerEmailLabel = new JLabel("이메일");
-		workerEmailLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		workerEmailLabel.setForeground(new Color(255, 255, 255));
+		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerEmailLabel.setBounds(201, 41, 69, 21);
 		basicInfoPanel.add(workerEmailLabel);
 
@@ -199,19 +207,20 @@ public class WorkerInsertView extends JFrame {
 		basicInfoPanel.add(workerEmailTx);
 
 		JLabel careerInfoLabel = new JLabel("경력정보");
-		careerInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		careerInfoLabel.setBounds(12, 319, 70, 15);
+		careerInfoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		careerInfoLabel.setBounds(12, 324, 70, 15);
 		workerInsertMainPanel.add(careerInfoLabel);
 
 		JPanel careerInfoPanel = new JPanel();
 		careerInfoPanel.setLayout(null);
-		careerInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
-		careerInfoPanel.setBackground(new Color(181, 218, 255));
-		careerInfoPanel.setBounds(12, 336, 451, 176);
+		careerInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		careerInfoPanel.setBackground(new Color(16, 24, 32));
+		careerInfoPanel.setBounds(12, 343, 451, 176);
 		workerInsertMainPanel.add(careerInfoPanel);
 
 		JLabel careerPeriodLabel = new JLabel("경력기간");
-		careerPeriodLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		careerPeriodLabel.setForeground(new Color(255, 255, 255));
+		careerPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		careerPeriodLabel.setBounds(12, 13, 69, 21);
 		careerInfoPanel.add(careerPeriodLabel);
 
@@ -221,7 +230,8 @@ public class WorkerInsertView extends JFrame {
 		careerInfoPanel.add(careerPeriodTx);
 
 		JLabel careerDetailLabel = new JLabel("경력내용");
-		careerDetailLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		careerDetailLabel.setForeground(new Color(255, 255, 255));
+		careerDetailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		careerDetailLabel.setBounds(12, 72, 69, 21);
 		careerInfoPanel.add(careerDetailLabel);
 
@@ -231,7 +241,8 @@ public class WorkerInsertView extends JFrame {
 		careerInfoPanel.add(careerDetailTx);
 
 		JLabel skillcodeLabel = new JLabel("기술분류");
-		skillcodeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		skillcodeLabel.setForeground(new Color(255, 255, 255));
+		skillcodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		skillcodeLabel.setBounds(12, 44, 69, 21);
 		careerInfoPanel.add(skillcodeLabel);
 
@@ -241,14 +252,16 @@ public class WorkerInsertView extends JFrame {
 		careerInfoPanel.add(skillcodeTx);
 
 		JButton workerInsertBtn = new JButton("계약정보등록");
+		workerInsertBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerInsertBtn.setForeground(new Color(255, 255, 255));
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new WorkerContInsertView().Action();
 			}
 		});
 
-		workerInsertBtn.setBackground(new Color(0, 0, 0));
-		workerInsertBtn.setBounds(173, 535, 129, 37);
+		workerInsertBtn.setBackground(new Color(16, 24, 32));
+		workerInsertBtn.setBounds(173, 540, 129, 37);
 		workerInsertMainPanel.add(workerInsertBtn);
 
 		ImageIcon icon = new ImageIcon("C:\\Users\\bri\\Desktop\\1x\\Artboard 1.png");

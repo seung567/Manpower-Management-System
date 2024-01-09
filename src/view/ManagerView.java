@@ -112,7 +112,8 @@ public class ManagerView extends JFrame {
 		contentPane.add(managerMainTab);
 
 		JPanel workerManagePanel = new JPanel();
-		workerManagePanel.setBackground(new Color(0, 0, 0));
+		workerManagePanel.setForeground(new Color(16, 24, 32));
+		workerManagePanel.setBackground(new Color(16, 24, 32));
 		workerManagePanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerMainTab.addTab("파견인력관리", null, workerManagePanel, null);
 		workerManagePanel.setLayout(null);
@@ -125,8 +126,9 @@ public class ManagerView extends JFrame {
 		workerManagePanel.add(workerListLabel);
 
 		JPanel workerListPanel = new JPanel();
-		workerListPanel.setBackground(new Color(0, 0, 0));
-		workerListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		workerListPanel.setForeground(new Color(255, 255, 255));
+		workerListPanel.setBackground(new Color(16, 24, 32));
+		workerListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		workerListPanel.setBounds(12, 46, 610, 493);
 		workerManagePanel.add(workerListPanel);
 
@@ -199,8 +201,9 @@ public class ManagerView extends JFrame {
 		workerManagePanel.add(workerInfoLabel_1);
 
 		JPanel workerInfoPanel = new JPanel();
-		workerInfoPanel.setBackground(new Color(0, 0, 0));
-		workerInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		workerInfoPanel.setForeground(new Color(255, 255, 255));
+		workerInfoPanel.setBackground(new Color(16, 24, 32));
+		workerInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		workerInfoPanel.setBounds(634, 46, 498, 427);
 		workerManagePanel.add(workerInfoPanel);
 		workerInfoPanel.setLayout(null);
@@ -208,7 +211,7 @@ public class ManagerView extends JFrame {
 		JLabel workerNameLabel = new JLabel("이름");
 		workerNameLabel.setForeground(new Color(242, 170, 76));
 		workerNameLabel.setBackground(new Color(242, 170, 76));
-		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerNameLabel.setBounds(28, 21, 84, 31);
 		workerInfoPanel.add(workerNameLabel);
 
@@ -235,7 +238,7 @@ public class ManagerView extends JFrame {
 		JLabel workerTelLabel = new JLabel("연락처");
 		workerTelLabel.setForeground(new Color(242, 170, 76));
 		workerTelLabel.setBackground(new Color(242, 170, 76));
-		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerTelLabel.setBounds(28, 103, 84, 31);
 		workerInfoPanel.add(workerTelLabel);
 
@@ -247,7 +250,7 @@ public class ManagerView extends JFrame {
 		JLabel workerAgeLabel = new JLabel("나이");
 		workerAgeLabel.setForeground(new Color(242, 170, 76));
 		workerAgeLabel.setBackground(new Color(242, 170, 76));
-		workerAgeLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		workerAgeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerAgeLabel.setBounds(28, 62, 84, 31);
 		workerInfoPanel.add(workerAgeLabel);
 
@@ -259,7 +262,7 @@ public class ManagerView extends JFrame {
 		JLabel careerPeriodLabel = new JLabel("경력기간");
 		careerPeriodLabel.setForeground(new Color(242, 170, 76));
 		careerPeriodLabel.setBackground(new Color(242, 170, 76));
-		careerPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		careerPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		careerPeriodLabel.setBounds(28, 149, 62, 31);
 		workerInfoPanel.add(careerPeriodLabel);
 
@@ -271,7 +274,7 @@ public class ManagerView extends JFrame {
 		JLabel certiLabel = new JLabel("취득 자격증");
 		certiLabel.setForeground(new Color(242, 170, 76));
 		certiLabel.setBackground(new Color(242, 170, 76));
-		certiLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		certiLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		certiLabel.setBounds(28, 273, 84, 31);
 		workerInfoPanel.add(certiLabel);
 
@@ -311,21 +314,21 @@ public class ManagerView extends JFrame {
 		JLabel careerPeriodLabel_value = new JLabel("[경력기간]");
 		careerPeriodLabel_value.setForeground(new Color(242, 170, 76));
 		careerPeriodLabel_value.setBackground(new Color(242, 170, 76));
-		careerPeriodLabel_value.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		careerPeriodLabel_value.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		careerPeriodLabel_value.setBounds(102, 149, 84, 31);
 		workerInfoPanel.add(careerPeriodLabel_value);
 
 		JLabel workerEmailLabel = new JLabel("이메일");
 		workerEmailLabel.setForeground(new Color(242, 170, 76));
 		workerEmailLabel.setBackground(new Color(242, 170, 76));
-		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerEmailLabel.setBounds(221, 103, 67, 31);
 		workerInfoPanel.add(workerEmailLabel);
 
 		JLabel careerDetailLabel = new JLabel("경력내용");
 		careerDetailLabel.setForeground(new Color(242, 170, 76));
 		careerDetailLabel.setBackground(new Color(242, 170, 76));
-		careerDetailLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 16));
+		careerDetailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		careerDetailLabel.setBounds(28, 190, 67, 31);
 		workerInfoPanel.add(careerDetailLabel);
 
@@ -333,15 +336,10 @@ public class ManagerView extends JFrame {
 		careerDetailTx.setColumns(10);
 		careerDetailTx.setBounds(28, 219, 443, 56);
 		workerInfoPanel.add(careerDetailTx);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"지형조사 및 공학", "구조물 설계 및 강도 분석", "건축 디자인 및 시공 기술", "건축 자재 및 기술적 특성 이해", "종합적 프로젝트 관리", "안전 관리 및 품질관리", "공정 설계 및 자동화 기술", "환경 보전 및 대기 정화 기술", "프로그래밍 언어 및 기술 습득", "시스템 관리 및 유지보수", "소프트웨어 개발 라이프사이클 이해", "알고리즘 및 문제 해결 능력", "데이터베이스 설계 및 관리", "온라인 정보 시스템 구축", "교육 방법론 및 교수 기술", "교육정책 및 컨설팅 능력", "프로젝트 관리 및 계획 능력", "의료기기 설계 및 개발", "소재 및 섬유 기술 이해", "의류 제작 기술", "자동차 부품 설계 및 제작", "품질 관리 및 테스트", "전자 제품 제조 기술", "재무 분석", "세무 및 법률 이해", "전문 지식 및 분석 능력", "의사소통 능력", "법류 지식 및 해석 능력"}));
-		comboBox.setBounds(281, 10, 162, 42);
-		workerInfoPanel.add(comboBox);
 
 		JButton workerReqInfoBtn = new JButton("계약정보확인");
 		workerReqInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerReqInfoBtn.setBackground(new Color(0, 0, 0));
+		workerReqInfoBtn.setBackground(new Color(16, 24, 32));
 		workerReqInfoBtn.setForeground(new Color(255, 255, 255));
 		workerReqInfoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -355,7 +353,7 @@ public class ManagerView extends JFrame {
 		workerManagePanel.add(workerReqInfoBtn);
 
 		JButton workerVisatBtn = new JButton("비자정보등록");
-		workerVisatBtn.setBackground(new Color(0, 0, 0));
+		workerVisatBtn.setBackground(new Color(16, 24, 32));
 		workerVisatBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerVisatBtn.setForeground(new Color(255, 255, 255));
 		workerVisatBtn.addActionListener(new ActionListener() {
@@ -378,106 +376,132 @@ public class ManagerView extends JFrame {
 			}
 		});
 		workerInsertBtn.setForeground(new Color(255, 255, 255));
-		workerInsertBtn.setBackground(new Color(0, 0, 0));
+		workerInsertBtn.setBackground(new Color(16, 24, 32));
 		workerInsertBtn.setBounds(963, 483, 142, 46);
 		workerManagePanel.add(workerInsertBtn);
 
 		// 파견요청관리 탭 메인
 		JPanel reqManagePanel = new JPanel();
+		reqManagePanel.setBackground(new Color(16, 24, 32));
+		reqManagePanel.setForeground(new Color(16, 24, 32));
 		reqManagePanel.setLayout(null);
 		reqManagePanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerMainTab.addTab("파견요청관리", null, reqManagePanel, null);
 
 		JLabel reqListLabel = new JLabel("파견요청목록");
-		reqListLabel.setFont(new Font(font, Font.BOLD, 15));
+		reqListLabel.setForeground(new Color(242, 170, 76));
+		reqListLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		reqListLabel.setBounds(12, 10, 113, 33);
 		reqManagePanel.add(reqListLabel);
 
 		JPanel reqListPanel = new JPanel();
-		reqListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		reqListPanel.setBackground(new Color(16, 24, 32));
+		reqListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqListPanel.setBounds(12, 46, 610, 493);
 		reqManagePanel.add(reqListPanel);
 
 		JLabel reqInfoLabel = new JLabel("파견요청정보");
-		reqInfoLabel.setFont(new Font("font", Font.BOLD, 15));
+		reqInfoLabel.setForeground(new Color(242, 170, 76));
+		reqInfoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		reqInfoLabel.setBounds(634, 10, 498, 33);
 		reqManagePanel.add(reqInfoLabel);
 
 		JPanel reqInfoPanel = new JPanel();
-		reqInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		reqInfoPanel.setBackground(new Color(16, 24, 32));
+		reqInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqInfoPanel.setBounds(634, 46, 498, 427);
 		reqManagePanel.add(reqInfoPanel);
 
 		JButton reqUpdateBtn = new JButton("파견요청수정");
+		reqUpdateBtn.setBackground(new Color(16, 24, 32));
+		reqUpdateBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		reqUpdateBtn.setForeground(new Color(255, 255, 255));
 		reqUpdateBtn.setBounds(663, 483, 142, 46);
 		reqManagePanel.add(reqUpdateBtn);
 
 		JButton reqCancelBtn = new JButton("파견요청취소");
+		reqCancelBtn.setBackground(new Color(16, 24, 32));
+		reqCancelBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		reqCancelBtn.setForeground(new Color(255, 255, 255));
 		reqCancelBtn.setBounds(813, 483, 142, 46);
 		reqManagePanel.add(reqCancelBtn);
 
 		JButton reqContentBtn = new JButton("파견요청승인");
-		reqContentBtn.setForeground(Color.BLACK);
-		reqContentBtn.setBackground(Color.WHITE);
+		reqContentBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		reqContentBtn.setForeground(new Color(255, 255, 255));
+		reqContentBtn.setBackground(new Color(16, 24, 32));
 		reqContentBtn.setBounds(963, 483, 142, 46);
 		reqManagePanel.add(reqContentBtn);
 
 		JPanel contManagePanel = new JPanel();
+		contManagePanel.setBackground(new Color(16, 24, 32));
 		contManagePanel.setLayout(null);
 		contManagePanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerMainTab.addTab("파견계약관리", null, contManagePanel, null);
 
 		JLabel contListLabel = new JLabel("파견계약목록");
-		contListLabel.setFont(new Font("font", Font.BOLD, 15));
+		contListLabel.setForeground(new Color(242, 170, 76));
+		contListLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contListLabel.setBounds(12, 10, 113, 33);
 		contManagePanel.add(contListLabel);
 
 		JPanel contListPanel = new JPanel();
-		contListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		contListPanel.setBackground(new Color(16, 24, 32));
+		contListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		contListPanel.setBounds(12, 46, 610, 493);
 		contManagePanel.add(contListPanel);
 
 		JLabel contInfoLabael = new JLabel("파견계약정보");
-		contInfoLabael.setFont(new Font(font, Font.BOLD, 15));
+		contInfoLabael.setForeground(new Color(242, 170, 76));
+		contInfoLabael.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contInfoLabael.setBounds(634, 10, 498, 33);
 		contManagePanel.add(contInfoLabael);
 
 		JPanel contInfoPanel = new JPanel();
-		contInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		contInfoPanel.setBackground(new Color(16, 24, 32));
+		contInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		contInfoPanel.setBounds(634, 46, 498, 427);
 		contManagePanel.add(contInfoPanel);
 
 		JButton contApprovalBtn = new JButton("파견계약승인");
+		contApprovalBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		contApprovalBtn.setForeground(new Color(255, 255, 255));
+		contApprovalBtn.setBackground(new Color(16, 24, 32));
 		contApprovalBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ContContractView().Action();
 			}
 		});
 
-		contApprovalBtn.setBounds(813, 483, 142, 46);
+		contApprovalBtn.setBounds(836, 483, 142, 46);
 		contManagePanel.add(contApprovalBtn);
 
 		JButton contCancelBtn = new JButton("파견계약반려");
-		contCancelBtn.setForeground(Color.BLACK);
-		contCancelBtn.setBackground(Color.WHITE);
-		contCancelBtn.setBounds(963, 483, 142, 46);
+		contCancelBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		contCancelBtn.setForeground(new Color(255, 255, 255));
+		contCancelBtn.setBackground(new Color(16, 24, 32));
+		contCancelBtn.setBounds(990, 483, 142, 46);
 		contManagePanel.add(contCancelBtn);
 
 
 		// 정산관리
 		JPanel sheetManagerPanel = new JPanel();
+		sheetManagerPanel.setBackground(new Color(16, 24, 32));
 		sheetManagerPanel.setLayout(null);
 		sheetManagerPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerMainTab.addTab("정산관리", null, sheetManagerPanel, null);
 
 		JLabel sheetListLabel = new JLabel("월별 정산 내역");
-		sheetListLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+		sheetListLabel.setForeground(new Color(242, 170, 76));
+		sheetListLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		sheetListLabel.setBounds(12, 10, 113, 33);
 		sheetManagerPanel.add(sheetListLabel);
 
 		JPanel sheetListPanel = new JPanel();
+		sheetListPanel.setBackground(new Color(16, 24, 32));
+		sheetListPanel.setForeground(new Color(16, 24, 32));
 		sheetListPanel.setLayout(null);
-		sheetListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		sheetListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		sheetListPanel.setBounds(12, 46, 610, 493);
 		sheetManagerPanel.add(sheetListPanel);
 
@@ -486,13 +510,16 @@ public class ManagerView extends JFrame {
 		sheetListPanel.add(scrollPane_1);
 
 		JLabel sheetCustLabel = new JLabel("업체별 정산 내역");
-		sheetCustLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 15));
+		sheetCustLabel.setForeground(new Color(242, 170, 76));
+		sheetCustLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		sheetCustLabel.setBounds(634, 10, 498, 33);
 		sheetManagerPanel.add(sheetCustLabel);
 
 		JPanel sheetCustPanel = new JPanel();
+		sheetCustPanel.setBackground(new Color(16, 24, 32));
+		sheetCustPanel.setForeground(new Color(16, 24, 32));
 		sheetCustPanel.setLayout(null);
-		sheetCustPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		sheetCustPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		sheetCustPanel.setBounds(634, 46, 498, 427);
 		sheetManagerPanel.add(sheetCustPanel);
 
@@ -501,29 +528,35 @@ public class ManagerView extends JFrame {
 		sheetCustPanel.add(scrollPane_1_1);
 
 		JButton sheetInfoBtn = new JButton("정산 상세 내역정보");
-		sheetInfoBtn.setBounds(813, 483, 142, 46);
+		sheetInfoBtn.setForeground(new Color(255, 255, 255));
+		sheetInfoBtn.setBackground(new Color(16, 24, 32));
+		sheetInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		sheetInfoBtn.setBounds(810, 483, 168, 46);
 		sheetManagerPanel.add(sheetInfoBtn);
 
 		JButton sheetCheckBtn = new JButton("입금확인");
-		sheetCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 15));
-		sheetCheckBtn.setForeground(new Color(242, 170, 76));
-		sheetCheckBtn.setBackground(new Color(0, 0, 0));
-		sheetCheckBtn.setBounds(963, 483, 142, 46);
+		sheetCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		sheetCheckBtn.setForeground(new Color(255, 255, 255));
+		sheetCheckBtn.setBackground(new Color(16, 24, 32));
+		sheetCheckBtn.setBounds(990, 483, 142, 46);
 		sheetManagerPanel.add(sheetCheckBtn);
 
 		JPanel payManagerPanel = new JPanel();
+		payManagerPanel.setBackground(new Color(16, 24, 32));
 		payManagerPanel.setLayout(null);
 		payManagerPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		managerMainTab.addTab("수당관리", null, payManagerPanel, null);
 
 		JLabel payListLabel = new JLabel("월별 수당 지급내역");
-		payListLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+		payListLabel.setForeground(new Color(242, 170, 76));
+		payListLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		payListLabel.setBounds(12, 10, 142, 33);
 		payManagerPanel.add(payListLabel);
 
 		JPanel payListPanel = new JPanel();
+		payListPanel.setBackground(new Color(16, 24, 32));
 		payListPanel.setLayout(null);
-		payListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		payListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		payListPanel.setBounds(12, 46, 610, 493);
 		payManagerPanel.add(payListPanel);
 
@@ -532,13 +565,15 @@ public class ManagerView extends JFrame {
 		payListPanel.add(scrollPane_1_2);
 
 		JLabel workerPayLabel = new JLabel("인력별 수당 내역");
-		workerPayLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 15));
+		workerPayLabel.setForeground(new Color(242, 170, 76));
+		workerPayLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerPayLabel.setBounds(634, 10, 498, 33);
 		payManagerPanel.add(workerPayLabel);
 
 		JPanel sheetCustPanel_1 = new JPanel();
+		sheetCustPanel_1.setBackground(new Color(16, 24, 32));
 		sheetCustPanel_1.setLayout(null);
-		sheetCustPanel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		sheetCustPanel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		sheetCustPanel_1.setBounds(634, 46, 498, 427);
 		payManagerPanel.add(sheetCustPanel_1);
 
@@ -547,19 +582,19 @@ public class ManagerView extends JFrame {
 		sheetCustPanel_1.add(scrollPane_1_1_1);
 
 		JButton payContListCheckBtn = new JButton("계약내역확인");
-		payContListCheckBtn.setForeground(new Color(242, 170, 76));
-		payContListCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 15));
-		payContListCheckBtn.setBackground(Color.BLACK);
+		payContListCheckBtn.setForeground(new Color(255, 255, 255));
+		payContListCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		payContListCheckBtn.setBackground(new Color(16, 24, 32));
 		payContListCheckBtn.setBounds(990, 483, 142, 46);
 		payManagerPanel.add(payContListCheckBtn);
 
 		JLabel mainViewLogoLabel = new JLabel("해외파견관리");
-		mainViewLogoLabel.setFont(new Font(font, Font.BOLD, 20));
+		mainViewLogoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		mainViewLogoLabel.setBounds(12, 10, 120, 55);
 		contentPane.add(mainViewLogoLabel);
 
 		JLabel managerLogoLabel = new JLabel("<관리자>");
-		managerLogoLabel.setFont(new Font(font, Font.BOLD, 20));
+		managerLogoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		managerLogoLabel.setBounds(142, 10, 94, 55);
 		contentPane.add(managerLogoLabel);
 	}

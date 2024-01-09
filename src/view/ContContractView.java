@@ -74,7 +74,7 @@ public class ContContractView extends JFrame {
 		setBounds(100, 100, 561, 608);
 		contentPane = new JPanel();
 //		contentPane.setBackground(new Color(192, 192, 192));
-		contentPane.setBackground(new Color(181, 218, 255));
+		contentPane.setBackground(new Color(242, 170, 76));
 		contentPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
 		setContentPane(contentPane);
@@ -82,15 +82,17 @@ public class ContContractView extends JFrame {
 
 		JLabel reqContLabel = new JLabel("파견계약승인");
 		reqContLabel.setBounds(12, 10, 154, 34);
-		reqContLabel.setFont(new Font("맑은 고딕", Font.BOLD, 21));
+		reqContLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		contentPane.add(reqContLabel);
 
 		JLabel contDateLabel = new JLabel("계약관리자");
-		contDateLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contDateLabel.setBounds(319, 299, 85, 28);
 		contentPane.add(contDateLabel);
 
 		JButton applyBtn = new JButton("파견 계약 승인");
+		applyBtn.setBackground(new Color(16, 24, 32));
+		applyBtn.setForeground(new Color(242, 170, 76));
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -98,7 +100,7 @@ public class ContContractView extends JFrame {
 			
 			}
 		});
-		applyBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		applyBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		applyBtn.setBounds(167, 490, 210, 48);
 		contentPane.add(applyBtn);
 		
@@ -113,7 +115,7 @@ public class ContContractView extends JFrame {
 		contentPane.add(logoLabel);
 		
 		JLabel workerContSdateTitel = new JLabel("실근무시작일");
-		workerContSdateTitel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		workerContSdateTitel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workerContSdateTitel.setBounds(167, 187, 93, 27);
 		contentPane.add(workerContSdateTitel);
 		
@@ -123,7 +125,7 @@ public class ContContractView extends JFrame {
 		contentPane.add(textField);
 		
 		JLabel workerContEdateTitel = new JLabel("실근무종료일");
-		workerContEdateTitel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		workerContEdateTitel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workerContEdateTitel.setBounds(167, 228, 98, 27);
 		contentPane.add(workerContEdateTitel);
 		
@@ -133,53 +135,53 @@ public class ContContractView extends JFrame {
 		contentPane.add(textField_1);
 		
 		JLabel lblNewLabel = new JLabel("파견인력번호");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		lblNewLabel.setBounds(54, 106, 93, 28);
+		lblNewLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		lblNewLabel.setBounds(44, 106, 93, 28);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("[파견인력번호]");
-		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(159, 106, 106, 28);
+		lblNewLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		lblNewLabel_1.setBounds(149, 106, 116, 28);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("파견요청번호");
-		lblNewLabel_2.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		lblNewLabel_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		lblNewLabel_2.setBounds(280, 106, 93, 28);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("[파견요청번호]");
-		lblNewLabel_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(385, 106, 106, 28);
+		lblNewLabel_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		lblNewLabel_1_1.setBounds(385, 106, 131, 28);
 		contentPane.add(lblNewLabel_1_1);
 		
 		JLabel contDateLabel_2 = new JLabel("[계약관리자]");
-		contDateLabel_2.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		contDateLabel_2.setBounds(416, 299, 100, 28);
 		contentPane.add(contDateLabel_2);
 		
 		JLabel contDateLabel_1 = new JLabel("사용업체명");
-		contDateLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contDateLabel_1.setBounds(319, 337, 85, 28);
 		contentPane.add(contDateLabel_1);
 		
 		JLabel contDateLabel_2_1 = new JLabel("[사용업체명]");
-		contDateLabel_2_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel_2_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		contDateLabel_2_1.setBounds(416, 337, 100, 28);
 		contentPane.add(contDateLabel_2_1);
 		
 		JLabel contDateLabel_1_1 = new JLabel("파견지원자");
-		contDateLabel_1_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contDateLabel_1_1.setBounds(319, 375, 85, 28);
 		contentPane.add(contDateLabel_1_1);
 		
 		JLabel contDateLabel_2_1_1 = new JLabel("[파견지원자]");
-		contDateLabel_2_1_1.setFont(new Font("맑은 고딕", Font.PLAIN, 17));
+		contDateLabel_2_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		contDateLabel_2_1_1.setBounds(416, 375, 100, 28);
 		contentPane.add(contDateLabel_2_1_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("위 계약건에 대하여 승인 처리 합니다.");
-		lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		lblNewLabel_3.setBounds(99, 420, 347, 73);
+		lblNewLabel_3.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		lblNewLabel_3.setBounds(137, 420, 271, 73);
 		contentPane.add(lblNewLabel_3);
 
 	}

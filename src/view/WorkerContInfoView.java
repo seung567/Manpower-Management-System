@@ -103,7 +103,7 @@ public class WorkerContInfoView extends JFrame {
 		JPanel workerContPanel = new JPanel();
 		workerContPanel.setForeground(new Color(0, 0, 0));
 		workerContPanel.setBackground(new Color(0, 0, 0));
-		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
+		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		workerContPanel.setBounds(22, 154, 496, 128);
 		contentPane.add(workerContPanel);
 		workerContPanel.setLayout(null);
@@ -169,7 +169,7 @@ public class WorkerContInfoView extends JFrame {
 		JPanel accInfoPanel = new JPanel();
 		accInfoPanel.setForeground(new Color(0, 0, 0));
 		accInfoPanel.setLayout(null);
-		accInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
+		accInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		accInfoPanel.setBackground(new Color(0, 0, 0));
 		accInfoPanel.setBounds(22, 328, 496, 128);
 		contentPane.add(accInfoPanel);
