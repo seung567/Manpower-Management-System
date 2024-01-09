@@ -3,6 +3,7 @@ package model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class LoginDAO {
@@ -24,21 +25,52 @@ public class LoginDAO {
 		
 	}
 	
-	public void loginCustomCheck(String id) {
+	public String loginCustomCheck(String id) throws Exception{
 		
 		String manager = null;
 		String office = null;
 		String worker = null;
 		
 		String managerSql = "select mgr_id from mgr"
-				+ "where mgr_id = '" + id + "'";
+				+ " where mgr_id = '" + id + "'";
+	
+		String officeSql = "select cust_id from cust"
+				+ " where cust_id = '" + id + "'";
 		
-		String officeSql = "select mgr_id from mgr"
-				+ "where mgr_id = '" + id + "'";
+		String workerSql = "select worker_id from worker"
+				+ " where worker_id = '" + id + "'";
+	
 		
-		String workerSql = "select mgr_id from mgr"
-				+ "where mgr_id = '" + id + "'";
+		Statement stmtManager = conn.createStatement();
+		Statement stmtOffice = conn.createStatement();
+		Statement stmtWorker = conn.createStatement();
 		
-//		stmt = conn.createStatement();
+		ResultSet resManager = stmtManager.executeQuery(managerSql);
+		ResultSet resoffice = stmtOffice.executeQuery(officeSql);
+		ResultSet resWorker = stmtWorker.executeQuery(workerSql);
+		
+
+		if(resManager.next()) {
+			return "관리자";
+			
+		}else if(resoffice.next()) {
+			return "사용업체";
+			
+		}else if(resWorker.next()) {
+			return "파견인력";
+			
+		}else {
+			return "검색불가";
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
