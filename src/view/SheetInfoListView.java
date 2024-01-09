@@ -88,21 +88,22 @@ public class SheetInfoListView extends JFrame {
 
 		JPanel workerContPanel = new JPanel();
 		workerContPanel.setBackground(new Color(242, 170, 76));
-		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(0, 0, 0)));
+		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 //		workerContPanel.setBackground(new Color(181, 218, 255));
 		workerContPanel.setBounds(23, 155, 499, 354);
 		contentPane.add(workerContPanel);
 		workerContPanel.setLayout(null);
 
 		JLabel sheetLabel = new JLabel("파견계약내역");
-		sheetLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		sheetLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		sheetLabel.setBounds(22, 130, 90, 15);
 		contentPane.add(sheetLabel);
 
 		JButton applyBtn = new JButton("확인");
+		applyBtn.setForeground(new Color(255, 255, 255));
 //		applyBtn.setForeground(new Color(80, 88, 108));
 //		applyBtn.setBackground(new Color(80, 88, 108));
-		applyBtn.setBackground(Color.BLACK);
+		applyBtn.setBackground(new Color(16, 24, 32));
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -110,7 +111,7 @@ public class SheetInfoListView extends JFrame {
 			
 			}
 		});
-		applyBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		applyBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		applyBtn.setBounds(168, 530, 210, 48);
 		contentPane.add(applyBtn);
 		
@@ -125,17 +126,17 @@ public class SheetInfoListView extends JFrame {
 		contentPane.add(logoLabel);
 		
 		JLabel workernumberLabel = new JLabel("업체명");
-		workernumberLabel.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 17));
+		workernumberLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workernumberLabel.setBounds(22, 70, 56, 28);
 		contentPane.add(workernumberLabel);
 		
 		JLabel workernumberLabel_1 = new JLabel("업체번호");
-		workernumberLabel_1.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 17));
+		workernumberLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workernumberLabel_1.setBounds(85, 70, 69, 28);
 		contentPane.add(workernumberLabel_1);
 		
 		JLabel workernumberLabel_1_1 = new JLabel("대표자명");
-		workernumberLabel_1_1.setFont(new Font("한컴 윤고딕 250", Font.BOLD, 17));
+		workernumberLabel_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workernumberLabel_1_1.setBounds(166, 70, 67, 28);
 		contentPane.add(workernumberLabel_1_1);
 
