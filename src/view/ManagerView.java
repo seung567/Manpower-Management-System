@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,16 +42,19 @@ public class ManagerView extends JFrame {
 	private JTextField careerDetailTx;
 	private JTable workerListTB;
 	private JLabel careerPeriodLabel_value;
-
+	DefaultTableModel model;
 	workerDAO dao = null;
+
+	String id;
+
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void managerAction(String id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManagerView frame = new ManagerView();
+					ManagerView frame = new ManagerView(id);
 					frame.setVisible(true);
 					frame.resize(1200,700);
 					frame.setResizable(false);;
@@ -85,8 +89,11 @@ public class ManagerView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	public ManagerView(String id) {
+		this.id = id;
+	}
 	public ManagerView() {
-		String font = "한컴 윤고딕 250";
+
 
 		//		try {
 		//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -133,66 +140,6 @@ public class ManagerView extends JFrame {
 		workerManagePanel.add(workerListPanel);
 
 
-
-		String[] header = {"파견인력번호", "이름", "전화번호", "나이", "경력내용", "경력기간"};
-		String[][] contents = {
-				{"이정현", "50", "60", "70"},
-				{"김영호", "70", "80", "75"},
-				{"전수용", "80", "65", "95"},
-				{"김진희", "80", "65", "95"},
-				{"신정섭", "85", "60", "85"},
-				{"김승현", "80", "65", "95"},
-				{"김영석", "80", "65", "95"},
-				{"이정석", "80", "65", "95"},
-				{"이승근", "80", "65", "95"},
-		};
-		workerListPanel.setLayout(null);
-
-		DefaultTableModel model;
-
-		model = new DefaultTableModel(contents, header) { // Table 수정 할 수 없게 해주는 inner class
-			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				return false;
-		
-			}
-		};
-
-		JTable workerListTB = new JTable(model);
-		workerListTB.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int col = 0;
-				int row = workerListTB.getSelectedRow();
-
-				String vNum = String.valueOf(workerListTB.getValueAt(row, col));
-
-				try {					
-					WorkerVO vo = dao.workerInfoSerch(vNum); // 텍스트 필드 입력 값 가져오기
-					
-					// 자격증 정보 가져오기
-					
-					workerNameTx.setText(vo.getWorkerName());
-					workerAgeTx.setText(vo.getWorkerAge());
-					workerTelTx.setText(vo.getWorkerTel());
-					workerEmailTx.setText(vo.getWorkerEmail());
-					careerPeriodLabel_value.setText(vo.getCareerPeriod());
-					careerDetailTx.setText(vo.getCareerDetail());
-					
-				} catch (Exception e2) {
-					// TODO: handle exception
-				}
-
-			}
-		});
-		workerListTB.setBounds(12, 50, 586, 433);
-		workerListTB.setFont(new Font(font, Font.PLAIN, 12));
-		workerListPanel.add(workerListTB);
-
-		JScrollPane scrollPane = new JScrollPane(workerListTB);
-		scrollPane.setBounds(10, 10, 588, 473);
-		workerListPanel.add(scrollPane);
-
-
 		JLabel workerInfoLabel_1 = new JLabel("파견인력정보");
 		workerInfoLabel_1.setBackground(new Color(242, 170, 76));
 		workerInfoLabel_1.setForeground(new Color(242, 170, 76));
@@ -216,20 +163,17 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.add(workerNameLabel);
 
 		workerNameTx = new JTextField();
+		workerNameTx.setEditable(false);
 		workerNameTx.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				workerNameTx.setText("");
-				
-				
-				
-				
-				
-				
+
+
+
+
 			}
 		});
-
-		workerNameTx.setText("TEST2");
 		workerNameTx.setToolTipText("");
 		workerNameTx.setBounds(102, 21, 107, 31);
 		workerInfoPanel.add(workerNameTx);
@@ -243,6 +187,7 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.add(workerTelLabel);
 
 		workerTelTx = new JTextField();
+		workerTelTx.setEditable(false);
 		workerTelTx.setColumns(10);
 		workerTelTx.setBounds(102, 103, 107, 31);
 		workerInfoPanel.add(workerTelTx);
@@ -255,6 +200,7 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.add(workerAgeLabel);
 
 		workerAgeTx = new JTextField();
+		workerAgeTx.setEditable(false);
 		workerAgeTx.setColumns(10);
 		workerAgeTx.setBounds(102, 62, 107, 31);
 		workerInfoPanel.add(workerAgeTx);
@@ -267,6 +213,7 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.add(careerPeriodLabel);
 
 		workerEmailTx = new JTextField();
+		workerEmailTx.setEditable(false);
 		workerEmailTx.setColumns(10);
 		workerEmailTx.setBounds(290, 103, 180, 31);
 		workerInfoPanel.add(workerEmailTx);
@@ -303,6 +250,7 @@ public class ManagerView extends JFrame {
 
 
 		JTable certiTB = new JTable(modelCerti);
+		certiTB.setEnabled(false);
 		certiTB.setBounds(47, 10, 309, 144);
 		certiTB.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		certiPanel.add(certiTB);
@@ -333,9 +281,17 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.add(careerDetailLabel);
 
 		careerDetailTx = new JTextField();
+		careerDetailTx.setEditable(false);
 		careerDetailTx.setColumns(10);
 		careerDetailTx.setBounds(28, 219, 443, 56);
 		workerInfoPanel.add(careerDetailTx);
+		
+		JLabel workerCodeLabel = new JLabel("");
+		workerCodeLabel.setForeground(new Color(242, 170, 76));
+		workerCodeLabel.setHorizontalAlignment(JLabel.RIGHT);
+		workerCodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerCodeLabel.setBounds(379, 10, 107, 31);
+		workerInfoPanel.add(workerCodeLabel);
 
 		JButton workerReqInfoBtn = new JButton("계약정보확인");
 		workerReqInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
@@ -344,8 +300,15 @@ public class ManagerView extends JFrame {
 		workerReqInfoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				new WorkerContInfoView().Action();
-				
+				String codeValue = workerCodeLabel.getText();
+				System.out.println(codeValue);
+				if(codeValue == "") {
+					JOptionPane.showMessageDialog(null, "파견인력을 선택 하여 주세요");
+				}else {
+					WorkerContInfoView workerCOnt = new WorkerContInfoView(codeValue);
+					workerCOnt.Action();
+				}
+
 			}
 		});
 
@@ -363,6 +326,7 @@ public class ManagerView extends JFrame {
 
 			}
 		});
+
 		workerVisatBtn.setBounds(813, 483, 142, 46);
 		workerManagePanel.add(workerVisatBtn);
 
@@ -375,10 +339,75 @@ public class ManagerView extends JFrame {
 
 			}
 		});
+
+
+
+
 		workerInsertBtn.setForeground(new Color(255, 255, 255));
 		workerInsertBtn.setBackground(new Color(16, 24, 32));
 		workerInsertBtn.setBounds(963, 483, 142, 46);
 		workerManagePanel.add(workerInsertBtn);
+
+		String[] header = {"파견인력번호", "이름", "전화번호", "나이", "경력내용", "경력기간"};
+		String[][] contents= {{}};
+
+		model = new DefaultTableModel(contents, header);
+		workerListPanel.setLayout(null);
+
+		workerListTB = new JTable(model);
+		workerListTB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				int col = 0;
+				int row = workerListTB.getSelectedRow();
+
+				String vNum = String.valueOf(workerListTB.getValueAt(row, col));
+
+				try {					
+					WorkerVO vo = dao.workerInfoSerch(vNum); // 텍스트 필드 입력 값 가져오
+
+					// 자격증 정보 가져오기
+					
+					workerCodeLabel.setText(String.valueOf(vo.getWorkerCode()));
+					workerNameTx.setText(vo.getWorkerName());
+					workerAgeTx.setText(vo.getWorkerAge());
+					workerTelTx.setText(vo.getWorkerTel());
+					workerEmailTx.setText(vo.getWorkerEmail());
+					careerPeriodLabel_value.setText(vo.getCareerPeriod());
+					careerDetailTx.setText(vo.getCareerDetail());
+
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+
+			}
+		});
+
+		workerListTB.setBounds(1, 27, 450, 16);
+		workerListTB.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		workerListPanel.add(workerListTB);
+
+		JScrollPane scrollPane = new JScrollPane(workerListTB);
+		scrollPane.setBounds(10, 10, 588, 473);
+		workerListPanel.add(scrollPane);
+
+		workerListTB(header);
+		
+		JButton workerSerchBtn = new JButton("조회");
+		workerSerchBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				workerListTB(header);
+				
+			}
+		});
+
+
+		workerSerchBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerSerchBtn.setBounds(533, 13, 89, 23);
+		workerManagePanel.add(workerSerchBtn);
 
 		// 파견요청관리 탭 메인
 		JPanel reqManagePanel = new JPanel();
@@ -413,6 +442,13 @@ public class ManagerView extends JFrame {
 		reqManagePanel.add(reqInfoPanel);
 
 		JButton reqUpdateBtn = new JButton("파견요청수정");
+		reqUpdateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+
+
+			}
+		});
 		reqUpdateBtn.setBackground(new Color(16, 24, 32));
 		reqUpdateBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		reqUpdateBtn.setForeground(new Color(255, 255, 255));
@@ -469,6 +505,7 @@ public class ManagerView extends JFrame {
 		contApprovalBtn.setBackground(new Color(16, 24, 32));
 		contApprovalBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				new ContContractView().Action();
 			}
 		});
@@ -597,5 +634,24 @@ public class ManagerView extends JFrame {
 		managerLogoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		managerLogoLabel.setBounds(142, 10, 94, 55);
 		contentPane.add(managerLogoLabel);
+	}
+	
+	public void workerListTB(String[] header) {
+		try {
+			dao = new workerDAO();
+			ArrayList workerList = dao.serchWorkerInfo(); // 인력목록 ArrayList 형태로 가져오기
+			String[][] contentsWorker = dao.workerList(workerList,header);
+			
+			DefaultTableModel modelTest = new DefaultTableModel(contentsWorker, header);
+			workerListTB.setModel(modelTest);
+
+		} catch (Exception e1) {
+			// TODO: handle exception
+			e1.printStackTrace();
+		}
+	}
+	
+	public void setIDText(String id) {
+		this.id = id;
 	}
 }

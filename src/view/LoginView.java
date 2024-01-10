@@ -28,7 +28,7 @@ public class LoginView extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8955792109070066621L;
+	
 	private JPanel contentPane;
 	private JTextField LoginIdTx;
 	private JLabel LoginIdL;
@@ -137,7 +137,8 @@ public class LoginView extends JFrame {
 					String state = dao.loginCustomCheck(idText);			
 					
 					if(state == "관리자") {
-						new ManagerView().main(null); // 관리자 뷰
+						new ManagerView().managerAction(idText);
+						System.out.println("관리자 로그인");// 관리자 뷰
 						
 					}else if(state == "사용업체") {
 						new WorkerContInfoView().Action(); // 업체 뷰
