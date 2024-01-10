@@ -36,6 +36,7 @@ public class WorkerContInfoView extends JFrame {
 
 	
 	WorkerInsertView workerInsertView = null;
+	String workerCode;
 	/**
 	 * Launch the application.
 	 */
@@ -74,6 +75,8 @@ public class WorkerContInfoView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+
+	
 	public WorkerContInfoView() {
 		
 //		try {
@@ -258,6 +261,28 @@ public class WorkerContInfoView extends JFrame {
 		contDateLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contDateLabel_1.setBounds(386, 478, 132, 28);
 		contentPane.add(contDateLabel_1);
+		
+		
 
+	}
+	
+	public WorkerContInfoView(String workerCode) {
+		this.workerCode = workerCode;
+	}
+	
+	public void Early() {
+		/*
+		 * 계약시작일 worker_cont_sdate
+계약만료일 worker_cont_edate
+재계약횟수 recont_num
+계약기간 cont_period
+예금주 acc_name
+입금은행명 acc_bank
+입금계좌명 acc_num
+계약일 cont_date
+관리자 mgr_code
+		 */
+		
+//		worekrContSdate
 	}
 }
