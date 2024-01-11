@@ -37,17 +37,22 @@ public class WorkerContInfoView extends JFrame {
 	
 	WorkerInsertView workerInsertView = null;
 	String workerCode;
+	
+	String code = null;
 	/**
 	 * Launch the application.
 	 */
 	
 	// 계약정보 view
 	
-	public static void Action() {
+	public static void Action(String code) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WorkerContInfoView frame = new WorkerContInfoView();
+					
+					String codeText = code;
+					
+					WorkerContInfoView frame = new WorkerContInfoView(codeText);
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -75,9 +80,12 @@ public class WorkerContInfoView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	public WorkerContInfoView(){
+		
 
+	}
 	
-	public WorkerContInfoView() {
+	public WorkerContInfoView(String codeText) {
 		
 //		try {
 //			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -262,13 +270,10 @@ public class WorkerContInfoView extends JFrame {
 		contDateLabel_1.setBounds(386, 478, 132, 28);
 		contentPane.add(contDateLabel_1);
 		
-		
-
+		workernumberLabel_1.setText(codeText);
 	}
 	
-	public WorkerContInfoView(String workerCode) {
-		this.workerCode = workerCode;
-	}
+
 	
 	public void Early() {
 		/*

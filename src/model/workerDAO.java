@@ -19,7 +19,7 @@ public class workerDAO {
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
-	
+
 	public workerDAO() throws Exception{
 		// TODO Auto-generated constructor stub
 		Class.forName(driver);
@@ -27,8 +27,8 @@ public class workerDAO {
 		conn = DriverManager.getConnection(url, user, pw);
 		System.out.println("DB 연결 성공!");
 	}
-	
-	
+
+
 	public WorkerVO workerInfoSerch(String code) throws Exception{
 		workervo = new WorkerVO();
 
@@ -50,61 +50,91 @@ public class workerDAO {
 			workervo.setCareerPeriod(res.getString("career_period")); // 경력기간
 			workervo.setCareerDetail(res.getString("career_detail")); // 경력내용
 		} // end if
-		
+
 		res.close();
 		stmt.close();
-		
+
 		return workervo;
-		
+
 	} // WorkerVO 메소드 끝
-	
+
 	public ArrayList serchWorkerInfo() throws Exception {
-		
-		System.out.println("인력목록작성");
-		
+
+
+
 		String sql = "select"
 				+ " worker_code,worker_name,worker_tel,"
 				+ " worker_age,career_detail,career_period"
 				+ " from worker"
 				+ " order by worker_code";
-		
+
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
-		
+
 		ArrayList workerList = new ArrayList();
-		
+
 		while(res.next()) {
-			
+
 			ArrayList temp = new ArrayList();
-			
+
 			temp.add(res.getInt("worker_code"));
 			temp.add(res.getString("worker_name"));
 			temp.add(res.getString("worker_tel"));
 			temp.add(res.getString("worker_age"));
 			temp.add(res.getString("career_detail"));
 			temp.add(res.getString("career_period"));
-						
+
 			workerList.add(temp);
 		}
-		
+
 		res.close();
 		stmt.close();
-		
-		System.out.println("인력목록완료");
-		
+
 		return workerList;
 	}
-	
+
+	public ArrayList serchCertiInfo(String workerCode) throws Exception {
+
+
+
+		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,CERTI_DATE,CERTI_EXP_PERIOD "
+				+ "from certi"
+				+ " where WORKER_CODE = " +  workerCode; 
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+
+		ArrayList certiList = new ArrayList();
+
+		while(res.next()) {
+
+			ArrayList temp = new ArrayList();
+
+			temp.add(res.getInt("CERTI_CODE"));
+			temp.add(res.getString("CERTI_NAME"));
+			temp.add(res.getString("CERTI_NUM"));
+			temp.add(res.getString("CERTI_DATE"));
+			temp.add(res.getString("CERTI_EXP_PERIOD"));
+
+			certiList.add(temp);
+		}
+
+		res.close();
+		stmt.close();
+
+		return certiList;
+	}
+
 	public String[][] workerList(ArrayList list, String[] col) throws Exception {
-		
-		System.out.println("인력목록 출력");
+
+
 		String[][] result = new String[list.size()][col.length];
-		
+
 		for(int i=0; i<result.length; i++) {
 			ArrayList temp = (ArrayList) list.get(i);
-			
+
 			for(int j=0; j<result[i].length; j++) {
-				
+
 				try {
 					result[i][j] = temp.get(j).toString();
 				} catch (Exception e) {
@@ -113,9 +143,10 @@ public class workerDAO {
 				}
 			}
 		}
-		System.out.println("인력목록 출력완료");
-		
+
+
+
 		return result;
-		
+
 	}
 }

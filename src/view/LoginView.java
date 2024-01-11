@@ -37,6 +37,8 @@ public class LoginView extends JFrame {
 	private JSeparator separator;
 
 	private LoginDAO dao = null;
+	
+
 
 	/**
 	 * Launch the application.
@@ -130,31 +132,39 @@ public class LoginView extends JFrame {
 		LoginConfirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-					
-					String idText = LoginIdTx.getText();
-					dao = new LoginDAO();
-					String state = dao.loginCustomCheck(idText);			
-					
-					if(state == "관리자") {
-						new ManagerView().managerAction(idText);
-						System.out.println("관리자 로그인");// 관리자 뷰
-						
-					}else if(state == "사용업체") {
-						new WorkerContInfoView().Action(); // 업체 뷰
-						
-					}else if(state == "파견인력") {
-						new WorkerContInsertView().Action(); // 인력 뷰
-						
-					}else {
-						System.out.println("검색불가");
-					}
-					
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-
+//				try {
+//					
+//					idText = LoginIdTx.getText();
+//					dao = new LoginDAO();
+//					String state = dao.loginCustomCheck(idText);			
+//					
+//					if(state == "관리자") {
+//						new ManagerView();
+//						System.out.println("관리자 로그인");// 관리자 뷰
+//						
+//					}else if(state == "사용업체") {
+//						new WorkerContInfoView().Action(); // 업체 뷰
+//						
+//					}else if(state == "파견인력") {
+//						new WorkerContInsertView().Action(); // 인력 뷰
+//						
+//					}else {
+//						System.out.println("검색불가");
+//					}
+//					
+//				} catch (Exception e2) {
+//					// TODO: handle exception
+//					e2.printStackTrace();
+//				}
+				
+				String idText = LoginIdTx.getText();
+				String[] arrayID = new String[1];
+				
+				arrayID[0] = idText;
+				
+				System.out.println(arrayID[0] + " 로그인view");
+				
+				new ManagerView().main(arrayID);;
 			}
 		});
 		LoginConfirmBtn.setBounds(114, 292, 97, 23);
@@ -174,17 +184,7 @@ public class LoginView extends JFrame {
 		separator.setBounds(114, 66, 81, 17);
 		LoginCustP.add(separator);
 	}
-	@SuppressWarnings("unused")
-	private class SwingAction extends AbstractAction {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
+	
+
+
 }
