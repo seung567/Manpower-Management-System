@@ -19,6 +19,13 @@ public class MgrVO {
 		this.mgrTel = mgrTel;
 		
 	}
+	
+	public MgrVO(int mgrCode, String mgrName) {
+		
+		this.mgrCode = mgrCode;
+		this.mgrName = mgrName;
+
+	}
 
 	public int getMgrCode() {
 		return mgrCode;

@@ -24,7 +24,7 @@ import model.workerDAO;
 import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 
-public class WorkerContInfoView extends JFrame {
+public class WorkerContModify extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField workerContSdateTx;
@@ -55,7 +55,7 @@ public class WorkerContInfoView extends JFrame {
 			public void run() {
 				try {
 					
-					WorkerContInfoView frame = new WorkerContInfoView(contCode,idText);
+					WorkerContModify frame = new WorkerContModify(contCode,idText);
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -85,19 +85,19 @@ public class WorkerContInfoView extends JFrame {
 	 */
 	
 	// 윈도우 빌더용 
-	public WorkerContInfoView(){
+	public WorkerContModify(){
 		
-		this.workerContAtion("테스트","테스트");
+		this.workerContAtion("13","13");
 		
 	}
 	
 	// 실행용 생성자 함수
-	public WorkerContInfoView(int num){
+	public WorkerContModify(int num){
 		
 	}
 	
 	// 실행용 메인 생성자 함수
-	public WorkerContInfoView(String contCode, String idText) {
+	public WorkerContModify(String contCode, String idText) {
 		
 		this.contCode = contCode;
 		this.id = idText;
@@ -112,7 +112,7 @@ public class WorkerContInfoView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel reqContLabel = new JLabel("계약승인처리");
+		JLabel reqContLabel = new JLabel("계약정보확인");
 		reqContLabel.setForeground(new Color(0, 0, 0));
 		reqContLabel.setBounds(12, 10, 132, 34);
 		reqContLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
@@ -133,6 +133,7 @@ public class WorkerContInfoView extends JFrame {
 		workerContPanel.add(workerContSdateTitel);
 
 		workerContSdateTx = new JTextField();
+		workerContSdateTx.setEditable(false);
 		workerContSdateTx.setBounds(117, 29, 116, 30);
 		workerContSdateTx.setColumns(10);
 		workerContPanel.add(workerContSdateTx);
@@ -144,6 +145,7 @@ public class WorkerContInfoView extends JFrame {
 		workerContPanel.add(workerContEdateTitel);
 
 		workerContEdateTx = new JTextField();
+		workerContEdateTx.setEditable(false);
 		workerContEdateTx.setColumns(10);
 		workerContEdateTx.setBounds(348, 30, 116, 30);
 		workerContPanel.add(workerContEdateTx);
@@ -156,6 +158,7 @@ public class WorkerContInfoView extends JFrame {
 		workerContPanel.add(recontNumTitel);
 
 		recontNumTx = new JTextField();
+		recontNumTx.setEditable(false);
 		recontNumTx.setColumns(10);
 		recontNumTx.setBounds(117, 83, 116, 30);
 		workerContPanel.add(recontNumTx);
@@ -168,6 +171,7 @@ public class WorkerContInfoView extends JFrame {
 		workerContPanel.add(contPeriodLabel);
 
 		contPeriodTx = new JTextField();
+		contPeriodTx.setEditable(false);
 		contPeriodTx.setColumns(10);
 		contPeriodTx.setBounds(348, 83, 116, 30);
 		workerContPanel.add(contPeriodTx);
@@ -181,7 +185,7 @@ public class WorkerContInfoView extends JFrame {
 		contDateLabel = new JLabel("계약일 [계약일]");
 		contDateLabel.setForeground(new Color(0, 0, 0));
 		contDateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contDateLabel.setBounds(239, 478, 132, 28);
+		contDateLabel.setBounds(193, 478, 181, 28);
 		contentPane.add(contDateLabel);
 
 		JPanel accInfoPanel = new JPanel();
@@ -229,8 +233,16 @@ public class WorkerContInfoView extends JFrame {
 		accNameTx.setBounds(124, 23, 116, 30);
 		accInfoPanel.add(accNameTx);
 
-		JButton applyBtn = new JButton("승인");
+		JLabel accInfoLabel = new JLabel("수당지급정보");
+		accInfoLabel.setForeground(new Color(0, 0, 0));
+		accInfoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		accInfoLabel.setBounds(22, 303, 91, 15);
+		contentPane.add(accInfoLabel);
+
+		JButton applyBtn = new JButton("확인");
 		applyBtn.setForeground(new Color(255, 255, 255));
+//		applyBtn.setForeground(new Color(80, 88, 108));
+//		applyBtn.setBackground(new Color(80, 88, 108));
 		applyBtn.setBackground(new Color(0, 0, 0));
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -270,14 +282,8 @@ public class WorkerContInfoView extends JFrame {
 		contDateLabel_1 = new JLabel("관리자 [관리자]");
 		contDateLabel_1.setForeground(new Color(0, 0, 0));
 		contDateLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contDateLabel_1.setBounds(375, 478, 143, 28);
+		contDateLabel_1.setBounds(386, 478, 132, 28);
 		contentPane.add(contDateLabel_1);
-		
-		JLabel contDateLabel_2 = new JLabel("계약일");
-		contDateLabel_2.setForeground(Color.BLACK);
-		contDateLabel_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contDateLabel_2.setBounds(188, 478, 45, 28);
-		contentPane.add(contDateLabel_2);
 		
 		Early(contCode,id);
 	}
@@ -301,7 +307,7 @@ public class WorkerContInfoView extends JFrame {
 
 			String now = String.valueOf(LocalDate.now());
 			
-			contDateLabel.setText(now);
+			contDateLabel.setText("계약일 " + now);
 
 			MgrVO mgrVo = dao.mgrNameSerch(mgrID);
 			System.out.println("관리자 호출 실행");
@@ -315,35 +321,7 @@ public class WorkerContInfoView extends JFrame {
 
 	}
 	
-	public void insertCont(String contCode,String id) {
-		
-		String sDate = workerContSdateTx.getText();
-		String edate = workerContEdateTx.getText();
-		int recontNum = Integer.parseInt(recontNumTx.getText());
-		String contPeriod = contPeriodTx.getText();
-		
-		String contDate = contDateLabel.getText();
-		
-		WorkerContVO vo = new WorkerContVO(sDate,edate,recontNum,contPeriod,contDate);
-		
-		try {
-			workerDAO dao = new workerDAO();
-			
-			dao.workerContInsert(vo, id);
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		
-		
-		
-		
-//		workerContSdateTx
-//		workerContEdateTx
-//		recontNumTx
-//		contPeriodTx
-		
+	public void insertCont() {
 		
 	}
 }
