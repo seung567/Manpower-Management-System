@@ -32,39 +32,24 @@ import model.rec.WorkerVO;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-public class ManagerView extends JFrame {
+public class MainExample extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField workerNameTx;
-	private JTextField workerTelTx;
-	private JTextField workerAgeTx;
-	private JTextField workerEmailTx;
-
-	private JTextField careerDetailTx;
 	private JTable workerListTB;
 	private JTable certiTB;
 	private JLabel careerPeriodLabel_value;
 	private JLabel workerCodeLabel;
-
-	// RecentListTableModel rListTable;
-	DefaultTableModel model;
-	DefaultTableModel certiModel;
-	workerDAO dao = null;
-	String[][] contents = null;
-	String[] workerHeader = { "파견인력번호", "이름", "전화번호", "나이", "경력내용", "경력기간" };
-	String[] certiHeader = { "관리번호", "자격증명", "자격번호", "취득일", "유효기간" };
-
+	
 	String id;
-
 	/**
 	 * Launch the application.
 	 */
-	public static void managerMainView(String ID) {
+	public static void workerMainView(String ID) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 
-					ManagerView frame = new ManagerView(ID);
+					MainExample frame = new MainExample(ID);
 					frame.setVisible(true);
 					frame.resize(1200, 700);
 					frame.setResizable(false);
@@ -101,17 +86,17 @@ public class ManagerView extends JFrame {
 	 */
 	
 	// 윈도우 빌더 테스트용 생성자 함수
-	public ManagerView() {
+	public MainExample() {
 		
-		this.managerMainView("테스트");
+		this.workerMainView("테스트");
 		
 	};
 	
 	// 실행용 생성자 함수
-	public ManagerView(int num) {};
+	public MainExample(int num) {};
 	
 	// 메인 뷰 생성자 함수 
-	public ManagerView(String id) {
+	public MainExample(String id) {
 
 		// try {
 		// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -183,149 +168,11 @@ public class ManagerView extends JFrame {
 		workerCodeLabel.setBounds(379, 10, 107, 31);
 		workerInfoPanel.add(workerCodeLabel);
 
-		JLabel workerNameLabel = new JLabel("이름");
-		workerNameLabel.setForeground(new Color(242, 170, 76));
-		workerNameLabel.setBackground(new Color(242, 170, 76));
-		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerNameLabel.setBounds(28, 21, 84, 31);
-		workerInfoPanel.add(workerNameLabel);
-
-		workerNameTx = new JTextField();
-		workerNameTx.setEditable(false);
-		workerNameTx.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				workerNameTx.setText("");
-
-			}
-		});
-		workerNameTx.setToolTipText("");
-		workerNameTx.setBounds(102, 21, 107, 31);
-		workerInfoPanel.add(workerNameTx);
-		workerNameTx.setColumns(10);
-
-		JLabel workerTelLabel = new JLabel("연락처");
-		workerTelLabel.setForeground(new Color(242, 170, 76));
-		workerTelLabel.setBackground(new Color(242, 170, 76));
-		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerTelLabel.setBounds(28, 103, 84, 31);
-		workerInfoPanel.add(workerTelLabel);
-
-		workerTelTx = new JTextField();
-		workerTelTx.setEditable(false);
-		workerTelTx.setColumns(10);
-		workerTelTx.setBounds(102, 103, 107, 31);
-		workerInfoPanel.add(workerTelTx);
-
-		JLabel workerAgeLabel = new JLabel("나이");
-		workerAgeLabel.setForeground(new Color(242, 170, 76));
-		workerAgeLabel.setBackground(new Color(242, 170, 76));
-		workerAgeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerAgeLabel.setBounds(28, 62, 84, 31);
-		workerInfoPanel.add(workerAgeLabel);
-
-		workerAgeTx = new JTextField();
-		workerAgeTx.setEditable(false);
-		workerAgeTx.setColumns(10);
-		workerAgeTx.setBounds(102, 62, 107, 31);
-		workerInfoPanel.add(workerAgeTx);
-
-		JLabel careerPeriodLabel = new JLabel("경력기간");
-		careerPeriodLabel.setForeground(new Color(242, 170, 76));
-		careerPeriodLabel.setBackground(new Color(242, 170, 76));
-		careerPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerPeriodLabel.setBounds(28, 149, 62, 31);
-		workerInfoPanel.add(careerPeriodLabel);
-
-		workerEmailTx = new JTextField();
-		workerEmailTx.setEditable(false);
-		workerEmailTx.setColumns(10);
-		workerEmailTx.setBounds(290, 103, 180, 31);
-		workerInfoPanel.add(workerEmailTx);
-
-		JLabel certiLabel = new JLabel("취득 자격증");
-		certiLabel.setForeground(new Color(242, 170, 76));
-		certiLabel.setBackground(new Color(242, 170, 76));
-		certiLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		certiLabel.setBounds(28, 273, 84, 31);
-		workerInfoPanel.add(certiLabel);
-
-		JPanel certiPanel = new JPanel();
-		certiPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		certiPanel.setBounds(28, 304, 443, 92);
-		workerInfoPanel.add(certiPanel);
-
-		certiPanel.setLayout(null);
-
-		certiModel = new DefaultTableModel(contents, certiHeader) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-
-		JTable certiTB = new JTable(certiModel);
-		certiTB.setColumnSelectionAllowed(true);
-		certiTB.setCellSelectionEnabled(true);
-		certiTB.setEnabled(false);
-		certiTB.setBounds(47, 10, 309, 144);
-		certiTB.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		certiPanel.add(certiTB);
-
-		certiTB.setModel(certiModel);
-
-		JScrollPane certiTBscrollPane = new JScrollPane(certiTB);
-		certiTBscrollPane.setBounds(0, 0, 443, 92);
-		certiPanel.add(certiTBscrollPane);
-
-		JLabel careerPeriodLabel_value = new JLabel("[경력기간]");
-		careerPeriodLabel_value.setForeground(new Color(242, 170, 76));
-		careerPeriodLabel_value.setBackground(new Color(242, 170, 76));
-		careerPeriodLabel_value.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerPeriodLabel_value.setBounds(102, 149, 84, 31);
-		workerInfoPanel.add(careerPeriodLabel_value);
-
-		JLabel workerEmailLabel = new JLabel("이메일");
-		workerEmailLabel.setForeground(new Color(242, 170, 76));
-		workerEmailLabel.setBackground(new Color(242, 170, 76));
-		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerEmailLabel.setBounds(221, 103, 67, 31);
-		workerInfoPanel.add(workerEmailLabel);
-
-		JLabel careerDetailLabel = new JLabel("경력내용");
-		careerDetailLabel.setForeground(new Color(242, 170, 76));
-		careerDetailLabel.setBackground(new Color(242, 170, 76));
-		careerDetailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerDetailLabel.setBounds(28, 190, 67, 31);
-		workerInfoPanel.add(careerDetailLabel);
-
-		careerDetailTx = new JTextField();
-		careerDetailTx.setEditable(false);
-		careerDetailTx.setColumns(10);
-		careerDetailTx.setBounds(28, 219, 443, 56);
-		workerInfoPanel.add(careerDetailTx);
-
 		JButton workerReqInfoBtn = new JButton("계약정보확인");
 		workerReqInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerReqInfoBtn.setBackground(new Color(16, 24, 32));
 		workerReqInfoBtn.setForeground(new Color(255, 255, 255));
-		workerReqInfoBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				String codeValue = workerCodeLabel.getText();
-				
-				if (codeValue != "") {
-					
-//					new WorkerContInfoView(0).workerContAtion(codeValue,id);
-					new SameContCode(0).sameContCodeAction(codeValue,id);
-					
-				} else {
-					JOptionPane.showMessageDialog(null, "파견인력을 선택 하여 주세요");
-				}
-
-			}
-		});
+		
 
 		workerReqInfoBtn.setBounds(663, 483, 142, 46);
 		workerManagePanel.add(workerReqInfoBtn);
@@ -334,77 +181,23 @@ public class ManagerView extends JFrame {
 		workerVisatBtn.setBackground(new Color(16, 24, 32));
 		workerVisatBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerVisatBtn.setForeground(new Color(255, 255, 255));
-		workerVisatBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				new WorkerVisaView().Action();
-
-			}
-		});
+	
 
 		workerVisatBtn.setBounds(813, 483, 142, 46);
 		workerManagePanel.add(workerVisatBtn);
 
 		JButton workerInsertBtn = new JButton("파견인력등록");
 		workerInsertBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerInsertBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				new WorkerInsertView().workerInsertAction();
-
-			}
-		});
+	
 
 		workerInsertBtn.setForeground(new Color(255, 255, 255));
 		workerInsertBtn.setBackground(new Color(16, 24, 32));
 		workerInsertBtn.setBounds(963, 483, 142, 46);
 		workerManagePanel.add(workerInsertBtn);
-
-		model = new DefaultTableModel(contents, workerHeader) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
+		
 		workerListPanel.setLayout(null);
 
-		workerListTB = new JTable(model);
-		workerListTB.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				int col = 0; // 컬럼 위치
-				int row = workerListTB.getSelectedRow(); // 내가 클릭한 행의 위치
-
-				
-				String vNum = String.valueOf(workerListTB.getValueAt(row, col));
-
-				try {
-					WorkerVO vo = dao.workerInfoSerch(vNum); // 인력목록에서 값을 받아 텍스트 필드 정보 가져오기
-
-					// 상세정보 텍스트 필드 입력
-					String code = String.valueOf(vo.getWorkerCode());
-
-					workerCodeLabel.setText(code);
-					workerNameTx.setText(vo.getWorkerName());
-					workerAgeTx.setText(vo.getWorkerAge());
-					workerTelTx.setText(vo.getWorkerTel());
-					workerEmailTx.setText(vo.getWorkerEmail());
-					careerPeriodLabel_value.setText(vo.getCareerPeriod());
-					careerDetailTx.setText(vo.getCareerDetail());
-
-					// 자격증 정보 목록 출력
-					certiListTB(certiHeader, code);
-
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-
-			}
-		});
-
+		workerListTB = new JTable();
 		workerListTB.setBounds(1, 27, 450, 16);
 		workerListTB.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		workerListPanel.add(workerListTB);
@@ -413,17 +206,8 @@ public class ManagerView extends JFrame {
 		scrollPane.setBounds(10, 10, 588, 473);
 		workerListPanel.add(scrollPane);
 
-		workerListTB(workerHeader);
 
 		JButton workerSerchBtn = new JButton("조회");
-		workerSerchBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				workerListTB(workerHeader);
-
-			}
-		});
-
 		workerSerchBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerSerchBtn.setBounds(533, 13, 89, 23);
 		workerManagePanel.add(workerSerchBtn);
@@ -524,12 +308,7 @@ public class ManagerView extends JFrame {
 		contApprovalBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		contApprovalBtn.setForeground(new Color(255, 255, 255));
 		contApprovalBtn.setBackground(new Color(16, 24, 32));
-		contApprovalBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				new ContContractView().Action();
-			}
-		});
+	
 
 		contApprovalBtn.setBounds(836, 483, 142, 46);
 		contManagePanel.add(contApprovalBtn);
@@ -576,8 +355,7 @@ public class ManagerView extends JFrame {
 		sheetCustPanel.setBackground(new Color(16, 24, 32));
 		sheetCustPanel.setForeground(new Color(16, 24, 32));
 		sheetCustPanel.setLayout(null);
-		sheetCustPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetCustPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		sheetCustPanel.setBounds(634, 46, 498, 427);
 		sheetManagerPanel.add(sheetCustPanel);
 
@@ -614,8 +392,7 @@ public class ManagerView extends JFrame {
 		JPanel payListPanel = new JPanel();
 		payListPanel.setBackground(new Color(16, 24, 32));
 		payListPanel.setLayout(null);
-		payListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		payListPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		payListPanel.setBounds(12, 46, 610, 493);
 		payManagerPanel.add(payListPanel);
 
@@ -632,8 +409,7 @@ public class ManagerView extends JFrame {
 		JPanel sheetCustPanel_1 = new JPanel();
 		sheetCustPanel_1.setBackground(new Color(16, 24, 32));
 		sheetCustPanel_1.setLayout(null);
-		sheetCustPanel_1
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetCustPanel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		sheetCustPanel_1.setBounds(634, 46, 498, 427);
 		payManagerPanel.add(sheetCustPanel_1);
 
@@ -666,45 +442,5 @@ public class ManagerView extends JFrame {
 		
 	}
 
-	void workerListTB(String[] header) {
-		try {
-			dao = new workerDAO();
-			ArrayList workerList = dao.serchWorkerInfo(); // 인력목록 ArrayList 형태로 가져오기
-			String[][] contentsWorker = dao.workerList(workerList, header);
-
-			model.setNumRows(0); // 초기화
-
-			for (int i = 0; i < contentsWorker.length; i++) {
-
-				model.addRow(contentsWorker[i]);
-
-			}
-
-		} catch (Exception e1) {
-			// TODO: handle exception
-			e1.printStackTrace();
-		}
-	}
-
-
-
-	void certiListTB(String[] header, String code) {
-		try {
-
-			dao = new workerDAO();
-
-			ArrayList certiList = dao.serchCertiInfo(code); // 인력목록 ArrayList 형태로 가져오기
-			String[][] certiContents = dao.workerList(certiList, header);
-			
-			certiModel.setNumRows(0);
-
-			for (int i = 0; i < certiContents.length; i++) {
-				certiModel.addRow(certiContents[i]);
-			}
-
-		} catch (Exception e1) {
-			// TODO: handle exception
-			JOptionPane.showMessageDialog(null, "대여목록 출력 실패 : " + e1.getMessage());
-		}
-	}
+	
 }
