@@ -36,7 +36,7 @@ public class WorkerContModify extends JFrame {
 	private JTextField accNameTx;
 	private JLabel contDateLabel_1;
 	private JLabel contDateLabel;
-	
+	private JLabel contStateLabel;
 	private WorkerInsertView workerInsertView = null;
 	private String workerCode;
 	
@@ -103,7 +103,7 @@ public class WorkerContModify extends JFrame {
 		this.id = idText;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 647);
+		setBounds(100, 100, 561, 641);
 		setLocationRelativeTo(null); // 창 가운데 정렬 - [JIN]
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 170, 76));
@@ -114,78 +114,78 @@ public class WorkerContModify extends JFrame {
 
 		JLabel reqContLabel = new JLabel("계약정보확인");
 		reqContLabel.setForeground(new Color(0, 0, 0));
-		reqContLabel.setBounds(12, 10, 132, 34);
-		reqContLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		reqContLabel.setBounds(223, 56, 113, 34);
+		reqContLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		contentPane.add(reqContLabel);
 
 		JPanel workerContPanel = new JPanel();
 		workerContPanel.setForeground(new Color(0, 0, 0));
 		workerContPanel.setBackground(new Color(0, 0, 0));
 		workerContPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		workerContPanel.setBounds(22, 154, 496, 128);
+		workerContPanel.setBounds(27, 150, 496, 128);
 		contentPane.add(workerContPanel);
 		workerContPanel.setLayout(null);
 
 		JLabel workerContSdateTitel = new JLabel("계약시작일");
 		workerContSdateTitel.setForeground(new Color(242, 170, 76));
-		workerContSdateTitel.setBounds(28, 31, 77, 27);
+		workerContSdateTitel.setBounds(31, 24, 77, 27);
 		workerContSdateTitel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		workerContPanel.add(workerContSdateTitel);
 
 		workerContSdateTx = new JTextField();
 		workerContSdateTx.setEditable(false);
-		workerContSdateTx.setBounds(117, 29, 116, 30);
+		workerContSdateTx.setBounds(120, 22, 116, 30);
 		workerContSdateTx.setColumns(10);
 		workerContPanel.add(workerContSdateTx);
 
 		JLabel workerContEdateTitel = new JLabel("계약만료일");
 		workerContEdateTitel.setForeground(new Color(242, 170, 76));
 		workerContEdateTitel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		workerContEdateTitel.setBounds(259, 32, 77, 27);
+		workerContEdateTitel.setBounds(262, 25, 77, 27);
 		workerContPanel.add(workerContEdateTitel);
 
 		workerContEdateTx = new JTextField();
 		workerContEdateTx.setEditable(false);
 		workerContEdateTx.setColumns(10);
-		workerContEdateTx.setBounds(348, 30, 116, 30);
+		workerContEdateTx.setBounds(351, 23, 116, 30);
 		workerContPanel.add(workerContEdateTx);
 
 		JLabel recontNumTitel = new JLabel("재계약횟수");
 		recontNumTitel.setForeground(new Color(242, 170, 76));
 		recontNumTitel.setBackground(new Color(255, 128, 128));
 		recontNumTitel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		recontNumTitel.setBounds(28, 85, 77, 27);
+		recontNumTitel.setBounds(31, 78, 77, 27);
 		workerContPanel.add(recontNumTitel);
 
 		recontNumTx = new JTextField();
 		recontNumTx.setEditable(false);
 		recontNumTx.setColumns(10);
-		recontNumTx.setBounds(117, 83, 116, 30);
+		recontNumTx.setBounds(120, 76, 116, 30);
 		workerContPanel.add(recontNumTx);
 
 		JLabel contPeriodLabel = new JLabel("계약기간");
 		contPeriodLabel.setForeground(new Color(242, 170, 76));
 		contPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contPeriodLabel.setBackground(new Color(255, 128, 128));
-		contPeriodLabel.setBounds(259, 85, 70, 27);
+		contPeriodLabel.setBounds(262, 78, 70, 27);
 		workerContPanel.add(contPeriodLabel);
 
 		contPeriodTx = new JTextField();
 		contPeriodTx.setEditable(false);
 		contPeriodTx.setColumns(10);
-		contPeriodTx.setBounds(348, 83, 116, 30);
+		contPeriodTx.setBounds(351, 76, 116, 30);
 		workerContPanel.add(contPeriodTx);
 
 		JLabel contPeriodLabel1 = new JLabel("계약기간");
 		contPeriodLabel1.setForeground(new Color(0, 0, 0));
 		contPeriodLabel1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contPeriodLabel1.setBounds(22, 129, 67, 15);
+		contPeriodLabel1.setBounds(27, 122, 67, 18);
 		contentPane.add(contPeriodLabel1);
 
 		contDateLabel = new JLabel("계약일 [계약일]");
 		contDateLabel.setForeground(new Color(0, 0, 0));
 		contDateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contDateLabel.setBounds(193, 478, 181, 28);
+		contDateLabel.setBounds(198, 485, 181, 28);
 		contentPane.add(contDateLabel);
 
 		JPanel accInfoPanel = new JPanel();
@@ -193,7 +193,7 @@ public class WorkerContModify extends JFrame {
 		accInfoPanel.setLayout(null);
 		accInfoPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		accInfoPanel.setBackground(new Color(0, 0, 0));
-		accInfoPanel.setBounds(22, 328, 496, 128);
+		accInfoPanel.setBounds(27, 328, 496, 128);
 		contentPane.add(accInfoPanel);
 
 		JLabel accNumLabel = new JLabel("입금계좌번호");
@@ -236,7 +236,7 @@ public class WorkerContModify extends JFrame {
 		JLabel accInfoLabel = new JLabel("수당지급정보");
 		accInfoLabel.setForeground(new Color(0, 0, 0));
 		accInfoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		accInfoLabel.setBounds(22, 303, 91, 15);
+		accInfoLabel.setBounds(27, 300, 91, 18);
 		contentPane.add(accInfoLabel);
 
 		JButton applyBtn = new JButton("확인");
@@ -253,7 +253,7 @@ public class WorkerContModify extends JFrame {
 			}
 		});
 		applyBtn.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		applyBtn.setBounds(161, 535, 210, 48);
+		applyBtn.setBounds(170, 538, 210, 48);
 		contentPane.add(applyBtn);
 		
 		
@@ -262,28 +262,30 @@ public class WorkerContModify extends JFrame {
 		Image changeImg = img.getScaledInstance(120, 100, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
 		
-		JLabel logoLabel = new JLabel(changeIcon);
-		logoLabel.setBounds(413, 10, 120, 100);
-		contentPane.add(logoLabel);
-		
 		JLabel workernumberLabel = new JLabel("고용계약번호");
 		workernumberLabel.setForeground(new Color(0, 0, 0));
 		workernumberLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		workernumberLabel.setBounds(12, 73, 101, 28);
+		workernumberLabel.setBounds(316, 100, 101, 28);
 		contentPane.add(workernumberLabel);
 		
 		JLabel workernumberLabel_1 = new JLabel("파견인력번호");
 		workernumberLabel_1.setForeground(new Color(0, 0, 0));
 		workernumberLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		workernumberLabel_1.setBounds(118, 73, 101, 28);
+		workernumberLabel_1.setBounds(422, 100, 101, 28);
 		workernumberLabel_1.setText(contCode);
 		contentPane.add(workernumberLabel_1);
 		
 		contDateLabel_1 = new JLabel("관리자 [관리자]");
 		contDateLabel_1.setForeground(new Color(0, 0, 0));
 		contDateLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		contDateLabel_1.setBounds(386, 478, 132, 28);
+		contDateLabel_1.setBounds(391, 485, 132, 28);
 		contentPane.add(contDateLabel_1);
+		
+		contStateLabel = new JLabel("New label");
+		contStateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
+		contStateLabel.setBounds(27, 26, 145, 26);
+		contentPane.add(contStateLabel);
+		
 		
 		Early(contCode,id);
 	}
@@ -294,18 +296,26 @@ public class WorkerContModify extends JFrame {
 
 		try {
 
-			String workerCode = code;
+			String contCode = code;
 			String mgrID = id;
 
 			dao = new workerDAO();
 
-			WorkerContVO workerVo = dao.workerCont(workerCode);
+			WorkerContVO workerVo = dao.workerCont(contCode);
 
+			workerContSdateTx.setText(workerVo.getWorkeContSdate());
+			workerContEdateTx.setText(workerVo.getWorkerContEdate());
+			recontNumTx.setText(String.valueOf(workerVo.getRecontNum()));
+			contPeriodTx.setText(workerVo.getContPeriod());
+			contStateLabel.setText("계약상태 : " + workerVo.getContState());
+			
+			
 			accNumTx.setText(String.valueOf(workerVo.getAccNum()));
 			accBankTx.setText(workerVo.getAccBank());
 			accNameTx.setText(workerVo.getAccName());
 
 			String now = String.valueOf(LocalDate.now());
+			
 			
 			contDateLabel.setText("계약일 " + now);
 
@@ -315,8 +325,7 @@ public class WorkerContModify extends JFrame {
 
 		} catch (Exception e) {
 
-			System.out.println(e.getMessage());
-
+			e.printStackTrace();
 		}
 
 	}

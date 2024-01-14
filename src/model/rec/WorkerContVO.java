@@ -9,11 +9,12 @@ public class WorkerContVO {
 	private String contPeriod,contDate;
 	private int mgrCode;
 	private String workerName,mgrID;
+	private String contState;
 	
 	
 	public WorkerContVO(int workerContCode, int workerCode,int accNum, 
 			String accBank, String accName, String workeContSdate, String workerContEdate,
-			int recontNum, String contPeriod, String contDate, int mgrCode) {
+			int recontNum, String contPeriod, String contDate, int mgrCode,String contState) {
 		
 		this.workerContCode = workerContCode;
 		this.workerCode = workerCode;
@@ -26,7 +27,7 @@ public class WorkerContVO {
 		this.contPeriod = contPeriod;
 		this.contDate = contDate;
 		this.mgrCode = mgrCode;
-		
+		this.contState = contState;
 	}
 	
 	public WorkerContVO(int workerContCode,int accNum,String accBank,String accName) {
@@ -59,6 +60,22 @@ public class WorkerContVO {
 	}
 	
 	
+	public String getMgrID() {
+		return mgrID;
+	}
+
+	public void setMgrID(String mgrID) {
+		this.mgrID = mgrID;
+	}
+
+	public String getContState() {
+		return contState;
+	}
+
+	public void setContState(String contState) {
+		this.contState = contState;
+	}
+
 	public String getWorkerName() {
 		return workerName;
 	}

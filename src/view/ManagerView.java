@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.LoginDAO;
@@ -370,6 +371,26 @@ public class ManagerView extends JFrame {
 		workerListPanel.setLayout(null);
 
 		workerListTB = new JTable(model);
+		
+		String[] workerHeader = { "파견인력번호", "이름", "전화번호", "나이", "경력내용", "경력기간" };
+		
+		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+		center.setHorizontalAlignment(JLabel.CENTER);
+		
+		workerListTB.getColumn("파견인력번호").setPreferredWidth(3);
+		workerListTB.getColumn("이름").setPreferredWidth(3);
+		workerListTB.getColumn("전화번호").setPreferredWidth(50);
+		workerListTB.getColumn("나이").setPreferredWidth(3);
+		workerListTB.getColumn("경력내용").setPreferredWidth(35);
+		workerListTB.getColumn("경력기간").setPreferredWidth(3);
+		
+		workerListTB.getColumn("파견인력번호").setCellRenderer(center);
+		workerListTB.getColumn("이름").setCellRenderer(center);
+		workerListTB.getColumn("전화번호").setCellRenderer(center);
+		workerListTB.getColumn("나이").setCellRenderer(center);
+		workerListTB.getColumn("경력내용").setCellRenderer(center);
+		workerListTB.getColumn("경력기간").setCellRenderer(center);
+		
 		workerListTB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

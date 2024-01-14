@@ -152,12 +152,13 @@ public class workerDAO {
 			
 			temp.add(res.getInt("WORKER_CONT_CODE"));
 			temp.add(res.getString("worker_name"));
-			temp.add(res.getString("WORKER_CONT_SDATE"));
-			temp.add(res.getString("WORKER_CONT_EDATE"));
-			temp.add(res.getString("CONT_DATE"));
+			temp.add(res.getString("WORKER_CONT_SDATE").substring(0,10));
+			temp.add(res.getString("WORKER_CONT_EDATE").substring(0,10));
+			temp.add(res.getString("CONT_DATE").substring(0,10));
 			temp.add(res.getString("CONT_STATE"));
 			
 			contList.add(temp);
+			
 		}
 		
 		res.close();
@@ -196,28 +197,65 @@ public class workerDAO {
 	}
 	
 	// 계약정보 출력 메소드
-	public WorkerContVO workerCont(String workerCode) throws Exception {
+	public WorkerContVO workerCont(String contCode) throws Exception {
+		
+		System.out.println(contCode);
 		
 		System.out.println("=======================================");
 		System.out.println("파견인력 계약정보 검색중");
 		
-		String sql = "select WORKER_CONT_CODE,ACC_NUM,ACC_BANK,ACC_NAME "
+		String sql = "select "
+				+ "WORKER_CONT_CODE,"// 계약번호
+				+ "WORKER_CODE," // 파견인력번호
+				+ "MGR_CODE," // 관리자 번호
+				+ "WORKER_CONT_SDATE," // 계약시작일
+				+ "WORKER_CONT_EDATE," // 계약만료일
+				+ "CONT_DATE," // 계약일
+				+ "CONT_PERIOD," // 계약기간
+				+ "RECONT_NUM,"  // 재계약횟수
+				+ "CONT_STATE," // 계약상태
+				+ "ACC_NUM," // 계좌번호 
+				+ "ACC_BANK," // 은행명
+				+ "ACC_NAME " // 예금주명
 				+ "from worker_cont "
-				+ "where worker_code = ?";
+				+ "where worker_cont_code = ?";
 
 		ps = conn.prepareStatement(sql);		
-		ps.setString(1, workerCode);
+		ps.setInt(1, Integer.parseInt(contCode));
 
 		ResultSet res = ps.executeQuery();
 
 		WorkerContVO vo = null;
+		
 		if (res.next()) {
+			
 			int workerContCode = res.getInt("WORKER_CONT_CODE");
+			int workerCode = res.getInt("WORKER_CODE");
+			int mgrCode = res.getInt("MGR_CODE");
+			String workeContSdate = res.getString("WORKER_CONT_SDATE").substring(0,10);
+			String workerContEdate = res.getString("WORKER_CONT_EDATE").substring(0,10);
+			String contDate = res.getString("CONT_DATE");
+			String contPeriod = res.getString("CONT_PERIOD");
+			int recontNum = res.getInt("RECONT_NUM");
+			String contState = res.getString("CONT_STATE");
 			int accNum = res.getInt("ACC_NUM");
 			String accBank = res.getString("ACC_BANK");
 			String accName = res.getString("ACC_NAME");
 			
-			vo = new WorkerContVO(workerContCode, accNum, accBank, accName);
+			vo = new WorkerContVO(
+					workerContCode,
+					workerCode,
+					accNum,
+					accBank,
+					accName,
+					workeContSdate,
+					workerContEdate,
+					recontNum,
+					contPeriod,
+					contDate,
+					mgrCode,
+					contState);
+			
 		}
 		
 		System.out.println("파견인력 계약정보 검색완료");
@@ -279,12 +317,11 @@ public class workerDAO {
 				+ "?,"  // 계약기간
 				+ "?," // 계약일
 				+ "(select mgr_code from mgr where mgr_id = ?)," // 관리자 코드
-				+ "CONT_STATE)"; // 요청상태
+				+ "?)"; // 요청상태
 		
 		ps = conn.prepareStatement(sql);
 		ps.setInt(1, vo.getWorkerCode());
 		ps.setString(2, vo.getWorkeContSdate());
-		System.out.println(vo.getWorkeContSdate());
 		ps.setString(3, vo.getWorkerContEdate());
 		ps.setInt(4, vo.getWorkerCode());
 		ps.setString(5, null);
@@ -296,5 +333,21 @@ public class workerDAO {
 		ps.close();
 		return state;
 		
+	}
+	
+	// 파견인력 최근 계약만료일 출력 메소드
+	public String workerEdateOut(String workerCode) throws Exception {
+
+		String sql = "select max(worker_cont_edate) from worker_cont " + "where worker_code = '" + workerCode + "'";
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+		
+		String eDate = null;
+		if(res.next()) {
+			eDate = res.getString("max(worker_cont_edate)");
+		}
+		
+		return eDate;
 	}
 }

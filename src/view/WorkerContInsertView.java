@@ -301,6 +301,7 @@ public class WorkerContInsertView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				workerContInsert();
+				dispose();
 			
 			}
 		});
@@ -343,24 +344,24 @@ public class WorkerContInsertView extends JFrame {
 				+ "mgr_code " // 관리자 코드
 		 */
 		try {
-			
+
 			dao = new workerDAO();
-			
+
 			String sDate = contSdateTx.getText();
 			String eDate = workerContEdateTx.getText();
 			String period =  contPeriodCombox.getSelectedItem().toString();
 			String contDate = contDateTx.getText();
-			
+
 			WorkerContVO vo = new WorkerContVO(Integer.parseInt(workerCode),sDate,eDate,period,contDate,mgrID);
-			
+
 			int state = dao.workerContInsert(vo,mgrID);
-			
-			if(state == 0) {
-				System.out.println("등록 성공 !");
+
+			if(state > 0) {
+				System.out.println("등록성공!");
 			}else {
-				System.out.println("등록 실패 !");
+				System.out.println("등록실패!");
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
