@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 
 import model.workerDAO;
 import java.awt.event.MouseEvent;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JButton;
 
 public class SameContCode extends JFrame {
 
@@ -27,7 +29,7 @@ public class SameContCode extends JFrame {
 	private String[] contHeader = {"계약번호", "이름", "계약시작일", "계약만료일", "계약일","계약상태"};
 	private String[][] contents = null;
 	
-	private String codeText = null;
+	private String workerCode = null;
 	private String idText = null;
 //	private ActionListener viewText = null;
 	
@@ -56,6 +58,7 @@ public class SameContCode extends JFrame {
 	 * Create the frame.
 	 */
 	public SameContCode() {
+		getContentPane().setBackground(new Color(242, 170, 76));
 		
 
 		this.sameContCodeAction("test","test");
@@ -68,7 +71,7 @@ public class SameContCode extends JFrame {
 	
 	public SameContCode(String codeValue, String id) {
 		
-		this.codeText = codeValue;
+		this.workerCode = codeValue;
 		this.idText = id;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,7 +97,16 @@ public class SameContCode extends JFrame {
 			}
 		};
 		
-		table = new JTable(defaultModel);
+		table = new JTable(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"\uACC4\uC57D\uBC88\uD638", "\uC774\uB984", "\uACC4\uC57D\uC2DC\uC791\uC77C", "\uACC4\uC57D\uB9CC\uB8CC\uC77C", "\uACC4\uC57D\uC77C", "\uACC4\uC57D\uC0C1\uD0DC"
+			}
+		));
+		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		table.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		table.setBackground(new Color(16, 24, 32));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -116,7 +128,7 @@ public class SameContCode extends JFrame {
 				
 			}
 		});
-		table.setBounds(12, 35, 410, 164);
+		table.setBounds(1, 27, 408, 167);
 		getContentPane().add(table);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -127,6 +139,23 @@ public class SameContCode extends JFrame {
 		scrollPane.setBounds(0, 0, 410, 164);
 		panel.add(scrollPane);
 		
+		JButton btnNewButton = new JButton("신규등록");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				new WorkerContInsertView(0).workerContAction(workerCode,id);
+				dispose();	
+				
+			}
+		});
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		btnNewButton.setBackground(new Color(16, 24, 32));
+		btnNewButton.setBounds(325, 6, 97, 23);
+		getContentPane().add(btnNewButton);
+		
 		
 	}
 	
@@ -134,7 +163,7 @@ public class SameContCode extends JFrame {
 		try {
 			
 			dao = new workerDAO();
-			ArrayList contList = dao.workerContInfo(codeText);
+			ArrayList contList = dao.workerContInfo(workerCode);
 			String[][] contContent = dao.workerList(contList, contHeader);
 			
 			for(int i=0; i<contContent.length; i++) {
@@ -147,4 +176,5 @@ public class SameContCode extends JFrame {
 			System.out.println(e.getMessage());
 		}
 	}
+
 }

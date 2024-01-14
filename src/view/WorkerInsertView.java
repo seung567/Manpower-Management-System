@@ -256,7 +256,7 @@ public class WorkerInsertView extends JFrame {
 		workerInsertBtn.setForeground(new Color(255, 255, 255));
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WorkerContInsertView().Action();
+//				new WorkerContInsertView().Action();
 			}
 		});
 

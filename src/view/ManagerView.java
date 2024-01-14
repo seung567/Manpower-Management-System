@@ -313,12 +313,12 @@ public class ManagerView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				String codeValue = workerCodeLabel.getText();
+				String workerCode = workerCodeLabel.getText();
 				
-				if (codeValue != "") {
+				if (workerCode != "") {
 					
 //					new WorkerContInfoView(0).workerContAtion(codeValue,id);
-					new SameContCode(0).sameContCodeAction(codeValue,id);
+					new SameContCode(0).sameContCodeAction(workerCode,id);
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "파견인력을 선택 하여 주세요");

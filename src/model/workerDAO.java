@@ -15,7 +15,8 @@ public class workerDAO {
 
 	private Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
+//	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
+	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
 	String user = "worker";
 	String pw = "1111";
 	Statement stmt = null;
@@ -37,7 +38,9 @@ public class workerDAO {
 		System.out.println("=====================================");
 		
 	}
-
+	
+	
+	// 인력 상세정보 DAO
 	public WorkerVO workerInfoSerch(String code) throws Exception {
 		workervo = new WorkerVO();
 
@@ -65,6 +68,7 @@ public class workerDAO {
 
 	} // WorkerVO 메소드 끝
 
+	// 인력목록 출력 메소드
 	public ArrayList serchWorkerInfo() throws Exception {
 
 		String sql = "select" + " worker_code,worker_name,worker_tel," + " worker_age,career_detail,career_period"
@@ -94,7 +98,8 @@ public class workerDAO {
 
 		return workerList;
 	}
-
+	
+	// 자격증 목록 출력 메소드
 	public ArrayList serchCertiInfo(String workerCode) throws Exception {
 
 
@@ -127,6 +132,7 @@ public class workerDAO {
 		return certiList;
 	}
 	
+	// 인력별 계약 목록 출력 메소드
 	public ArrayList workerContInfo(String workerCode) throws Exception {
 		
 		
@@ -159,7 +165,8 @@ public class workerDAO {
 		
 		return contList;
 	}
-
+	
+	// ArrayList 2차원 배열 변환 메소드
 	public String[][] workerList(ArrayList list, String[] col) throws Exception {
 
 		String[][] result = new String[list.size()][col.length];
@@ -181,12 +188,14 @@ public class workerDAO {
 		return result;
 
 	}
-
+	
+	
 	public String mgrName(String id) {
 
 		return null;
 	}
-
+	
+	// 계약정보 출력 메소드
 	public WorkerContVO workerCont(String workerCode) throws Exception {
 		
 		System.out.println("=======================================");
@@ -218,6 +227,7 @@ public class workerDAO {
 
 	}
 	
+	// 관리자 정보 출력 메소드
 	public MgrVO mgrNameSerch(String id) throws Exception  {
 		
 		System.out.println("=======================================");
@@ -247,9 +257,44 @@ public class workerDAO {
 		
 	}
 	
-	public void workerContInsert(WorkerContVO vo, String id) {
+	// 인력 계약정보 입력 메소드
+	public int workerContInsert(WorkerContVO vo, String id) throws Exception {
 		
-		String sql = 
+		String sql = "insert into worker_cont("
+				+ "worker_cont_code," // 고용계약번호
+				+ "worker_code," // 인력번호
+				+ "worker_cont_sdate," // 계약시작일
+				+ "worker_cont_edate," // 계약만료일
+				+ "recont_num," // 재계약횟수
+				+ "cont_period," // 계약기간
+				+ "cont_date," // 계약일
+				+ "mgr_code,"
+				+ "CONT_STATE) " // 관리자 코드
+				+ "values("
+				+ "worker_cont_sq.nextval," // 고용계약번호
+				+ "?," // 인력번호
+				+ "?," // 계약시작일
+				+ "?," // 계약만료일
+				+ "(select count(worker_name) from worker where worker_code = ? group by worker_name)," // 재계약횟수
+				+ "?,"  // 계약기간
+				+ "?," // 계약일
+				+ "(select mgr_code from mgr where mgr_id = ?)," // 관리자 코드
+				+ "CONT_STATE)"; // 요청상태
+		
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, vo.getWorkerCode());
+		ps.setString(2, vo.getWorkeContSdate());
+		System.out.println(vo.getWorkeContSdate());
+		ps.setString(3, vo.getWorkerContEdate());
+		ps.setInt(4, vo.getWorkerCode());
+		ps.setString(5, null);
+		ps.setString(6, vo.getContDate());
+		ps.setString(7, id);
+		ps.setString(8, "계약요청");
+		
+		int state = ps.executeUpdate();
+		ps.close();
+		return state;
 		
 	}
 }

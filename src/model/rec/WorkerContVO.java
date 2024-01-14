@@ -8,7 +8,7 @@ public class WorkerContVO {
 	private int recontNum;
 	private String contPeriod,contDate;
 	private int mgrCode;
-	private String workerName;
+	private String workerName,mgrID;
 	
 	
 	public WorkerContVO(int workerContCode, int workerCode,int accNum, 
@@ -38,6 +38,16 @@ public class WorkerContVO {
 		
 	}
 	
+	public WorkerContVO(int workerCode, String workeContSdate, String workerContEdate, String contPeriod,String contDate, String mgrID) {
+		
+		this.workerCode = workerCode;
+		this.workeContSdate = workeContSdate;
+		this.workerContEdate = workerContEdate;
+		this.contPeriod = contPeriod;
+		this.contDate = contDate;
+		this.mgrID = mgrID;
+		
+	}
 	public WorkerContVO(String workeContSdate, String workerContEdate, int recontNum, String contPeriod,String contDate) {
 		
 		this.workeContSdate = workeContSdate;
