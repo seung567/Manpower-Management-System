@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import model.workerDAO;
+import model.managerWorkerDAO;
 import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 import model.rec.WorkerVO;
@@ -46,7 +46,7 @@ public class WorkerContInsertView extends JFrame {
 	
 	private WorkerInsertView workerInsertView = null;
 
-	private workerDAO dao = null;
+	private managerWorkerDAO dao = null;
 	private String[] contPeriod = {"1년","3년","5년"};
 	
 	private String mgrID;
@@ -314,7 +314,7 @@ public class WorkerContInsertView extends JFrame {
 		
 		try {
 			
-			dao = new workerDAO();
+			dao = new managerWorkerDAO();
 			WorkerVO vo = dao.workerInfoSerch(workerCode);
 			
 			workekNameTx.setText(vo.getWorkerName());
@@ -345,7 +345,7 @@ public class WorkerContInsertView extends JFrame {
 		 */
 		try {
 
-			dao = new workerDAO();
+			dao = new managerWorkerDAO();
 
 			String sDate = contSdateTx.getText();
 			String eDate = workerContEdateTx.getText();
