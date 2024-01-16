@@ -18,7 +18,7 @@ public class managerWorkerDAO {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
 	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
+	String user = "worker2";
 	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
@@ -45,9 +45,10 @@ public class managerWorkerDAO {
 	public WorkerVO workerInfoSerch(String code) throws Exception {
 		workervo = new WorkerVO();
 
-		String sql = "select" + " worker_name, worker_age, worker_tel," // 이름 , 나이 , 연락처
-				+ " worker_email, career_period, career_detail" // 이메일 , 경력기간 , 경력내용
-				+ " from worker" + " where worker_code = " + code;
+		String sql = "select"
+				+ " w.worker_name, w.worker_age, w.worker_tel," // 이름 , 나이 , 연락처
+				+ " w.worker_email, c.career_sdate, c.career_detail" // 이메일 , 경력기간 , 경력내용
+				+ " from worker w, worker_career c where w.worker_code = c.worker_code and w.worker_code = " + code;
 
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
@@ -58,7 +59,7 @@ public class managerWorkerDAO {
 			workervo.setWorkerAge(res.getString("worker_age")); // 나이
 			workervo.setWorkerTel(res.getString("worker_tel")); // 연락처
 			workervo.setWorkerEmail(res.getString("worker_email")); // 이메일
-			workervo.setCareerPeriod(res.getString("career_period")); // 경력기간
+			workervo.setCareerPeriod(res.getString("career_sdate")); // 경력기간
 			workervo.setCareerDetail(res.getString("career_detail")); // 경력내용
 		} // end if
 
@@ -72,7 +73,7 @@ public class managerWorkerDAO {
 	// 인력목록 출력 메소드
 	public ArrayList serchWorkerInfo() throws Exception {
 
-		String sql = "select" + " worker_code,worker_name,worker_tel," + " worker_age,career_detail,career_period"
+		String sql = "select" + " worker_code,worker_name,worker_tel," + " worker_age "
 				+ " from worker" + " order by worker_code";
 
 		stmt = conn.createStatement();
@@ -88,8 +89,8 @@ public class managerWorkerDAO {
 			temp.add(res.getString("worker_name"));
 			temp.add(res.getString("worker_tel"));
 			temp.add(res.getString("worker_age"));
-			temp.add(res.getString("career_detail"));
-			temp.add(res.getString("career_period"));
+			temp.add(null);
+			temp.add(null);
 
 			workerList.add(temp);
 		}

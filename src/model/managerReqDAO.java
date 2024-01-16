@@ -19,7 +19,7 @@ public class managerReqDAO {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
 	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
+	String user = "worker2";
 	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
@@ -44,24 +44,17 @@ public class managerReqDAO {
 	// 파견요청 목록 출력 메소드
 	public ArrayList reqList() throws Exception {
 
-
-
-		String sql = "select "
-				+ "req.req_code,"
-				+ "cust.cust_name,"
-				+ "country.country_name,"
-				+ "city.city_name,"
-				+ "to_char(req.total_cost,'999,999,999') total,"
-				+ "req.EXPEC_SDATE,"
-				+ "cont.req_cont_code,"
-				+ "cont.req_cont_ck " // 계약성사여부
-				+ "from req req,req_cont cont,cust cust, country country, city city "
-				+ "where "
-				+ "req.cust_code = cust.cust_code and "
-				+ "country.country_code  = (select country_code from city c where c.city_code = req.city_code) and "
-				+ "req.city_code = city.city_code and "
-				+ "req.req_code = cont.req_code(+) "
-				+ "order by 1";
+		String sql = "select"
+				+ " req.req_code,"
+				+ "	cust_name,"
+				+ "	country_name,"
+				+ "	city_name,"
+				+ "	to_char(req.total_cost,'999,999,999') total,"
+				+ "	req.EXPEC_SDATE "
+				+ "from req req,cust cust, country country, city city "
+				+ "where req.cust_code = cust.cust_code and "
+				+ "country.country_code = (select country_code from city c where c.city_code = req.city_code) and "
+				+ "req.city_code = city.city_code";
 		
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
@@ -78,16 +71,9 @@ public class managerReqDAO {
 			temp.add(res.getString("city_name"));
 			temp.add(res.getString("total"));
 			temp.add(res.getString("EXPEC_SDATE").substring(0,10));
-			
-			if(res.getString("req_cont_ck") == null) {
-				temp.add("파견요청");
-			}else if(res.getString("req_cont_ck").equals("계약요청")){
-				temp.add("계약요청");
-			}else if(res.getString("req_cont_ck").equals("계약승인")) {
-				temp.add("계약승인");
-			}else {
-				temp.add("확인필요");
-			}
+			temp.add(null);
+			temp.add(null);
+
 				
 			reqList.add(temp);
 
@@ -97,6 +83,7 @@ public class managerReqDAO {
 		stmt.close();
 
 		return reqList;
+		
 	}
 	
 	
@@ -171,30 +158,30 @@ public class managerReqDAO {
 	
 	public ReqVO serachReqInfo(int reqCodeValue) throws Exception  {
 
-		String sql = "select "
+		String sql = "SELECT "
 				+ "r.REQ_CODE,"
-				+ "r.EXPEC_SDATE,"
-				+ "r.EXPEC_EDATE,"
-				+ "r.LOCAL,"
-				+ "r.ETC_REQ,"
-				+ "city.CITY_NAME,"
-				+ "r.WORKER_NUM,"
-				+ "cust.cust_name,"
-				+ "to_char(r.TOTAL_COST,'999,999,999') total,"
-				+ "r.SEX,"
-				+ "r.AGE_RANGE,"
-				+ "r.QUALI,"
-				+ "s.SECTOR_NAME,"
-				+ "r.REQ_LANG_LEVEL,"
-				+ "l.LANG_LEVEL," //
-				+ "r.LOCAL_LANG_LEVEL,"
-				+ "c.req_cont_code "
-				+ "from req r, req_cont c, lang l,sector s,cust cust,city city "
-				+ "where r.req_code = c.req_code(+) and "
-				+ "r.lang_code = l.lang_code and "
-				+ "r.sector_code = s.sector_code and "
-				+ "r.cust_code =  cust.cust_code and "
-				+ "r.req_code = " + reqCodeValue;
+				+ "r.EXPEC_SDATE, "
+				+ "r.EXPEC_EDATE, "
+				+ "r.LOCAL, "
+				+ "r.ETC_REQ, "
+				+ "city.CITY_NAME, "
+                + "r.WORKER_NUM, "
+                + "cust.cust_name, "
+                + "TO_CHAR(r.TOTAL_COST, '999,999,999') AS total, "
+                + "r.SEX, "
+                + "r.AGE_RANGE, "
+                + "r.QUALI, "
+                + "s.SECTOR_NAME, "
+                + "r.REQ_LANG_LEVEL, "
+                + "l.LANG_LEVEL, "
+                + "r.LOCAL_LANG_LEVEL "
+                + "FROM req r, lang l, sector s, cust cust, city city "
+                + "WHERE "
+                + "r.city_code = city.city_code AND "
+                + "r.cust_code = cust.cust_code AND "
+                + "r.sector_code = s.sector_code AND "
+                + "r.lang_code = l.lang_code AND "
+                + "r.req_code = '" + reqCodeValue + "'";
 		
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
