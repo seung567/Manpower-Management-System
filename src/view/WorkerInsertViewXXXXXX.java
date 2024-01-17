@@ -25,7 +25,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.CompoundBorder;
 
-public class WorkerInsertView extends JFrame {
+public class WorkerInsertViewXXXXXX extends JFrame {
 
 	private JPanel workerInsertMainPanel;
 	private JTextField workerIDTx;
@@ -47,7 +47,7 @@ public class WorkerInsertView extends JFrame {
 			public void run() {
 				try {
 					// 기본 프레임 명령어
-					WorkerInsertView frame = new WorkerInsertView();
+					WorkerInsertViewXXXXXX frame = new WorkerInsertViewXXXXXX();
 					frame.setVisible(true);
 
 					// 팝업창 x 버튼 누를시 창만 꺼지게 해주는 명령어
@@ -77,7 +77,7 @@ public class WorkerInsertView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorkerInsertView() {
+	public WorkerInsertViewXXXXXX() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 491, 643);
 		workerInsertMainPanel = new JPanel();
@@ -256,7 +256,7 @@ public class WorkerInsertView extends JFrame {
 		workerInsertBtn.setForeground(new Color(255, 255, 255));
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerContInsertView().Action();
+//				new reqrContInsertView().Action();
 			}
 		});
 
@@ -274,7 +274,7 @@ public class WorkerInsertView extends JFrame {
 		workerInsertMainPanel.add(logoLabel);
 	}
 
-	public WorkerInsertView getInstance() {
+	public WorkerInsertViewXXXXXX getInstance() {
 		return this;
 	}
 }

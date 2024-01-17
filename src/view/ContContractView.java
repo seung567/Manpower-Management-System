@@ -27,7 +27,7 @@ public class ContContractView extends JFrame {
 	private JPanel contentPane;
 
 	
-	WorkerInsertView workerInsertView = null;
+	WorkerInsertViewXXXXXX workerInsertViewXXXXXX = null;
 	private JTextField textField;
 	private JTextField textField_1;
 	/**
@@ -96,7 +96,7 @@ public class ContContractView extends JFrame {
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				workerInsertView.dispose();
+				workerInsertViewXXXXXX.dispose();
 			
 			}
 		});

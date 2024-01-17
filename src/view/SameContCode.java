@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.managerWorkerDAO;
+import model.ManagerWorkerDAO;
 
 public class SameContCode extends JFrame {
 
@@ -38,7 +38,7 @@ public class SameContCode extends JFrame {
 	private String idText = null;
 	// private ActionListener viewText = null;
 
-	private managerWorkerDAO dao = null;
+	private ManagerWorkerDAO dao = null;
 
 	/**
 	 * Launch the application.
@@ -145,59 +145,14 @@ public class SameContCode extends JFrame {
 		scrollPane.setBounds(0, 0, 493, 210);
 		panel.add(scrollPane);
 
-		JButton btnNewButton = new JButton("신규등록");
-
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		btnNewButton.setBackground(new Color(16, 24, 32));
-		btnNewButton.setBounds(408, 6, 97, 23);
-		getContentPane().add(btnNewButton);
-
 		workerContList();
-
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				try {
-
-					dao = new managerWorkerDAO();
-					Date endDate = dao.workerEdateOut(workerCode);
-
-					if (endDate != null) {
-
-						Date date = new Date();
-
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-
-						String dateStr = format.format(date);
-						Date now = format.parse(dateStr);
-
-						if (endDate.after(now)) {
-							JOptionPane.showMessageDialog(null, "현재 계약중인 파견인력 입니다.");
-						} else {
-							new WorkerContInsertView(0).workerContAction(workerCode, id);
-							dispose();
-						}
-					} else {
-						new WorkerContInsertView(0).workerContAction(workerCode, id);
-						dispose();
-					}
-
-				} catch (Exception e1) {
-					// TODO: handle exception
-					e1.printStackTrace();
-				}
-
-			}
-		});
 
 	}
 
 	public void workerContList() {
 		try {
 
-			dao = new managerWorkerDAO();
+			dao = new ManagerWorkerDAO();
 			ArrayList contList = dao.workerContInfo(workerCode);
 			String[][] contContent = dao.workerList(contList, contHeader);
 

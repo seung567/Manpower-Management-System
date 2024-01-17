@@ -24,6 +24,13 @@ public class CustVO {
 		this.custSector = custSector;
 
 	}
+	
+	public CustVO(int custCode, String custName) {
+		
+		this.custCode = custCode;
+		this.custName = custName;
+		
+	}
 
 	public int getCustCode() {
 		return custCode;

@@ -26,11 +26,13 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.managerReqDAO;
-import model.managerWorkerDAO;
+import model.CareerDAO;
+import model.ManagerReqDAO;
+import model.ManagerWorkerDAO;
 import model.rec.ReqVO;
 import model.rec.WorkerVO;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableModel;
 
 public class ManagerView extends JFrame {
 
@@ -39,28 +41,12 @@ public class ManagerView extends JFrame {
 	private JTextField workerTelTx;
 	private JTextField workerAgeTx;
 	private JTextField workerEmailTx;
-
-	private JTextField careerDetailTx;
 	private JTable workerListTB;
 	private JTable certiTB;
 	private JLabel careerPeriodLabel_value;
 	private JLabel workerCodeLabel;
 	private JLabel reqCodeLabel;
 
-	// RecentListTableModel rListTable;
-	private DefaultTableModel model;
-	private DefaultTableModel certiModel;
-	private DefaultTableModel reqModel;
-	private DefaultTableModel reqContModel;
-	
-	private DefaultTableCellRenderer center;
-	private managerWorkerDAO dao = null;
-	private managerReqDAO reqDao = null;
-	private String[][] contents = null;
-	private String[] workerHeader = { "파견인력번호", "이름", "전화번호", "나이", "경력내용", "경력기간" };
-	private String[] certiHeader = { "관리번호", "자격증명", "자격번호", "취득일", "유효기간" };
-	private String[] reqHeader = { "파견요청번호", "업체명", "국가명", "도시명", "파견비용", "예상근무시작일", "요청상태", "지원현황" };
-    private String[] reqContHeader = {"계약번호", "계약체결일", "계약만기일", "실근무시작일", "실근무종료일", "계약만기사유", "정산여부"};
 
 	String id;
 	private JTable reqTB;
@@ -88,6 +74,25 @@ public class ManagerView extends JFrame {
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
+	private JTable careerTB;
+	
+	// RecentListTableModel rListTable;
+	private DefaultTableModel model;
+	private DefaultTableModel certiModel;
+	private DefaultTableModel reqModel;
+	private DefaultTableModel reqContModel;
+	private DefaultTableModel careerModel;
+	
+	private DefaultTableCellRenderer center;
+	private ManagerWorkerDAO dao = null;
+	private ManagerReqDAO reqDao = null;
+	private CareerDAO careerDao = null;
+	private String[][] contents = null;
+	private String[] workerHeader = { "파견인력번호", "이름", "전화번호", "나이", "기술분야" };
+	private String[] certiHeader = { "관리번호", "자격증명", "자격번호", "취득일", "유효기간" };
+	private String[] reqHeader = { "파견요청번호", "업체명", "국가명", "도시명", "파견비용", "예상근무시작일", "승인처리" };
+	private String[] reqContHeader = {"파견계약번호", "파견요청번호", "계약성사여부", "계약체결일", "계약만기일", "계약만기사유", "업체정산여부"};
+	private String[] careerHeader = {"업체명","직무시작일","직무종료일","경력내용"};
 
 	/**
 	 * Launch the application.
@@ -198,6 +203,13 @@ public class ManagerView extends JFrame {
 			}
 		};
 		
+		careerModel = new DefaultTableModel(contents, careerHeader) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
 		JTabbedPane managerMainTab = new JTabbedPane(JTabbedPane.TOP);
 		managerMainTab.setBorder(null);
 
@@ -240,7 +252,7 @@ public class ManagerView extends JFrame {
 		workerInfoPanel.setBackground(new Color(16, 24, 32));
 		workerInfoPanel
 				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		workerInfoPanel.setBounds(790, 46, 498, 427);
+		workerInfoPanel.setBounds(774, 46, 619, 565);
 		workerManagePanel.add(workerInfoPanel);
 		workerInfoPanel.setLayout(null);
 
@@ -248,14 +260,14 @@ public class ManagerView extends JFrame {
 		workerCodeLabel.setForeground(new Color(242, 170, 76));
 		workerCodeLabel.setHorizontalAlignment(JLabel.RIGHT);
 		workerCodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerCodeLabel.setBounds(379, 10, 107, 31);
+		workerCodeLabel.setBounds(500, 10, 107, 31);
 		workerInfoPanel.add(workerCodeLabel);
 
 		JLabel workerNameLabel = new JLabel("이름");
 		workerNameLabel.setForeground(new Color(242, 170, 76));
 		workerNameLabel.setBackground(new Color(242, 170, 76));
 		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerNameLabel.setBounds(28, 21, 84, 31);
+		workerNameLabel.setBounds(28, 72, 84, 31);
 		workerInfoPanel.add(workerNameLabel);
 
 		workerNameTx = new JTextField();
@@ -269,7 +281,7 @@ public class ManagerView extends JFrame {
 			}
 		});
 		workerNameTx.setToolTipText("");
-		workerNameTx.setBounds(102, 21, 107, 31);
+		workerNameTx.setBounds(102, 72, 107, 31);
 		workerInfoPanel.add(workerNameTx);
 		workerNameTx.setColumns(10);
 
@@ -277,54 +289,54 @@ public class ManagerView extends JFrame {
 		workerTelLabel.setForeground(new Color(242, 170, 76));
 		workerTelLabel.setBackground(new Color(242, 170, 76));
 		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerTelLabel.setBounds(28, 103, 84, 31);
+		workerTelLabel.setBounds(28, 123, 84, 31);
 		workerInfoPanel.add(workerTelLabel);
 
 		workerTelTx = new JTextField();
 		workerTelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerTelTx.setEditable(false);
 		workerTelTx.setColumns(10);
-		workerTelTx.setBounds(102, 103, 107, 31);
+		workerTelTx.setBounds(102, 124, 107, 31);
 		workerInfoPanel.add(workerTelTx);
 
 		JLabel workerAgeLabel = new JLabel("나이");
 		workerAgeLabel.setForeground(new Color(242, 170, 76));
 		workerAgeLabel.setBackground(new Color(242, 170, 76));
 		workerAgeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerAgeLabel.setBounds(28, 62, 84, 31);
+		workerAgeLabel.setBounds(244, 71, 84, 31);
 		workerInfoPanel.add(workerAgeLabel);
 
 		workerAgeTx = new JTextField();
 		workerAgeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerAgeTx.setEditable(false);
 		workerAgeTx.setColumns(10);
-		workerAgeTx.setBounds(102, 62, 107, 31);
+		workerAgeTx.setBounds(329, 71, 62, 31);
 		workerInfoPanel.add(workerAgeTx);
 
 		JLabel careerPeriodLabel = new JLabel("경력기간");
 		careerPeriodLabel.setForeground(new Color(242, 170, 76));
 		careerPeriodLabel.setBackground(new Color(242, 170, 76));
 		careerPeriodLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerPeriodLabel.setBounds(28, 149, 62, 31);
+		careerPeriodLabel.setBounds(28, 201, 62, 31);
 		workerInfoPanel.add(careerPeriodLabel);
 
 		workerEmailTx = new JTextField();
 		workerEmailTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerEmailTx.setEditable(false);
 		workerEmailTx.setColumns(10);
-		workerEmailTx.setBounds(290, 103, 180, 31);
+		workerEmailTx.setBounds(329, 123, 213, 31);
 		workerInfoPanel.add(workerEmailTx);
 
 		JLabel certiLabel = new JLabel("취득 자격증");
 		certiLabel.setForeground(new Color(242, 170, 76));
 		certiLabel.setBackground(new Color(242, 170, 76));
 		certiLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		certiLabel.setBounds(28, 273, 84, 31);
+		certiLabel.setBounds(28, 408, 84, 31);
 		workerInfoPanel.add(certiLabel);
 
 		JPanel certiPanel = new JPanel();
 		certiPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		certiPanel.setBounds(28, 304, 443, 92);
+		certiPanel.setBounds(28, 449, 557, 92);
 		workerInfoPanel.add(certiPanel);
 
 		certiPanel.setLayout(null);
@@ -340,38 +352,49 @@ public class ManagerView extends JFrame {
 		certiTB.setModel(certiModel);
 
 		JScrollPane certiTBscrollPane = new JScrollPane(certiTB);
-		certiTBscrollPane.setBounds(0, 0, 443, 92);
+		certiTBscrollPane.setBounds(0, 0, 557, 92);
 		certiPanel.add(certiTBscrollPane);
 
 		JLabel careerPeriodLabel_value = new JLabel("[경력기간]");
 		careerPeriodLabel_value.setForeground(new Color(242, 170, 76));
 		careerPeriodLabel_value.setBackground(new Color(242, 170, 76));
 		careerPeriodLabel_value.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerPeriodLabel_value.setBounds(102, 149, 84, 31);
+		careerPeriodLabel_value.setBounds(102, 201, 84, 31);
 		workerInfoPanel.add(careerPeriodLabel_value);
 
 		JLabel workerEmailLabel = new JLabel("이메일");
 		workerEmailLabel.setForeground(new Color(242, 170, 76));
 		workerEmailLabel.setBackground(new Color(242, 170, 76));
 		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerEmailLabel.setBounds(221, 103, 67, 31);
+		workerEmailLabel.setBounds(244, 122, 67, 31);
 		workerInfoPanel.add(workerEmailLabel);
 
 		JLabel careerDetailLabel = new JLabel("경력내용");
 		careerDetailLabel.setForeground(new Color(242, 170, 76));
 		careerDetailLabel.setBackground(new Color(242, 170, 76));
 		careerDetailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		careerDetailLabel.setBounds(28, 190, 67, 31);
+		careerDetailLabel.setBounds(28, 266, 67, 31);
 		workerInfoPanel.add(careerDetailLabel);
+		
+		JPanel careerPanel = new JPanel();
+		careerPanel.setLayout(null);
+		careerPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		careerPanel.setBounds(28, 307, 557, 92);
+		workerInfoPanel.add(careerPanel);
+		
+		careerTB = new JTable(careerModel);
+		careerTB.setEnabled(false);
+		careerTB.setColumnSelectionAllowed(true);
+		careerTB.setCellSelectionEnabled(true);
+		careerTB.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		careerTB.setBounds(28, 307, 557, 92);
+		careerPanel.add(careerTB);
+		
+		JScrollPane certiTBscrollPane_1 = new JScrollPane(careerTB);
+		certiTBscrollPane_1.setBounds(0, 0, 557, 92);
+		careerPanel.add(certiTBscrollPane_1);
 
-		careerDetailTx = new JTextField();
-		careerDetailTx.setHorizontalAlignment(SwingConstants.CENTER);
-		careerDetailTx.setEditable(false);
-		careerDetailTx.setColumns(10);
-		careerDetailTx.setBounds(28, 219, 443, 56);
-		workerInfoPanel.add(careerDetailTx);
-
-		JButton workerReqInfoBtn = new JButton("계약정보확인");
+		JButton workerReqInfoBtn = new JButton("계약내역확인");
 		workerReqInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerReqInfoBtn.setBackground(new Color(16, 24, 32));
 		workerReqInfoBtn.setForeground(new Color(255, 255, 255));
@@ -393,7 +416,7 @@ public class ManagerView extends JFrame {
 			}
 		});
 
-		workerReqInfoBtn.setBounds(819, 483, 142, 46);
+		workerReqInfoBtn.setBounds(1097, 621, 142, 46);
 		workerManagePanel.add(workerReqInfoBtn);
 
 		JButton workerVisatBtn = new JButton("비자정보등록");
@@ -408,23 +431,8 @@ public class ManagerView extends JFrame {
 			}
 		});
 
-		workerVisatBtn.setBounds(969, 483, 142, 46);
+		workerVisatBtn.setBounds(1251, 621, 142, 46);
 		workerManagePanel.add(workerVisatBtn);
-
-		JButton workerInsertBtn = new JButton("파견인력등록");
-		workerInsertBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerInsertBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				new WorkerInsertView().workerInsertAction();
-
-			}
-		});
-
-		workerInsertBtn.setForeground(new Color(255, 255, 255));
-		workerInsertBtn.setBackground(new Color(16, 24, 32));
-		workerInsertBtn.setBounds(1119, 483, 142, 46);
-		workerManagePanel.add(workerInsertBtn);
 
 
 		
@@ -435,15 +443,13 @@ public class ManagerView extends JFrame {
 		workerListTB.getColumn("이름").setPreferredWidth(3);
 		workerListTB.getColumn("전화번호").setPreferredWidth(50);
 		workerListTB.getColumn("나이").setPreferredWidth(3);
-		workerListTB.getColumn("경력내용").setPreferredWidth(35);
-		workerListTB.getColumn("경력기간").setPreferredWidth(3);
+		workerListTB.getColumn("기술분야").setPreferredWidth(3);
 		
 		workerListTB.getColumn("파견인력번호").setCellRenderer(center);
 		workerListTB.getColumn("이름").setCellRenderer(center);
 		workerListTB.getColumn("전화번호").setCellRenderer(center);
 		workerListTB.getColumn("나이").setCellRenderer(center);
-		workerListTB.getColumn("경력내용").setCellRenderer(center);
-		workerListTB.getColumn("경력기간").setCellRenderer(center);
+		workerListTB.getColumn("기술분야").setCellRenderer(center);
 		
 		
 
@@ -467,7 +473,7 @@ public class ManagerView extends JFrame {
 		});
 
 		workerSerchBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerSerchBtn.setBounds(533, 13, 89, 23);
+		workerSerchBtn.setBounds(673, 15, 89, 23);
 		workerManagePanel.add(workerSerchBtn);
 
 		// 파견요청관리 탭 메인
@@ -511,8 +517,7 @@ public class ManagerView extends JFrame {
 		reqTB.getColumn("도시명").setCellRenderer(center);
 		reqTB.getColumn("파견비용").setCellRenderer(center);
 		reqTB.getColumn("예상근무시작일").setCellRenderer(center);
-		reqTB.getColumn("요청상태").setCellRenderer(center);
-		reqTB.getColumn("지원현황").setCellRenderer(center);
+		reqTB.getColumn("승인처리").setCellRenderer(center);
 		
 		reqTB.setBounds(12, 10, 586, 473);
 		reqListPanel.add(reqTB);
@@ -533,7 +538,7 @@ public class ManagerView extends JFrame {
 		reqCancelBtn.setBackground(new Color(16, 24, 32));
 		reqCancelBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		reqCancelBtn.setForeground(new Color(255, 255, 255));
-		reqCancelBtn.setBounds(1251, 621, 142, 46);
+		reqCancelBtn.setBounds(1085, 621, 142, 46);
 		reqManagePanel.add(reqCancelBtn);
 		
 		JPanel reqInfoPanel = new JPanel();
@@ -546,144 +551,144 @@ public class ManagerView extends JFrame {
 		JLabel reqCustCode = new JLabel("업체명");
 		reqCustCode.setForeground(new Color(242, 170, 76));
 		reqCustCode.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		reqCustCode.setBounds(41, 155, 75, 33);
+		reqCustCode.setBounds(31, 48, 75, 33);
 		reqInfoPanel.add(reqCustCode);
 		
 		JLabel city = new JLabel("도시명");
 		city.setForeground(new Color(242, 170, 76));
 		city.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		city.setBounds(382, 251, 43, 21);
+		city.setBounds(141, 215, 43, 21);
 		reqInfoPanel.add(city);
 		
 		JLabel expecSdate = new JLabel("예상근무시작일");
 		expecSdate.setForeground(new Color(242, 170, 76));
 		expecSdate.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		expecSdate.setBounds(42, 251, 105, 21);
+		expecSdate.setBounds(31, 161, 105, 21);
 		reqInfoPanel.add(expecSdate);
 		
 		JLabel reqLangLevel = new JLabel("필수어학수준");
 		reqLangLevel.setForeground(new Color(242, 170, 76));
 		reqLangLevel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		reqLangLevel.setBounds(295, 421, 97, 21);
+		reqLangLevel.setBounds(284, 365, 97, 21);
 		reqInfoPanel.add(reqLangLevel);
 		
 		JLabel ageRange = new JLabel("연령대");
 		ageRange.setForeground(new Color(242, 170, 76));
 		ageRange.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		ageRange.setBounds(169, 421, 43, 21);
+		ageRange.setBounds(31, 421, 43, 21);
 		reqInfoPanel.add(ageRange);
 		
 		JLabel local = new JLabel("상세근무장소");
 		local.setForeground(new Color(242, 170, 76));
 		local.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		local.setBounds(42, 337, 105, 21);
+		local.setBounds(31, 263, 105, 21);
 		reqInfoPanel.add(local);
 		
 		JLabel sex = new JLabel("성별");
 		sex.setForeground(new Color(242, 170, 76));
 		sex.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		sex.setBounds(41, 421, 43, 21);
+		sex.setBounds(31, 365, 43, 21);
 		reqInfoPanel.add(sex);
 		
 		
 		JLabel expecEdate = new JLabel("예상근무종료일");
 		expecEdate.setForeground(new Color(242, 170, 76));
 		expecEdate.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		expecEdate.setBounds(42, 294, 105, 21);
+		expecEdate.setBounds(284, 161, 105, 21);
 		reqInfoPanel.add(expecEdate);
 		
 		sexTx = new JTextField();
 		sexTx.setEditable(false);
 		sexTx.setHorizontalAlignment(SwingConstants.CENTER);
 		sexTx.setColumns(10);
-		sexTx.setBounds(96, 416, 61, 33);
+		sexTx.setBounds(141, 360, 61, 33);
 		reqInfoPanel.add(sexTx);
 		
 		totalCostTx = new JTextField();
 		totalCostTx.setEditable(false);
 		totalCostTx.setHorizontalAlignment(SwingConstants.CENTER);
 		totalCostTx.setColumns(10);
-		totalCostTx.setBounds(158, 508, 343, 33);
+		totalCostTx.setBounds(97, 502, 343, 33);
 		reqInfoPanel.add(totalCostTx);
 		
 		qualiTx = new JTextField();
 		qualiTx.setEditable(false);
 		qualiTx.setHorizontalAlignment(SwingConstants.CENTER);
 		qualiTx.setColumns(10);
-		qualiTx.setBounds(158, 465, 343, 33);
+		qualiTx.setBounds(171, 416, 343, 33);
 		reqInfoPanel.add(qualiTx);
 		
 		localTx = new JTextField();
 		localTx.setEditable(false);
 		localTx.setHorizontalAlignment(SwingConstants.CENTER);
 		localTx.setColumns(10);
-		localTx.setBounds(158, 332, 343, 33);
+		localTx.setBounds(141, 258, 373, 33);
 		reqInfoPanel.add(localTx);
 		
 		JLabel quali = new JLabel("자격요건");
 		quali.setForeground(new Color(242, 170, 76));
 		quali.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		quali.setBounds(42, 470, 105, 21);
+		quali.setBounds(203, 421, 61, 21);
 		reqInfoPanel.add(quali);
 		
 		JLabel totalCost = new JLabel("총파견비용");
 		totalCost.setForeground(new Color(242, 170, 76));
 		totalCost.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		totalCost.setBounds(41, 513, 81, 21);
+		totalCost.setBounds(228, 471, 81, 21);
 		reqInfoPanel.add(totalCost);
 		
 		ageRangeTx = new JTextField();
 		ageRangeTx.setEditable(false);
 		ageRangeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		ageRangeTx.setColumns(10);
-		ageRangeTx.setBounds(228, 416, 50, 33);
+		ageRangeTx.setBounds(141, 416, 50, 33);
 		reqInfoPanel.add(ageRangeTx);
 		
 		langTx = new JTextField();
 		langTx.setEditable(false);
 		langTx.setHorizontalAlignment(SwingConstants.CENTER);
 		langTx.setColumns(10);
-		langTx.setBounds(158, 373, 122, 33);
+		langTx.setBounds(141, 309, 122, 33);
 		reqInfoPanel.add(langTx);
 		
 		cityNameTx = new JTextField();
 		cityNameTx.setEditable(false);
 		cityNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		cityNameTx.setColumns(10);
-		cityNameTx.setBounds(305, 282, 196, 33);
+		cityNameTx.setBounds(221, 210, 196, 33);
 		reqInfoPanel.add(cityNameTx);
 		
 		reqLangLevelTx = new JTextField();
 		reqLangLevelTx.setEditable(false);
 		reqLangLevelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqLangLevelTx.setColumns(10);
-		reqLangLevelTx.setBounds(391, 416, 110, 33);
+		reqLangLevelTx.setBounds(392, 360, 122, 33);
 		reqInfoPanel.add(reqLangLevelTx);
 		
 		expecEdateTx = new JTextField();
 		expecEdateTx.setEditable(false);
 		expecEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		expecEdateTx.setColumns(10);
-		expecEdateTx.setBounds(158, 289, 122, 33);
+		expecEdateTx.setBounds(392, 156, 122, 33);
 		reqInfoPanel.add(expecEdateTx);
 		
 		JLabel reqSectorName = new JLabel("업종명");
 		reqSectorName.setForeground(new Color(242, 170, 76));
 		reqSectorName.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		reqSectorName.setBounds(41, 198, 75, 36);
+		reqSectorName.setBounds(31, 101, 75, 36);
 		reqInfoPanel.add(reqSectorName);
 		
 		JLabel workerNum = new JLabel("요청인원수");
 		workerNum.setForeground(new Color(242, 170, 76));
 		workerNum.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerNum.setBounds(319, 161, 75, 21);
+		workerNum.setBounds(317, 54, 75, 21);
 		reqInfoPanel.add(workerNum);
 		
 		expecSdateTx = new JTextField();
 		expecSdateTx.setEditable(false);
 		expecSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		expecSdateTx.setColumns(10);
-		expecSdateTx.setBounds(158, 245, 122, 33);
+		expecSdateTx.setBounds(141, 156, 122, 33);
 		reqInfoPanel.add(expecSdateTx);
 		
 		custNameTx = new JTextField();
@@ -692,40 +697,40 @@ public class ManagerView extends JFrame {
 		custNameTx.setForeground(Color.BLACK);
 		custNameTx.setColumns(10);
 		custNameTx.setBackground(Color.WHITE);
-		custNameTx.setBounds(157, 155, 150, 33);
+		custNameTx.setBounds(141, 49, 150, 33);
 		reqInfoPanel.add(custNameTx);
 		
 		sectorNameTx = new JTextField();
 		sectorNameTx.setEditable(false);
 		sectorNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		sectorNameTx.setColumns(10);
-		sectorNameTx.setBounds(158, 198, 343, 33);
+		sectorNameTx.setBounds(141, 104, 373, 33);
 		reqInfoPanel.add(sectorNameTx);
 		
 		JLabel lang = new JLabel("필요언어");
 		lang.setForeground(new Color(242, 170, 76));
 		lang.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		lang.setBounds(42, 378, 105, 21);
+		lang.setBounds(31, 314, 97, 21);
 		reqInfoPanel.add(lang);
 		
 		worekrNumTx = new JTextField();
 		worekrNumTx.setEditable(false);
 		worekrNumTx.setHorizontalAlignment(SwingConstants.CENTER);
 		worekrNumTx.setColumns(10);
-		worekrNumTx.setBounds(406, 155, 95, 33);
+		worekrNumTx.setBounds(406, 48, 108, 33);
 		reqInfoPanel.add(worekrNumTx);
 		
 		localLangLevelTx = new JTextField();
 		localLangLevelTx.setEditable(false);
 		localLangLevelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		localLangLevelTx.setColumns(10);
-		localLangLevelTx.setBounds(391, 373, 110, 33);
+		localLangLevelTx.setBounds(391, 309, 123, 33);
 		reqInfoPanel.add(localLangLevelTx);
 		
 		JLabel localLangLevel = new JLabel("현지어학수준");
 		localLangLevel.setForeground(new Color(242, 170, 76));
 		localLangLevel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		localLangLevel.setBounds(295, 370, 105, 36);
+		localLangLevel.setBounds(284, 306, 105, 36);
 		reqInfoPanel.add(localLangLevel);
 		
 		reqCodeLabel = new JLabel("New label");
@@ -735,11 +740,11 @@ public class ManagerView extends JFrame {
 		reqCodeLabel.setBounds(382, 10, 143, 33);
 		reqInfoPanel.add(reqCodeLabel);
 		
-		JButton supportBtn = new JButton("파견지원자");
+		JButton supportBtn = new JButton("파견요청승인");
 		supportBtn.setForeground(Color.WHITE);
 		supportBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		supportBtn.setBackground(new Color(16, 24, 32));
-		supportBtn.setBounds(1085, 621, 154, 46);
+		supportBtn.setBounds(1239, 621, 154, 46);
 		reqManagePanel.add(supportBtn);
 
 		JPanel contManagePanel = new JPanel();
@@ -762,16 +767,14 @@ public class ManagerView extends JFrame {
 		contManagePanel.add(contListPanel);
 		contListPanel.setLayout(null);
 		
-
-		
 		reqContTB = new JTable(reqContModel);
-		reqContTB.getColumn("계약번호").setCellRenderer(center);
+		reqContTB.getColumn("파견계약번호").setCellRenderer(center);
+		reqContTB.getColumn("파견요청번호").setCellRenderer(center);
+		reqContTB.getColumn("계약성사여부").setCellRenderer(center);
 		reqContTB.getColumn("계약체결일").setCellRenderer(center);
 		reqContTB.getColumn("계약만기일").setCellRenderer(center);
-		reqContTB.getColumn("실근무시작일").setCellRenderer(center);
-		reqContTB.getColumn("실근무종료일").setCellRenderer(center);
 		reqContTB.getColumn("계약만기사유").setCellRenderer(center);
-		reqContTB.getColumn("정산여부").setCellRenderer(center);
+		reqContTB.getColumn("업체정산여부").setCellRenderer(center);
 		
 		reqContTB.setBounds(12, 46, 750, 621);
 		contListPanel.add(reqContTB);
@@ -1039,7 +1042,7 @@ public class ManagerView extends JFrame {
 				
 				try {
 					
-					reqDao = new managerReqDAO();
+					reqDao = new ManagerReqDAO();
 					ReqVO vo = reqDao.serachReqInfo(reqCodeInt);
 					
 					reqCodeLabel.setText(reqCodeString);
@@ -1089,10 +1092,10 @@ public class ManagerView extends JFrame {
 					workerTelTx.setText(vo.getWorkerTel());
 					workerEmailTx.setText(vo.getWorkerEmail());
 					careerPeriodLabel_value.setText(vo.getCareerPeriod());
-					careerDetailTx.setText(vo.getCareerDetail());
 
 					// 자격증 정보 목록 출력
 					certiListTB(certiHeader, code);
+					careerTB(careerHeader, code);
 
 				} catch (Exception e2) {
 					// TODO: handle exception
@@ -1115,10 +1118,10 @@ public class ManagerView extends JFrame {
 				
 				try {
 					
-					reqDao = new managerReqDAO();
-					int num = reqDao.reqCodeReturn(result);
-					System.out.println(num);
-					textField_7.setText(String.valueOf(num));
+//					reqDao = new ManagerReqDAO();
+//					int num = reqDao.reqCodeReturn(result);
+//					System.out.println(num);
+//					textField_7.setText(String.valueOf(num));
 					
 				} catch (Exception e2) {
 					// TODO: handle exception
@@ -1142,8 +1145,7 @@ public class ManagerView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String reqCode = reqCodeLabel.getText();
-				new WorkerSupportListView(0).workerSupportAction(reqCode);
-				
+				new reqrContInsertView(0).workerContAction(reqCode,id);
 				
 			}
 		});
@@ -1151,14 +1153,19 @@ public class ManagerView extends JFrame {
 		
 		workerListTB(workerHeader); // 파견인력 목록 출력
 		reqTB(reqHeader); // 파견요청 목록 출력
-		reqContTB(reqContHeader); // 계약 목록 출력
+//		reqContTB(reqContHeader); // 계약 목록 출력
 		
 	}
-
+// 메소드 정의부 -------------------------------------------------------------------------
+	
+	// 파견인력목록 메소드
 	void workerListTB(String[] header) {
 		try {
-			dao = new managerWorkerDAO();
+			
+			dao = new ManagerWorkerDAO();
+			
 			ArrayList workerList = dao.serchWorkerInfo(); // 인력목록 ArrayList 형태로 가져오기
+			System.out.println(workerList.get(0));
 			String[][] contentsWorker = dao.workerList(workerList, header);
 
 			model.setNumRows(0); // 초기화
@@ -1174,11 +1181,12 @@ public class ManagerView extends JFrame {
 			JOptionPane.showMessageDialog(null, "파견인력정보목록오류 : " + e1.getMessage());
 		}
 	}
-
+	
+	// 자격증목록 메소드
 	void certiListTB(String[] header, String code) {
 		try {
 
-			dao = new managerWorkerDAO();
+			dao = new ManagerWorkerDAO();
 
 			ArrayList certiList = dao.serchCertiInfo(code); // 인력목록 ArrayList 형태로 가져오기
 			String[][] certiContents = dao.workerList(certiList, header);
@@ -1198,10 +1206,33 @@ public class ManagerView extends JFrame {
 		}
 	}
 	
+	// 경력목록 메소드
+	void careerTB(String[] header,String workerCode) {
+		try {
+			
+			careerDao = new CareerDAO();
+			
+			ArrayList careerList = careerDao.careerList(workerCode); // 인력목록 ArrayList 형태로 가져오기
+			String[][] reqContContents = reqDao.workerList(careerList, header);
+			
+			careerModel.setNumRows(0);
+			
+			for (int i = 0; i < reqContContents.length; i++) {
+				careerModel.addRow(reqContContents[i]);
+			}
+			
+		} catch (Exception e1) {
+			// TODO: handle exception
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "경력목록오류 : " + e1.getMessage());
+		}
+	}
+	
+	//파견요청목록 메소드
 	void reqTB(String[] header) {
 		try {
 			
-			reqDao = new managerReqDAO();
+			reqDao = new ManagerReqDAO();
 			
 			ArrayList reqList = reqDao.reqList(); // 인력목록 ArrayList 형태로 가져오기
 			String[][] reqContents = reqDao.workerList(reqList, header);
@@ -1219,26 +1250,29 @@ public class ManagerView extends JFrame {
 		}
 	}
 	
-	void reqContTB(String[] header) {
-		try {
-			
-			reqDao = new managerReqDAO();
-			
-			ArrayList reqContList = reqDao.reqContList(); // 인력목록 ArrayList 형태로 가져오기
-			String[][] reqContContents = reqDao.workerList(reqContList, header);
-			
-			reqContModel.setNumRows(0);
-			
-			for (int i = 0; i < reqContContents.length; i++) {
-				reqContModel.addRow(reqContContents[i]);
-			}
-			
-		} catch (Exception e1) {
-			// TODO: handle exception
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, "계약목록오류 : " + e1.getMessage());
-		}
-	}
+	
+	//계약목록 메소드
+//	void reqContTB(String[] header) {
+//		try {
+//			
+//			reqDao = new ManagerReqDAO();
+//			
+//			ArrayList reqContList = reqDao.reqContList(); // 인력목록 ArrayList 형태로 가져오기
+//			String[][] reqContContents = reqDao.workerList(reqContList, header);
+//			
+//			reqContModel.setNumRows(0);
+//			
+//			for (int i = 0; i < reqContContents.length; i++) {
+//				reqContModel.addRow(reqContContents[i]);
+//			}
+//			
+//		} catch (Exception e1) {
+//			// TODO: handle exception
+//			e1.printStackTrace();
+//			JOptionPane.showMessageDialog(null, "계약목록오류 : " + e1.getMessage());
+//		}
+//	}
+//	
 	
 	void setReqCont(int reqCode) {
 		

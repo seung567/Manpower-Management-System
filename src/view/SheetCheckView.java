@@ -29,7 +29,7 @@ public class SheetCheckView extends JFrame {
 	private JPanel contentPane;
 
 	
-	WorkerInsertView workerInsertView = null;
+	WorkerInsertViewXXXXXX workerInsertViewXXXXXX = null;
 	/**
 	 * Launch the application.
 	 */
@@ -169,7 +169,7 @@ public class SheetCheckView extends JFrame {
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				workerInsertView.dispose();
+				workerInsertViewXXXXXX.dispose();
 			
 			}
 		});

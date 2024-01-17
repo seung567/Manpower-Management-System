@@ -1,11 +1,14 @@
 package model.rec;
 
+import java.sql.Date;
+
 public class WorkerVO {
 	int workerCode;
 	String workerID, workerPW, workerName, workerAddr;
 	String workerTel, workerAge, workerRnum;
 	String careerDetail, workerEmail, careerPeriod;
 	int skillCode;
+	Date careerSdate,careerEdate;
 	
 	
 	public WorkerVO() {
@@ -32,6 +35,22 @@ public class WorkerVO {
 		this.careerPeriod = careerPeriod;
 		this.skillCode = skillCode;
 		
+	}
+
+	public Date getCareerSdate() {
+		return careerSdate;
+	}
+
+	public void setCareerSdate(Date careerSdate) {
+		this.careerSdate = careerSdate;
+	}
+
+	public Date getCareerEdate() {
+		return careerEdate;
+	}
+
+	public void setCareerEdate(Date careerEdate) {
+		this.careerEdate = careerEdate;
 	}
 
 	public int getWorkerCode() {

@@ -23,9 +23,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.managerWorkerDAO;
+import model.ManagerWorkerDAO;
 
-public class workerReqMatchingView extends JFrame {
+public class WorkerReqMatchingView extends JFrame {
 
 	private JPanel contentPane;
 	private JTable reqWorkerLisetTB;
@@ -38,20 +38,20 @@ public class workerReqMatchingView extends JFrame {
 	private String idText = null;
 	// private ActionListener viewText = null;
 
-	private managerWorkerDAO dao = null;
+	private ManagerWorkerDAO dao = null;
 
 	/**
 	 * Launch the application.
 	 * 
 	 * 
-	 * workerReqMatchingView
+	 * WorkerReqMatchingView
 	 * workerReqMatchingAction
 	 */
 	public static void workerReqMatchingAction(String code, String id) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					workerReqMatchingView frame = new workerReqMatchingView(code, id);
+					WorkerReqMatchingView frame = new WorkerReqMatchingView(code, id);
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -65,17 +65,17 @@ public class workerReqMatchingView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public workerReqMatchingView() {
+	public WorkerReqMatchingView() {
 
 		this.workerReqMatchingAction("test", "test");
 
 	}
 
-	public workerReqMatchingView(int num) {
+	public WorkerReqMatchingView(int num) {
 
 	}
 
-	public workerReqMatchingView(String reqCode, String id) {
+	public WorkerReqMatchingView(String reqCode, String id) {
 
 		this.reqCode = reqCode;
 		this.idText = id;
@@ -151,7 +151,7 @@ public class workerReqMatchingView extends JFrame {
 	public void workerContList() {
 		try {
 
-			dao = new managerWorkerDAO();
+			dao = new ManagerWorkerDAO();
 			ArrayList reqWorkerContList = dao.reqWorkerCont(reqCode);
 			String[][] reqWorkerContent = dao.workerList(reqWorkerContList, contHeader);
 

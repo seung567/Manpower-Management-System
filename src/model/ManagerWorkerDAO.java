@@ -12,26 +12,26 @@ import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 import model.rec.WorkerVO;
 
-public class managerWorkerDAO {
+public class ManagerWorkerDAO {
 
 	private Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
 	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker2";
+	String user = "worker";
 	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 
-	public managerWorkerDAO() throws Exception {
+	public ManagerWorkerDAO() throws Exception {
 
 		System.out.println("=====================================");
-		System.out.println("managerWorkerDAO 실행");
+		System.out.println("ManagerWorkerDAO 실행");
 
 		Class.forName(driver);
 
-		System.out.println("managerWorkerDAO 로딩 성공!");
+		System.out.println("ManagerWorkerDAO 로딩 성공!");
 
 		conn = DriverManager.getConnection(url, user, pw);
 
@@ -45,10 +45,18 @@ public class managerWorkerDAO {
 	public WorkerVO workerInfoSerch(String code) throws Exception {
 		workervo = new WorkerVO();
 
-		String sql = "select"
-				+ " w.worker_name, w.worker_age, w.worker_tel," // 이름 , 나이 , 연락처
-				+ " w.worker_email, c.career_sdate, c.career_detail" // 이메일 , 경력기간 , 경력내용
-				+ " from worker w, worker_career c where w.worker_code = c.worker_code and w.worker_code = " + code;
+		String sql = "select "
+				+ "	w.worker_name, "
+				+ "	w.worker_age, "
+				+ "	w.worker_tel, "
+				+ "	w.worker_email, "
+				+ "	(select sum(to_date(c.career_Edate) - to_date(c.career_Sdate)) from career where c.worker_code = w.worker_code) day,"
+				+ "	c.career_detail, "
+				+ "	c.career_Sdate, "
+				+ "	C.CAREER_EDATE "
+				+ "from worker w, career c "
+				+ "where w.worker_code = c.worker_code(+) and "
+				+ "w.worker_code = " + code;
 
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
@@ -59,10 +67,26 @@ public class managerWorkerDAO {
 			workervo.setWorkerAge(res.getString("worker_age")); // 나이
 			workervo.setWorkerTel(res.getString("worker_tel")); // 연락처
 			workervo.setWorkerEmail(res.getString("worker_email")); // 이메일
-			workervo.setCareerPeriod(res.getString("career_sdate")); // 경력기간
+			workervo.setCareerSdate(res.getDate("career_Sdate")); // 근무시작
+			workervo.setCareerEdate(res.getDate("CAREER_EDATE")); // 근무마감
 			workervo.setCareerDetail(res.getString("career_detail")); // 경력내용
 		} // end if
+		
+		String sql1 = "select "
+				+ "	w.worker_name, "
+				+ "	sum(to_date(c.career_Edate) - to_date(c.career_Sdate)) day "
+				+ "from worker w, career c "
+				+ "where w.worker_code = c.worker_code(+) and "
+				+ "w.worker_code = " + code 
+				+ " group by w.worker_name";
 
+		stmt = conn.createStatement();
+		ResultSet res1 = stmt.executeQuery(sql1);
+		
+		if(res1.next()) {
+			workervo.setCareerPeriod(res1.getString("day")); // 경력기간
+		}
+		
 		res.close();
 		stmt.close();
 
@@ -72,32 +96,38 @@ public class managerWorkerDAO {
 
 	// 인력목록 출력 메소드
 	public ArrayList serchWorkerInfo() throws Exception {
-
-		String sql = "select" + " worker_code,worker_name,worker_tel," + " worker_age "
-				+ " from worker" + " order by worker_code";
-
+		
+		String sql1 = "select "
+				+ " w.worker_code, "
+				+ "	w.worker_name, "
+				+ "	w.worker_age, "
+				+ "	w.worker_tel,"
+				+ " s.skill_name "
+				+ "from worker w, skill s "
+				+ "where w.skill_code = s.skill_code ";
+		
 		stmt = conn.createStatement();
-		ResultSet res = stmt.executeQuery(sql);
-
+		ResultSet res1 = stmt.executeQuery(sql1);
+		
+		
 		ArrayList workerList = new ArrayList();
 
-		while (res.next()) {
+		while (res1.next()) {
 
 			ArrayList temp = new ArrayList();
 
-			temp.add(res.getInt("worker_code"));
-			temp.add(res.getString("worker_name"));
-			temp.add(res.getString("worker_tel"));
-			temp.add(res.getString("worker_age"));
-			temp.add(null);
-			temp.add(null);
+			temp.add(res1.getInt("worker_code"));
+			temp.add(res1.getString("worker_name"));
+			temp.add(res1.getString("worker_tel"));
+			temp.add(res1.getString("worker_age"));
+			temp.add(res1.getString("skill_name"));
 
 			workerList.add(temp);
 		}
 
-		res.close();
+		res1.close();
 		stmt.close();
-
+		
 		return workerList;
 	}
 
@@ -297,45 +327,7 @@ public class managerWorkerDAO {
 
 	}
 
-	// 인력 계약정보 입력 메소드
-	public int workerContInsert(WorkerContVO vo, String id) throws Exception {
 
-		String sql = "insert into worker_cont("
-				+ "worker_cont_code," // 고용계약번호
-				+ "worker_code," // 인력번호
-				+ "worker_cont_sdate," // 계약시작일
-				+ "worker_cont_edate," // 계약만료일
-				+ "recont_num," // 재계약횟수
-				+ "cont_period," // 계약기간
-				+ "cont_date," // 계약일
-				+ "mgr_code,"
-				+ "CONT_STATE) " // 관리자 코드
-				+ "values("
-				+ "worker_cont_sq.nextval," // 고용계약번호
-				+ "?," // 인력번호
-				+ "?," // 계약시작일
-				+ "?," // 계약만료일
-				+ "(select count(worker_name) from worker where worker_code = ? group by worker_name)," // 재계약횟수
-				+ "?,"  // 계약기간
-				+ "?," // 계약일
-				+ "(select mgr_code from mgr where mgr_id = ?)," // 관리자 코드
-				+ "?)"; // 요청상태
-
-		ps = conn.prepareStatement(sql);
-		ps.setInt(1, vo.getWorkerCode());
-		ps.setString(2, vo.getWorkeContSdate());
-		ps.setString(3, vo.getWorkerContEdate());
-		ps.setInt(4, vo.getWorkerCode());
-		ps.setString(5, null);
-		ps.setString(6, vo.getContDate());
-		ps.setString(7, id);
-		ps.setString(8, "계약요청");
-
-		int state = ps.executeUpdate();
-		ps.close();
-		return state;
-
-	}
 
 	// 파견인력 최근 계약만료일 출력 메소드
 	public Date workerEdateOut(String workerCode) throws Exception {

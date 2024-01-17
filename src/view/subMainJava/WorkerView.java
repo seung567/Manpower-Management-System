@@ -132,7 +132,7 @@ public class WorkerView extends JFrame {
 		workerInsertBtn.setIcon(changeIcon);
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerInsertView().workerInsertAction();
+//				new WorkerInsertViewXXXXXX().workerInsertAction();
 			}
 		});
 		workerInsertBtn.setBounds(1466, 784, 142, 46);

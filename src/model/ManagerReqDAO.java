@@ -7,32 +7,33 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.rec.CustVO;
 import model.rec.ReqVO;
 import model.rec.WorkerVO;
 
 
 
 
-public class managerReqDAO {
+public class ManagerReqDAO {
 
 	private Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
 	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker2";
+	String user = "worker";
 	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 	
-	public managerReqDAO() throws Exception {
+	public ManagerReqDAO() throws Exception {
 
 		System.out.println("=====================================");
-		System.out.println("managerWorkerDAO 실행");
+		System.out.println("ManagerWorkerDAO 실행");
 
 		Class.forName(driver);
 
-		System.out.println("managerWorkerDAO 로딩 성공!");
+		System.out.println("ManagerWorkerDAO 로딩 성공!");
 
 		conn = DriverManager.getConnection(url, user, pw);
 
@@ -44,21 +45,24 @@ public class managerReqDAO {
 	// 파견요청 목록 출력 메소드
 	public ArrayList reqList() throws Exception {
 
-		String sql = "select"
-				+ " req.req_code,"
-				+ "	cust_name,"
-				+ "	country_name,"
-				+ "	city_name,"
-				+ "	to_char(req.total_cost,'999,999,999') total,"
-				+ "	req.EXPEC_SDATE "
-				+ "from req req,cust cust, country country, city city "
-				+ "where req.cust_code = cust.cust_code and "
-				+ "country.country_code = (select country_code from city c where c.city_code = req.city_code) and "
-				+ "req.city_code = city.city_code";
+		String sql = 
+				"select\r\n"
+				+ "	re.req_code,\r\n"
+				+ "	cu.cust_name,\r\n"
+				+ "	con.country_name,\r\n"
+				+ "	ci.city_name,\r\n"
+				+ "	to_char(re.total_cost,'999,999,999') total_cost,\r\n"
+				+ "	re.expec_sdate,\r\n"
+				+ "	decode(rc.req_cont_code,null,'미승인','승인') state \r\n"
+				+ "from req re, cust cu, country con, city ci, req_cont rc \r\n"
+				+ "where re.cust_code = cu.cust_code and \r\n"
+				+ "re.city_code = ci.city_code and \r\n"
+				+ "ci.country_code = con.country_code and \r\n"
+				+ "re.req_code = rc.req_code(+)";
 		
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
-
+		
 		ArrayList reqList = new ArrayList();
 
 		while(res.next()) {
@@ -69,16 +73,15 @@ public class managerReqDAO {
 			temp.add(res.getString("cust_name"));
 			temp.add(res.getString("country_name"));
 			temp.add(res.getString("city_name"));
-			temp.add(res.getString("total"));
-			temp.add(res.getString("EXPEC_SDATE").substring(0,10));
-			temp.add(null);
-			temp.add(null);
-
+			temp.add(res.getString("total_cost"));
+			temp.add(res.getString("expec_sdate").substring(0,10));
+			temp.add(res.getString("state"));
 				
 			reqList.add(temp);
 
 		}
-
+		
+	
 		res.close();
 		stmt.close();
 
@@ -88,73 +91,6 @@ public class managerReqDAO {
 	
 	
 	// 계약목록 ArrayList 반환
-	public ArrayList reqContList() throws Exception {
-		
-		// 계약번호, 계약체결일, 계약만기일, 실근무시작일, 실근무종료일, 계약만기사유, 정산여부
-		
-		 String sql = "select " 
-		            + "c.req_cont_code, "
-		            + "c.req_cont_sdate, "
-		            + "c.req_cont_edate, "
-		            + "c.actual_sdate, "
-		            + "c.actual_edate, "
-		            + "c.req_cont_ewhy, "
-		            + "s.sheet_code "
-		            + "from req_cont c, sheet s "
-		            + "where "
-		            + "c.req_cont_code = s.req_cont_code(+) "
-		            + "order by 1";
-		
-		stmt = conn.createStatement();
-		ResultSet res = stmt.executeQuery(sql);
-		
-		ArrayList reqContList = new ArrayList();
-		
-		while(res.next()) {
-			
-			ArrayList temp = new ArrayList();
-			
-			temp.add(res.getInt("req_cont_code"));
-			temp.add(res.getDate("req_cont_sdate"));
-			temp.add(res.getDate("req_cont_edate"));
-			temp.add(res.getDate("actual_sdate"));
-			temp.add(res.getDate("actual_edate"));
-			temp.add(res.getString("req_cont_ewhy"));
-			temp.add(res.getString("sheet_code"));
-
-			
-			reqContList.add(temp);
-			
-		}
-		
-		res.close();
-		stmt.close();
-		
-		return reqContList;
-	}
-
-	// ArrayList 2차원 배열 변환 메소드
-	public String[][] workerList(ArrayList list, String[] col) throws Exception {
-
-		String[][] result = new String[list.size()][col.length];
-
-		for (int i = 0; i < result.length; i++) {
-			ArrayList temp = (ArrayList) list.get(i);
-
-			for (int j = 0; j < result[i].length; j++) {
-
-				try {
-					result[i][j] = temp.get(j).toString();
-				} catch (Exception e) {
-					// TODO: handle exception
-					result[i][j] = (String) temp.get(j);
-				}
-			}
-		}
-
-		return result;
-
-	}
 	
 	public ReqVO serachReqInfo(int reqCodeValue) throws Exception  {
 
@@ -217,7 +153,7 @@ public class managerReqDAO {
 		
 	}
 	
-	public int reqCodeReturn(int reqContCode) throws Exception {
+	public int reqCodeReturn(String reqContCode) throws Exception {
 		
 		String sql = "select req_code from req_cont where req_cont_code = " + reqContCode;
 		
@@ -231,5 +167,99 @@ public class managerReqDAO {
 		}
 		
 		return result;
+	}
+	
+	// 파견요청 수락시 계약 DB 입력 메소드
+	public void reqContInsert(String reqCode, String contSdate) throws Exception {
+
+		String sql = "intsert into req_cont("
+				+ " req_cont_code," // 파견 계약번호
+				+ "	req_code," // 파견 요청번호
+				+ "	req_cont_ck," // 파견 승인여부
+				+ "	req_cont_sdate,"
+				+ " actual_sdate,"
+				+ " actual_edate) " // 계약체결일
+				+ "values(" 
+				+ "	req_cont.nextval," 
+				+ "	?," 
+				+ "	?," 
+				+ "	?,"
+				+ " ?,"
+				+ " ?," 
+				+ "	sysdate)";
+
+		ps = conn.prepareStatement(sql);
+
+		ps.setString(1, reqCode);
+		ps.setString(2, "승인");
+		ps.setString(3, contSdate);
+		
+		
+
+	}
+	
+	// 파견요청번호 , 업체명 검색 메소드
+	public CustVO custSearch(String reqCode) throws Exception {
+
+		CustVO vo = new CustVO();
+
+		String sql = "select cust_name from req r, cust s where r.cust_code = s.cust_code and r.req_code = '" + reqCode + "'";
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+
+		if (res.next()) {
+			vo.setCustName(res.getString("cust_name"));
+		}
+
+		res.close();
+		stmt.close();
+
+		return vo;
+
+	}
+	
+	// 예상근무 종료일을 가져오는 메소드
+	public ReqVO expecEdateGet(String reqCode)  throws Exception  {
+		
+		ReqVO vo = new ReqVO();
+		
+		String sql = "select expec_edate from req where req_code = '" + reqCode + "'";
+		
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+		
+		if(res.next()) {
+			vo.setExpecEdate("expec_edate");
+		}
+		
+		res.close();
+		stmt.close();
+
+		return vo;
+		
+	}
+	
+	// ArrayList 2차원 배열 변환 메소드
+	public String[][] workerList(ArrayList list, String[] col) throws Exception {
+
+		String[][] result = new String[list.size()][col.length];
+
+		for (int i = 0; i < result.length; i++) {
+			ArrayList temp = (ArrayList) list.get(i);
+
+			for (int j = 0; j < result[i].length; j++) {
+
+				try {
+					result[i][j] = temp.get(j).toString();
+				} catch (Exception e) {
+					// TODO: handle exception
+					result[i][j] = (String) temp.get(j);
+				}
+			}
+		}
+
+		return result;
+
 	}
 }

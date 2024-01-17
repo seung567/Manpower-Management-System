@@ -69,6 +69,7 @@ public class WorkerSupportListView extends JFrame {
 	 */
 	
 	public WorkerSupportListView() {
+		
 		this.workerSupportAction(null);
 	}
 	
@@ -300,6 +301,7 @@ public class WorkerSupportListView extends JFrame {
 
 		
 		supportTB(workerHead);
+		
 	}
 	
 	void supportTB(String[] workerHead) {

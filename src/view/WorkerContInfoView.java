@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import model.managerWorkerDAO;
+import model.ManagerWorkerDAO;
 import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 
@@ -37,13 +37,13 @@ public class WorkerContInfoView extends JFrame {
 	private JLabel contDateLabel_1;
 	private JLabel contDateLabel;
 	
-	private WorkerInsertView workerInsertView = null;
+	private WorkerInsertViewXXXXXX workerInsertViewXXXXXX = null;
 	private String workerCode;
 	
 	private String contCode = null;
 	private String id = null;
 	
-	private managerWorkerDAO dao;
+	private ManagerWorkerDAO dao;
 	/**
 	 * Launch the application.
 	 */
@@ -235,7 +235,7 @@ public class WorkerContInfoView extends JFrame {
 		applyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				workerInsertView.dispose();
+				workerInsertViewXXXXXX.dispose();
 				dispose();
 			
 			}
@@ -291,7 +291,7 @@ public class WorkerContInfoView extends JFrame {
 			String workerCode = code;
 			String mgrID = id;
 
-			dao = new managerWorkerDAO();
+			dao = new ManagerWorkerDAO();
 
 			WorkerContVO workerVo = dao.workerCont(workerCode);
 
@@ -327,7 +327,7 @@ public class WorkerContInfoView extends JFrame {
 		WorkerContVO vo = new WorkerContVO(sDate,edate,recontNum,contPeriod,contDate);
 		
 		try {
-			managerWorkerDAO dao = new managerWorkerDAO();
+			ManagerWorkerDAO dao = new ManagerWorkerDAO();
 			
 			dao.workerContInsert(vo, id);
 			
