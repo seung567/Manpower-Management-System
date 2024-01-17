@@ -27,7 +27,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import model.LoginDAO;
-import model.workerDAO;
+import model.managerWorkerDAO;
 import model.rec.WorkerVO;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;

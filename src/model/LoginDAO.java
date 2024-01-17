@@ -10,9 +10,9 @@ public class LoginDAO {
 
 	private Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
-	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
+	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
+//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
+	String user = "worker2";
 	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;

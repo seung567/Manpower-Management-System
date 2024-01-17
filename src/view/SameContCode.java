@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.workerDAO;
+import model.managerWorkerDAO;
 
 public class SameContCode extends JFrame {
 
@@ -38,7 +38,7 @@ public class SameContCode extends JFrame {
 	private String idText = null;
 	// private ActionListener viewText = null;
 
-	private workerDAO dao = null;
+	private managerWorkerDAO dao = null;
 
 	/**
 	 * Launch the application.
@@ -161,28 +161,24 @@ public class SameContCode extends JFrame {
 
 				try {
 
-					dao = new workerDAO();
-					String endDate = dao.workerEdateOut(workerCode);
+					dao = new managerWorkerDAO();
+					Date endDate = dao.workerEdateOut(workerCode);
 
-					System.out.println(endDate);
-					Date date = new Date();
+					if (endDate != null) {
 
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+						Date date = new Date();
 
-					String dateStr = format.format(date);
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
 
-					Date eDate = format.parse(endDate);
-					Date now = format.parse(dateStr);
-					System.out.println(now);
+						String dateStr = format.format(date);
+						Date now = format.parse(dateStr);
 
-					String eDateResult = format.format(eDate);
-					String nowResult = format.format(now);
-
-					System.out.println(eDateResult);
-					System.out.println(nowResult);
-
-					if (eDate.after(now)) {
-						JOptionPane.showMessageDialog(null, "현재 계약중인 파견인력 입니다.");
+						if (endDate.after(now)) {
+							JOptionPane.showMessageDialog(null, "현재 계약중인 파견인력 입니다.");
+						} else {
+							new WorkerContInsertView(0).workerContAction(workerCode, id);
+							dispose();
+						}
 					} else {
 						new WorkerContInsertView(0).workerContAction(workerCode, id);
 						dispose();
@@ -201,7 +197,7 @@ public class SameContCode extends JFrame {
 	public void workerContList() {
 		try {
 
-			dao = new workerDAO();
+			dao = new managerWorkerDAO();
 			ArrayList contList = dao.workerContInfo(workerCode);
 			String[][] contContent = dao.workerList(contList, contHeader);
 

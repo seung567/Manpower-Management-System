@@ -6,12 +6,16 @@ public class ReqVO {
 	int langCode, cityCode;
 	String local,reqLangLevel,localLangLevel,etcReq,sex;
 	String ageRange, quali, totalCost;
+	String state;
+	String langLevel;
+	String cityName;
+	String sectorName,custName;
 
 	public ReqVO(	int reqCode, int custCode, int sectorCode, int workerNum,
 			String expecSdate, String expecEdate,
 			int langCode, int cityCode,
 			String local, String reqLangLevel, String localLangLevel, String etcReq,String sex,
-			String ageRange, String quali, String totalCost) {
+			String ageRange, String quali, String totalCost, String state, String langLevel) {
 		
 		this.reqCode = reqCode;
 		this.custCode = custCode;
@@ -29,7 +33,82 @@ public class ReqVO {
 		this.ageRange = ageRange;
 		this.quali = quali;
 		this.totalCost = totalCost;
+		this.state = state;
+		this.langLevel = langLevel;
 		
+	}
+	
+	public ReqVO( int reqCode, String custName, String sectorName, int workerNum,
+			String expecSdate, String expecEdate, String langLevel, String cityName,
+			String local, String reqLangLevel, String localLangLevel, String etcReq,String sex,
+			String ageRange, String quali, String totalCost) {
+		
+		this.reqCode = reqCode;
+		this.custName = custName;
+		this.sectorName = sectorName;
+		this.workerNum = workerNum;
+		this.expecSdate = expecSdate;
+		this.expecEdate = expecEdate;
+		this.langLevel = langLevel;
+		this.cityName = cityName;
+		this.local = local;
+		this.reqLangLevel = reqLangLevel;
+		this.localLangLevel = localLangLevel;
+		this.etcReq = etcReq;
+		this.sex = sex;
+		this.ageRange = ageRange;
+		this.quali = quali;
+		this.totalCost = totalCost;
+//		this.state = state;
+		
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getSectorName() {
+		return sectorName;
+	}
+
+	public void setSectorName(String sectorName) {
+		this.sectorName = sectorName;
+	}
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public String getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(String totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getLangLevel() {
+		return langLevel;
+	}
+
+	public void setLangLevel(String langLevel) {
+		this.langLevel = langLevel;
 	}
 
 	public int getReqCode() {
