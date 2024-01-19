@@ -16,6 +16,8 @@ public class WorkerVO {
 		
 	}
 	
+	
+	// 유승민
 	public WorkerVO(int workerCode, 
 			String workerID, String workerPW, String workerName, String workerAddr,
 			String workerTel, String workerAge, String workerRnum,

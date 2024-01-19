@@ -12,35 +12,21 @@ import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 import model.rec.WorkerVO;
 
-public class ManagerWorkerDAO {
-
+public class ManagerWorkerDAO extends Connect{
+	
 	private Connection conn = null;
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
-	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
-	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 
 	public ManagerWorkerDAO() throws Exception {
 
-		System.out.println("=====================================");
-		System.out.println("ManagerWorkerDAO 실행");
-
-		Class.forName(driver);
-
-		System.out.println("ManagerWorkerDAO 로딩 성공!");
-
-		conn = DriverManager.getConnection(url, user, pw);
-
-		System.out.println("DB 연결 성공!");
-		System.out.println("=====================================");
+		super();
+		conn = super.connectValue("ManagerWorkerDAO");
 
 	}
 
-
+	// 유승민
 	// 인력 상세정보 DAO
 	public WorkerVO workerInfoSerch(String code) throws Exception {
 		workervo = new WorkerVO();
@@ -93,7 +79,9 @@ public class ManagerWorkerDAO {
 		return workervo;
 
 	} // WorkerVO 메소드 끝
-
+	
+	
+	// 유승민
 	// 인력목록 출력 메소드
 	public ArrayList serchWorkerInfo() throws Exception {
 		
@@ -130,7 +118,9 @@ public class ManagerWorkerDAO {
 		
 		return workerList;
 	}
-
+	
+	
+	// 유승민
 	// 자격증 목록 출력 메소드
 	public ArrayList serchCertiInfo(String workerCode) throws Exception {
 
@@ -163,7 +153,8 @@ public class ManagerWorkerDAO {
 
 		return certiList;
 	}
-
+	
+	// 유승민
 	// 인력별 계약 목록 출력 메소드
 	public ArrayList workerContInfo(String workerCode) throws Exception {
 
@@ -198,7 +189,8 @@ public class ManagerWorkerDAO {
 
 		return contList;
 	}
-
+	
+	// 유승민
 	// ArrayList 2차원 배열 변환 메소드
 	public String[][] workerList(ArrayList list, String[] col) throws Exception {
 
@@ -227,11 +219,10 @@ public class ManagerWorkerDAO {
 
 		return null;
 	}
-
+	
+	// 유승민
 	// 계약정보 출력 메소드
 	public WorkerContVO workerCont(String contCode) throws Exception {
-
-		System.out.println(contCode);
 
 		System.out.println("=======================================");
 		System.out.println("파견인력 계약정보 검색중");
@@ -297,6 +288,8 @@ public class ManagerWorkerDAO {
 
 	}
 
+	
+	// 유승민
 	// 관리자 정보 출력 메소드
 	public MgrVO mgrNameSerch(String id) throws Exception  {
 
@@ -328,7 +321,7 @@ public class ManagerWorkerDAO {
 	}
 
 
-
+	// 유승민
 	// 파견인력 최근 계약만료일 출력 메소드
 	public Date workerEdateOut(String workerCode) throws Exception {
 
@@ -344,7 +337,8 @@ public class ManagerWorkerDAO {
 
 		return eDate;
 	}
-
+	
+	// 유승민
 	// 계약건별 인력 목록 출력 메소드
 	public ArrayList reqWorkerCont(String reqCode) throws Exception {
 

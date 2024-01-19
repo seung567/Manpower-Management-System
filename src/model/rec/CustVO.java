@@ -8,7 +8,8 @@ public class CustVO {
 	public CustVO() {
 
 	}
-
+	
+	// 유승민
 	public CustVO(int custCode, int mgrCode, String custId, String custPw, String custName, String custRepre, String custAddr, String custEmail, String custTel, String custBnum, String custSector) {
 
 		this.custCode = custCode;

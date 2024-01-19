@@ -167,7 +167,7 @@ public class LoginView extends JFrame {
 
 						// 관리자 view 실행부분
 						if(dao.managerLoginCheck(ID, PW)) {
-							new ManagerView(0).managerMainView(ID);
+							new MManagerView(0).managerMainView(ID);
 							dispose();
 							
 						}else {

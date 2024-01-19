@@ -9,11 +9,12 @@ public class WorkerContVO {
 	private String contPeriod,contDate;
 	private int mgrCode;
 	private String workerName,mgrID;
-	private String contState;
+	private String contState, workerContCK;
+	private int applyCode;
 	
-	
+	// 유승민
 	public WorkerContVO(int workerContCode, int workerCode,int accNum, 
-			String accBank, String accName, String workeContSdate, String workerContEdate,
+			String accBank, String accName, String workerContSdate, String workerContEdate,
 			int recontNum, String contPeriod, String contDate, int mgrCode,String contState) {
 		
 		this.workerContCode = workerContCode;
@@ -30,6 +31,8 @@ public class WorkerContVO {
 		this.contState = contState;
 	}
 	
+	
+	// 유승민
 	public WorkerContVO(int workerContCode,int accNum,String accBank,String accName) {
 		
 		this.workerContCode = workerContCode;
@@ -39,16 +42,32 @@ public class WorkerContVO {
 		
 	}
 	
-	public WorkerContVO(int workerCode, String workeContSdate, String workerContEdate, String contPeriod,String contDate, String mgrID) {
+	
+	// 유승민
+	public WorkerContVO(
+			String workeContSdate,
+			String workerContEdate,
+			String contPeriod,
+			String contDate,
+			int applyCode,
+			String workerContCK,
+			String contState,
+			String mgrID) {
 		
-		this.workerCode = workerCode;
 		this.workeContSdate = workeContSdate;
 		this.workerContEdate = workerContEdate;
+		this.recontNum = recontNum;
 		this.contPeriod = contPeriod;
 		this.contDate = contDate;
+		this.mgrCode = mgrCode;
+		this.applyCode = applyCode;
+		this.workerContCK = workerContCK;
+		this.contState = contState;
 		this.mgrID = mgrID;
 		
 	}
+	
+	// 유승민
 	public WorkerContVO(String workeContSdate, String workerContEdate, int recontNum, String contPeriod,String contDate) {
 		
 		this.workeContSdate = workeContSdate;
@@ -60,6 +79,26 @@ public class WorkerContVO {
 	}
 	
 	
+	public String getWorkerContCK() {
+		return workerContCK;
+	}
+
+
+	public void setWorkerContCK(String workerContCK) {
+		this.workerContCK = workerContCK;
+	}
+
+
+	public int getApplyCode() {
+		return applyCode;
+	}
+
+
+	public void setApplyCode(int applyCode) {
+		this.applyCode = applyCode;
+	}
+
+
 	public String getMgrID() {
 		return mgrID;
 	}

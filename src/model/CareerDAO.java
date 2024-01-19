@@ -9,34 +9,22 @@ import java.util.ArrayList;
 
 import model.rec.WorkerVO;
 
-public class CareerDAO {
+public class CareerDAO extends Connect{
 	
 	private Connection conn = null;
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
-	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
-	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 
 	public CareerDAO() throws Exception {
 
-		System.out.println("=====================================");
-		System.out.println("ManagerWorkerDAO 실행");
-
-		Class.forName(driver);
-
-		System.out.println("ManagerWorkerDAO 로딩 성공!");
-
-		conn = DriverManager.getConnection(url, user, pw);
-
-		System.out.println("DB 연결 성공!");
-		System.out.println("=====================================");
+		super();
+		conn = super.connectValue("WorkerContDAO");
 
 	}
 	
+	
+	// 유승민
 	public ArrayList careerList(String workerCode) throws Exception {
 
 		String sql = "select "
@@ -71,7 +59,7 @@ public class CareerDAO {
 		return contList;
 	}
 	
-	
+	// 유승민
 	// ArrayList 에서 2차원 Array 로 변환 하는 메소드
 	public String[][] careerChangeArray(ArrayList list, String[] col) throws Exception {
 

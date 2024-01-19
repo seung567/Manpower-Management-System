@@ -8,40 +8,31 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.rec.CustVO;
+import model.rec.ReqContVO;
 import model.rec.ReqVO;
 import model.rec.WorkerVO;
 
 
 
 
-public class ManagerReqDAO {
+public class ManagerReqDAO extends Connect{
 
 	private Connection conn = null;
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
-	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
-	String user = "worker";
-	String pw = "1111";
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 	
+	
+	// 유승민
 	public ManagerReqDAO() throws Exception {
 
-		System.out.println("=====================================");
-		System.out.println("ManagerWorkerDAO 실행");
-
-		Class.forName(driver);
-
-		System.out.println("ManagerWorkerDAO 로딩 성공!");
-
-		conn = DriverManager.getConnection(url, user, pw);
-
-		System.out.println("DB 연결 성공!");
-		System.out.println("=====================================");
+		super();
+		conn = super.connectValue("ManagerReqDAO");
 
 	}
 	
+	
+	// 유승민
 	// 파견요청 목록 출력 메소드
 	public ArrayList reqList() throws Exception {
 
@@ -58,7 +49,8 @@ public class ManagerReqDAO {
 				+ "where re.cust_code = cu.cust_code and \r\n"
 				+ "re.city_code = ci.city_code and \r\n"
 				+ "ci.country_code = con.country_code and \r\n"
-				+ "re.req_code = rc.req_code(+)";
+				+ "re.req_code = rc.req_code(+) "
+				+ "order by 1";
 		
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
@@ -90,8 +82,8 @@ public class ManagerReqDAO {
 	}
 	
 	
-	// 계약목록 ArrayList 반환
-	
+	// 유승민
+	// 파견 요청 상세정보 가져오는 메소드
 	public ReqVO serachReqInfo(int reqCodeValue) throws Exception  {
 
 		String sql = "SELECT "
@@ -153,6 +145,7 @@ public class ManagerReqDAO {
 		
 	}
 	
+	// 유승민
 	public int reqCodeReturn(String reqContCode) throws Exception {
 		
 		String sql = "select req_code from req_cont where req_cont_code = " + reqContCode;
@@ -169,35 +162,38 @@ public class ManagerReqDAO {
 		return result;
 	}
 	
+	
+	// 유승민
 	// 파견요청 수락시 계약 DB 입력 메소드
-	public void reqContInsert(String reqCode, String contSdate) throws Exception {
+	public int reqContInsert(String reqCode, ReqContVO vo) throws Exception {
 
-		String sql = "intsert into req_cont("
-				+ " req_cont_code," // 파견 계약번호
-				+ "	req_code," // 파견 요청번호
-				+ "	req_cont_ck," // 파견 승인여부
-				+ "	req_cont_sdate,"
-				+ " actual_sdate,"
-				+ " actual_edate) " // 계약체결일
-				+ "values(" 
-				+ "	req_cont.nextval," 
-				+ "	?," 
-				+ "	?," 
-				+ "	?,"
-				+ " ?,"
-				+ " ?," 
-				+ "	sysdate)";
+		String sql = "insert into req_cont("
+				+ "req_cont_code,"
+				+ "req_code,"
+				+ "req_cont_ck,"
+				+ "req_cont_sdate,"
+				+ "actual_sdate,"
+				+ "actual_edate) " 
+				+ "values(req_cont_sq.nextval,?,?,?,?,?)";
 
 		ps = conn.prepareStatement(sql);
 
 		ps.setString(1, reqCode);
-		ps.setString(2, "승인");
-		ps.setString(3, contSdate);
+		ps.setString(2, "계약승인");
+		ps.setString(3, vo.getReqContSdate());
+		ps.setString(4, vo.getActualSdate());
+		ps.setString(5, vo.getActualEdate());
 		
+		int state = ps.executeUpdate();
+		System.out.println("파견 계약 정보 등록완료");
+		ps.close();
 		
+		return state;
 
 	}
 	
+	
+	// 유승민
 	// 파견요청번호 , 업체명 검색 메소드
 	public CustVO custSearch(String reqCode) throws Exception {
 
@@ -219,6 +215,8 @@ public class ManagerReqDAO {
 
 	}
 	
+	
+	// 유승민
 	// 예상근무 종료일을 가져오는 메소드
 	public ReqVO expecEdateGet(String reqCode)  throws Exception  {
 		
@@ -230,7 +228,7 @@ public class ManagerReqDAO {
 		ResultSet res = stmt.executeQuery(sql);
 		
 		if(res.next()) {
-			vo.setExpecEdate("expec_edate");
+			vo.setExpecEdate(res.getString("expec_edate"));
 		}
 		
 		res.close();
@@ -240,6 +238,8 @@ public class ManagerReqDAO {
 		
 	}
 	
+	
+	// 유승민
 	// ArrayList 2차원 배열 변환 메소드
 	public String[][] workerList(ArrayList list, String[] col) throws Exception {
 

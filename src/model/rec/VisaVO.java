@@ -5,6 +5,8 @@ public class VisaVO {
 	String visack, visaSdate, visaEsdate, visaMinPeriod, visaExpPeriod;
 	String visaType, visaIssuer;
 	
+	
+	// 유승민
 	public VisaVO(int visaCode,int workerCode,int countryCode,
 			String visack, String visaSdate, String visaEsdate, String visaMinPeriod, String visaExpPeriod,
 			String visaType, String visaIssuer) {

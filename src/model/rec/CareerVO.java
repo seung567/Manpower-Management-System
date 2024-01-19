@@ -9,7 +9,7 @@ public class CareerVO {
       
    }
    
-   
+   // 유승민   
    public void CareerVO(int workerCode, int workerCareerCode, String careerName, String careerSdate, String careerEdate, String careerDetail) {
       
       this.workerCode = workerCode;

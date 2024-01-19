@@ -10,6 +10,7 @@ public class CertiVO {
 	
 	}
 	
+	// 유승민
 	public CertiVO(int certiCode, int workerCode, int certiNum, String certiName, String certiDate, String certiExpPeriod) {
 		
 		this.certiCode = certiCode;

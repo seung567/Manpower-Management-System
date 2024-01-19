@@ -106,7 +106,7 @@ public class WorkerView extends JFrame {
 		JButton reqInfoBtn = new JButton("계약정보확인");
 		reqInfoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerContInfoView().workerAction();
+//				new MWorkerContInfoView().workerAction();
 			}
 		});
 		reqInfoBtn.setBounds(1166, 784, 142, 46);
@@ -115,7 +115,7 @@ public class WorkerView extends JFrame {
 		JButton visaInsertBtn = new JButton("비자정보등록");
 		visaInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerVisaView().visaInfoAction();
+//				new MWorkerVisaView().visaInfoAction();
 			}
 		});
 		visaInsertBtn.setBounds(1316, 784, 142, 46);
@@ -132,7 +132,7 @@ public class WorkerView extends JFrame {
 		workerInsertBtn.setIcon(changeIcon);
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerInsertViewXXXXXX().workerInsertAction();
+//				new MWorkerInsertViewXXXXXX().workerInsertAction();
 			}
 		});
 		workerInsertBtn.setBounds(1466, 784, 142, 46);
