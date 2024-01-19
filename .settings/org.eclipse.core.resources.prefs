@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
-encoding//src/view/ContContractView.java=UTF-8
-encoding//src/view/WorkerContInsertView.java=UTF-8
-encoding//src/view/WorkerInsertView.java=UTF-8
-encoding//src/view/WorkerVisaView.java=UTF-8
+encoding//src/view/MContContractView.java=UTF-8
+encoding//src/view/MReqContInsertView.java=UTF-8
+encoding//src/view/MWorkerInsertViewXXXXXX.java=UTF-8
+encoding//src/view/MWorkerVisaView.java=UTF-8
 encoding/<project>=UTF-8

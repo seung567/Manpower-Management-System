@@ -113,7 +113,7 @@ public class ContractView extends JFrame {
 		workerInsertBtn.setIcon(changeIcon);
 		workerInsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				new WorkerInsertView().workerInsertAction();
+//				new MWorkerInsertViewXXXXXX().workerInsertAction();
 			}
 		});
 		workerInsertBtn.setBounds(1466, 784, 142, 46);

@@ -11,6 +11,15 @@ public class ReqVO {
 	String cityName;
 	String sectorName,custName;
 
+	
+	
+	
+	
+	public ReqVO() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	public ReqVO(	int reqCode, int custCode, int sectorCode, int workerNum,
 			String expecSdate, String expecEdate,
 			int langCode, int cityCode,
@@ -38,6 +47,8 @@ public class ReqVO {
 		
 	}
 	
+	
+	// 유승민
 	public ReqVO( int reqCode, String custName, String sectorName, int workerNum,
 			String expecSdate, String expecEdate, String langLevel, String cityName,
 			String local, String reqLangLevel, String localLangLevel, String etcReq,String sex,

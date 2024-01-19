@@ -4,188 +4,200 @@ import java.sql.Date;
 
 public class SupportVO {
 
-   private int supCode, workerCode, reqCode, workerCareerCode, certiCode, workerAge;
-   private String supState;
-   private String supSdate; // 문자열 타입으로 받아야 할떄 사용하는 변수 
-   private Date supSDATE, careerSdate, careerEdate; // Date 타입으로 받아야 할 때 사용하는 변수
-   private String workerName, workerTel, workerEmail, careerDetail, certiName;
-   private String careerSdateS,careerEdateS;
+	private int supCode, workerCode, reqCode, workerCareerCode, certiCode, workerAge;
+	private String supState;
+	private String supSdate; // 문자열 타입으로 받아야 할떄 사용하는 변수 
+	private Date supSDATE, careerSdate, careerEdate; // Date 타입으로 받아야 할 때 사용하는 변수
+	private String workerName, workerTel, workerEmail, careerDetail, certiName;
+	private String careerSdateS,careerEdateS,SkillName;
 
 
-   public SupportVO() {
-      // TODO Auto-generated constructor stub
-   }
+	public SupportVO() {
+		// TODO Auto-generated constructor stub
+	}
 
-   public SupportVO(int supCode, int workerCode, int reqCode, String supState, String supSdate) {
-      // TODO Auto-generated constructor stub
 
-      this.supCode  = supCode;
-      this.workerCode = workerCode;
-      this.reqCode = reqCode;
-      this.supState = supState;
-      this.supSdate = supSdate;  
-   }
+	// 유승민
+	public SupportVO(int supCode, int workerCode, int reqCode, String supState, String supSdate) {
+		// TODO Auto-generated constructor stub
 
-   public SupportVO(int workerCode, int workerCareerCode, int certiCode,
-         String workerName, int workerAge, String workerTel, String workerEmail,
-         Date careerSdate, Date careerEdate, String careerDetail, String certiName) {
+		this.supCode  = supCode;
+		this.workerCode = workerCode;
+		this.reqCode = reqCode;
+		this.supState = supState;
+		this.supSdate = supSdate;  
+	}
 
-      this.workerCode = workerCode;
-      this.workerCareerCode = workerCareerCode;
-      this.certiCode = certiCode;
-      this.workerName = workerName;
-      this.workerAge = workerAge;
-      this.workerTel = workerTel;
-      this.workerEmail = workerEmail;
-      this.careerSdate = careerSdate;
-      this.careerEdate = careerEdate;
-      this.careerDetail = careerDetail;
-      this.certiName = certiName;            
-   }
+	public SupportVO(int workerCode, int workerCareerCode, int certiCode,
+			String workerName, int workerAge, String workerTel, String workerEmail,
+			Date careerSdate, Date careerEdate, String careerDetail, String certiName) {
 
-   public String getCareerSdateS() {
-	return careerSdateS;
-}
+		this.workerCode = workerCode;
+		this.workerCareerCode = workerCareerCode;
+		this.certiCode = certiCode;
+		this.workerName = workerName;
+		this.workerAge = workerAge;
+		this.workerTel = workerTel;
+		this.workerEmail = workerEmail;
+		this.careerSdate = careerSdate;
+		this.careerEdate = careerEdate;
+		this.careerDetail = careerDetail;
+		this.certiName = certiName;            
+	}
 
-public void setCareerSdateS(String careerSdateS) {
-	this.careerSdateS = careerSdateS;
-}
+	public String getSkillName() {
+		return SkillName;
+	}
 
-public String getCareerEdateS() {
-	return careerEdateS;
-}
 
-public void setCareerEdateS(String careerEdateS) {
-	this.careerEdateS = careerEdateS;
-}
+	public void setSkillName(String skillName) {
+		SkillName = skillName;
+	}
 
-public int getSupCode() {
-      return supCode;
-   }
 
-   public void setSupCode(int supCode) {
-      this.supCode = supCode;
-   }
+	public String getCareerSdateS() {
+		return careerSdateS;
+	}
 
-   public int getWorkerCode() {
-      return workerCode;
-   }
+	public void setCareerSdateS(String careerSdateS) {
+		this.careerSdateS = careerSdateS;
+	}
 
-   public void setWorkerCode(int workerCode) {
-      this.workerCode = workerCode;
-   }
+	public String getCareerEdateS() {
+		return careerEdateS;
+	}
 
-   public int getReqCode() {
-      return reqCode;
-   }
+	public void setCareerEdateS(String careerEdateS) {
+		this.careerEdateS = careerEdateS;
+	}
 
-   public void setReqCode(int reqCode) {
-      this.reqCode = reqCode;
-   }
+	public int getSupCode() {
+		return supCode;
+	}
 
-   public int getWorkerCareerCode() {
-      return workerCareerCode;
-   }
+	public void setSupCode(int supCode) {
+		this.supCode = supCode;
+	}
 
-   public void setWorkerCareerCode(int workerCareerCode) {
-      this.workerCareerCode = workerCareerCode;
-   }
+	public int getWorkerCode() {
+		return workerCode;
+	}
 
-   public int getCertiCode() {
-      return certiCode;
-   }
+	public void setWorkerCode(int workerCode) {
+		this.workerCode = workerCode;
+	}
 
-   public void setCertiCode(int certiCode) {
-      this.certiCode = certiCode;
-   }
+	public int getReqCode() {
+		return reqCode;
+	}
 
-   public int getWorkerAge() {
-      return workerAge;
-   }
+	public void setReqCode(int reqCode) {
+		this.reqCode = reqCode;
+	}
 
-   public void setWorkerAge(int workerAge) {
-      this.workerAge = workerAge;
-   }
+	public int getWorkerCareerCode() {
+		return workerCareerCode;
+	}
 
-   public String getSupState() {
-      return supState;
-   }
+	public void setWorkerCareerCode(int workerCareerCode) {
+		this.workerCareerCode = workerCareerCode;
+	}
 
-   public void setSupState(String supState) {
-      this.supState = supState;
-   }
+	public int getCertiCode() {
+		return certiCode;
+	}
 
-   public String getSupSdate() {
-      return supSdate;
-   }
+	public void setCertiCode(int certiCode) {
+		this.certiCode = certiCode;
+	}
 
-   public void setSupSdate(String supSdate) {
-      this.supSdate = supSdate;
-   }
+	public int getWorkerAge() {
+		return workerAge;
+	}
 
-   public Date getSupSDATE() {
-      return supSDATE;
-   }
+	public void setWorkerAge(int workerAge) {
+		this.workerAge = workerAge;
+	}
 
-   public void setSupSDATE(Date supSDATE) {
-      this.supSDATE = supSDATE;
-   }
+	public String getSupState() {
+		return supState;
+	}
 
-   public Date getCareerSdate() {
-      return careerSdate;
-   }
+	public void setSupState(String supState) {
+		this.supState = supState;
+	}
 
-   public void setCareerSdate(Date careerSdate) {
-      this.careerSdate = careerSdate;
-   }
+	public String getSupSdate() {
+		return supSdate;
+	}
 
-   public Date getCareerEdate() {
-      return careerEdate;
-   }
+	public void setSupSdate(String supSdate) {
+		this.supSdate = supSdate;
+	}
 
-   public void setCareerEdate(Date careerEdate) {
-      this.careerEdate = careerEdate;
-   }
+	public Date getSupSDATE() {
+		return supSDATE;
+	}
 
-   public String getWorkerName() {
-      return workerName;
-   }
+	public void setSupSDATE(Date supSDATE) {
+		this.supSDATE = supSDATE;
+	}
 
-   public void setWorkerName(String workerName) {
-      this.workerName = workerName;
-   }
+	public Date getCareerSdate() {
+		return careerSdate;
+	}
 
-   public String getWorkerTel() {
-      return workerTel;
-   }
+	public void setCareerSdate(Date careerSdate) {
+		this.careerSdate = careerSdate;
+	}
 
-   public void setWorkerTel(String workerTel) {
-      this.workerTel = workerTel;
-   }
+	public Date getCareerEdate() {
+		return careerEdate;
+	}
 
-   public String getWorkerEmail() {
-      return workerEmail;
-   }
+	public void setCareerEdate(Date careerEdate) {
+		this.careerEdate = careerEdate;
+	}
 
-   public void setWorkerEmail(String workerEmail) {
-      this.workerEmail = workerEmail;
-   }
+	public String getWorkerName() {
+		return workerName;
+	}
 
-   public String getCareerDetail() {
-      return careerDetail;
-   }
+	public void setWorkerName(String workerName) {
+		this.workerName = workerName;
+	}
 
-   public void setCareerDetail(String careerDetail) {
-      this.careerDetail = careerDetail;
-   }
+	public String getWorkerTel() {
+		return workerTel;
+	}
 
-   public String getCertiName() {
-      return certiName;
-   }
+	public void setWorkerTel(String workerTel) {
+		this.workerTel = workerTel;
+	}
 
-   public void setCertiName(String certiName) {
-      this.certiName = certiName;
-   }
+	public String getWorkerEmail() {
+		return workerEmail;
+	}
+
+	public void setWorkerEmail(String workerEmail) {
+		this.workerEmail = workerEmail;
+	}
+
+	public String getCareerDetail() {
+		return careerDetail;
+	}
+
+	public void setCareerDetail(String careerDetail) {
+		this.careerDetail = careerDetail;
+	}
+
+	public String getCertiName() {
+		return certiName;
+	}
+
+	public void setCertiName(String certiName) {
+		this.certiName = certiName;
+	}
 
 
 
