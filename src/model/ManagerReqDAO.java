@@ -44,7 +44,7 @@ public class ManagerReqDAO extends Connect{
 				+ "	ci.city_name,\r\n"
 				+ "	to_char(re.total_cost,'999,999,999') total_cost,\r\n"
 				+ "	re.expec_sdate,\r\n"
-				+ "	decode(rc.req_cont_code,null,'미승인','승인') state \r\n"
+				+ "	decode(rc.req_cont_code,null,'미승인',rc.req_cont_ck) state \r\n"
 				+ "from req re, cust cu, country con, city ci, req_cont rc \r\n"
 				+ "where re.cust_code = cu.cust_code and \r\n"
 				+ "re.city_code = ci.city_code and \r\n"
@@ -159,6 +159,8 @@ public class ManagerReqDAO extends Connect{
 			result = res.getInt("req_code");
 		}
 		
+		res.close();
+		stmt.close();
 		return result;
 	}
 	
@@ -186,8 +188,8 @@ public class ManagerReqDAO extends Connect{
 		
 		int state = ps.executeUpdate();
 		System.out.println("파견 계약 정보 등록완료");
-		ps.close();
 		
+		ps.close();		
 		return state;
 
 	}
@@ -251,7 +253,7 @@ public class ManagerReqDAO extends Connect{
 			for (int j = 0; j < result[i].length; j++) {
 
 				try {
-					result[i][j] = temp.get(j).toString();
+					result[i][j] = temp.get(j).toString().trim();
 				} catch (Exception e) {
 					// TODO: handle exception
 					result[i][j] = (String) temp.get(j);

@@ -68,7 +68,8 @@ public class WorkerSupportListDAO extends Connect{
 
 			supportList.add(temp);
 		}
-
+		
+		res.close();
 		stmt.close();
 		System.out.println("지원자목록 조회완료");
 		return supportList;
@@ -104,7 +105,7 @@ public class WorkerSupportListDAO extends Connect{
 		
 		SupportVO vo = new SupportVO();
 
-		Statement stmt = conn.createStatement();
+		stmt = conn.createStatement();
 
 		String sql = "select "
 				+ "	a.apply_code,"
@@ -148,7 +149,7 @@ public class WorkerSupportListDAO extends Connect{
 
 
 
-		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,CERTI_DATE,CERTI_EXP_PERIOD "
+		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,to_char(CERTI_DATE,'yyyy-mm-dd') CERTI_DATE,to_char(CERTI_EXP_PERIOD,'yyyy-mm-dd') CERTI_EXP_PERIOD "
 				+ "from certi c, worker w, apply a"
 				+ " where "
 				+ "a.worker_code = w.worker_code and "
@@ -186,8 +187,8 @@ public class WorkerSupportListDAO extends Connect{
 
 		String sql = "select "
 				+ "	career_name,"
-				+ "	career_sdate,"
-				+ "	career_edate, "
+				+ "	to_char(career_sdate,'yyyy-mm-dd') career_sdate,"
+				+ "	to_char(career_edate,'yyyy-mm-dd') career_edate, "
 				+ "	career_detail "
 				+ "from career c, worker w, apply a "
 				+ "where a.worker_code = w.worker_code and "

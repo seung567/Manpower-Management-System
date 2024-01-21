@@ -53,7 +53,7 @@ public class Connect {
 			for (int j = 0; j < result[i].length; j++) {
 
 				try {
-					result[i][j] = temp.get(j).toString();
+					result[i][j] = temp.get(j).toString().trim();
 				} catch (Exception e) {
 					// TODO: handle exception
 					result[i][j] = (String) temp.get(j);

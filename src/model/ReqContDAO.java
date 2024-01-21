@@ -60,9 +60,27 @@ public class ReqContDAO extends Connect{
 			vo = new ReqContVO(contCk,contSdate,contEdate,contEwhy,actualSdate,actualEdate,contCode,code,0);
 		}
 		
+		res.close();
+		stmt.close();
+		
 		return vo;
 	}
 	
+	
+	// 파견요청건 관리자 미승인 메소드
+	public int reqCancel(int reqCode) throws Exception {
+		
+		stmt = conn.createStatement();
+		
+		String sql = "update req_cont set REQ_CONT_CK = '승인반려(관리자)' where req_code = " + reqCode;
+		
+		stmt = conn.createStatement();
+		int res = stmt.executeUpdate(sql);
+		
+		stmt.close();
+		
+		return res;
+	}
 	
 	// 유승민
 	public ArrayList reqContList() throws Exception {

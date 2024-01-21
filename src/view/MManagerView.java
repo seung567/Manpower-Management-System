@@ -99,6 +99,7 @@ public class MManagerView extends JFrame {
 	private String[] careerHeader = { "업체명", "직무시작일", "직무종료일", "경력내용" };
 	
 	private String id;
+	private int code;
 	/**
 	 * Launch the application.
 	 */
@@ -150,19 +151,15 @@ public class MManagerView extends JFrame {
 
 	// 실행용 생성자 함수
 	public MManagerView(int num) {
+		
 	};
 
 	// 메인 뷰 생성자 함수
 	public MManagerView(String id) {
 
-		// try {
-		// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
 		this.id = id;
+		
+		codeSearch(id);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1450, 820);
@@ -1155,7 +1152,7 @@ public class MManagerView extends JFrame {
 
 				try {
 
-					ReqContDAO reqContDao = new ReqContDAO();
+//					ReqContDAO reqContDao = new ReqContDAO();
 					ReqContVO vo = reqContDao.reqContInfo(result);
 
 					reqContCodeTx.setText(String.valueOf(vo.getReqContCode()));
@@ -1229,10 +1226,36 @@ public class MManagerView extends JFrame {
 					String reqContCode = reqContCodeTx.getText();
 					new MWorkerSupportListView(0).workerSupportAction(reqContCode,id);
 				}
+				
+				actualEdateTx.setEditable(false);
 
 			}
 		});
-
+		
+		// 파견요청건을 관리자 미승인 처리 하는 이벤트
+		reqCancelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int getReqCode = Integer.parseInt(reqCodeLabel.getText());
+				
+				try {
+					
+					
+					reqContDao = new ReqContDAO();
+					int state = reqContDao.reqCancel(getReqCode);
+					
+					if(state < 0) {
+						System.out.println("파견요청건 상태 업데이트 실패 reqCancelBtn.addActionListener ");
+					}
+					
+				} catch (Exception e2) {
+					System.out.println(e2.getMessage());
+					e2.printStackTrace();
+					
+				}
+				
+			}
+		});
 		// -----------------------------명령 실행부----------------------------
 
 //		workerListTB(workerHeader); // 파견인력 목록 출력
@@ -1364,5 +1387,19 @@ public class MManagerView extends JFrame {
 			System.out.println(e.getMessage());
 		}
 
+	}
+	
+	void codeSearch(String id) {
+		
+		try {
+			
+			LoginDAO dao = new LoginDAO();
+			code = dao.managerCode(id);			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 	}
 }

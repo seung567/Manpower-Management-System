@@ -108,6 +108,7 @@ public class WorkerContDAO extends Connect{
 		
 		int state = ps.executeUpdate();
 		
+		ps.close();
 		return state;
 	}
 }

@@ -87,9 +87,12 @@ public class MWorkerSupportListView extends JFrame {
 	public MWorkerSupportListView() {
 		
 		this.workerSupportAction(null,null);
+		
 	}
 	
 	public MWorkerSupportListView(int num) {
+		
+		
 		
 	}
 	
@@ -427,12 +430,12 @@ public class MWorkerSupportListView extends JFrame {
 		try {
 
 			ArrayList careerList = supportDAO.careerList(workerCode); // 인력목록 ArrayList 형태로 가져오기
-			String[][] reqContContents = supportDAO.changeArray(careerList, header);
+			String[][] careerContents = supportDAO.changeArray(careerList, header);
 
 			careerModel.setNumRows(0);
 
-			for (int i = 0; i < reqContContents.length; i++) {
-				careerModel.addRow(reqContContents[i]);
+			for (int i = 0; i < careerContents.length; i++) {
+				careerModel.addRow(careerContents[i]);
 			}
 
 		} catch (Exception e1) {

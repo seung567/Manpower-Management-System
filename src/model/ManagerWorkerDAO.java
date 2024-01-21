@@ -283,7 +283,10 @@ public class ManagerWorkerDAO extends Connect{
 
 		System.out.println("파견인력 계약정보 검색완료");
 		System.out.println("=======================================\n");
-
+		
+		res.close();
+		ps.close();
+		
 		return vo;
 
 	}
@@ -315,7 +318,9 @@ public class ManagerWorkerDAO extends Connect{
 
 		System.out.println("관리자 정보 검색완료");
 		System.out.println("=======================================\n");
-
+		
+		res.close();
+		stmt.close();
 		return vo;
 
 	}
@@ -334,15 +339,16 @@ public class ManagerWorkerDAO extends Connect{
 		if(res.next()) {
 			eDate = res.getDate("max(worker_cont_edate)");
 		}
-
+		
+		
+		res.close();
+		stmt.close();
 		return eDate;
 	}
 	
 	// 유승민
 	// 계약건별 인력 목록 출력 메소드
 	public ArrayList reqWorkerCont(String reqCode) throws Exception {
-
-
 
 		String sql = "select"
 				+ "	c.req_code,"
