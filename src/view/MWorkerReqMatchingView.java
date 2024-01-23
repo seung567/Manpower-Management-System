@@ -5,27 +5,21 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.ManagerWorkerDAO;
+import model.Connect;
+import model.WorkerDAO;
 
-public class MWorkerReqMatchingView extends JFrame {
+public class MWorkerReqMatchingView extends Connect {
 
 	private JPanel contentPane;
 	private JTable reqWorkerLisetTB;
@@ -38,7 +32,7 @@ public class MWorkerReqMatchingView extends JFrame {
 	private String idText = null;
 	// private ActionListener viewText = null;
 
-	private ManagerWorkerDAO dao = null;
+	private WorkerDAO dao = null;
 
 	/**
 	 * Launch the application.
@@ -122,21 +116,6 @@ public class MWorkerReqMatchingView extends JFrame {
 		reqWorkerLisetTB.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqWorkerLisetTB.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqWorkerLisetTB.setBackground(new Color(255, 255, 255));
-		reqWorkerLisetTB.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				int col = 0;
-				int row = reqWorkerLisetTB.getSelectedRow();
-
-				String vNum = String.valueOf(reqWorkerLisetTB.getValueAt(row, col));
-				System.out.println(vNum);
-
-				new MWorkerContModify(0).workerContAtion(vNum, id);
-				dispose();
-
-			}
-		});
 		reqWorkerLisetTB.setBounds(0, 0, 491, 211);
 		panel.add(reqWorkerLisetTB);
 
@@ -151,9 +130,9 @@ public class MWorkerReqMatchingView extends JFrame {
 	public void workerContList() {
 		try {
 
-			dao = new ManagerWorkerDAO();
+			dao = new WorkerDAO();
 			ArrayList reqWorkerContList = dao.reqWorkerCont(reqCode);
-			String[][] reqWorkerContent = dao.workerList(reqWorkerContList, contHeader);
+			String[][] reqWorkerContent = super.changeArrayList(reqWorkerContList, contHeader);
 
 			for (int i = 0; i < reqWorkerContent.length; i++) {
 				defaultModel.addRow(reqWorkerContent[i]);

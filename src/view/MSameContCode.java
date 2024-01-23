@@ -23,22 +23,23 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import model.ManagerWorkerDAO;
+import model.Connect;
+import model.WorkerDAO;
 
-public class MSameContCode extends JFrame {
+public class MSameContCode extends Connect {
 
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel defaultModel;
 
-	private String[] contHeader = { "계약번호", "이름", "계약시작일", "계약만료일", "계약일", "계약상태" };
+	private String[] contHeader = { "계약번호","계약시작일", "계약만료일", "계약일"};
 	private String[][] contents = null;
 
 	private String workerCode = null;
 	private String idText = null;
 	// private ActionListener viewText = null;
 
-	private ManagerWorkerDAO dao = null;
+	private WorkerDAO dao = null;
 
 	/**
 	 * Launch the application.
@@ -107,37 +108,18 @@ public class MSameContCode extends JFrame {
 		table = new JTable(defaultModel);
 		
 		table.getColumn("계약번호").setPreferredWidth(3);
-		table.getColumn("이름").setPreferredWidth(3);
 		table.getColumn("계약시작일").setPreferredWidth(35);
 		table.getColumn("계약만료일").setPreferredWidth(35);
 		table.getColumn("계약일").setPreferredWidth(35);
-		table.getColumn("계약상태").setPreferredWidth(3);
 		
 		table.getColumn("계약번호").setCellRenderer(center);
-		table.getColumn("이름").setCellRenderer(center);
 		table.getColumn("계약시작일").setCellRenderer(center);
 		table.getColumn("계약만료일").setCellRenderer(center);
 		table.getColumn("계약일").setCellRenderer(center);
-		table.getColumn("계약상태").setCellRenderer(center);
 		
 		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		table.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		table.setBackground(new Color(255, 255, 255));
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				int col = 0;
-				int row = table.getSelectedRow();
-
-				String vNum = String.valueOf(table.getValueAt(row, col));
-				System.out.println(vNum);
-
-				new MWorkerContModify(0).workerContAtion(vNum, id);
-				dispose();
-
-			}
-		});
 		table.setBounds(0, 0, 491, 211);
 		panel.add(table);
 
@@ -152,9 +134,9 @@ public class MSameContCode extends JFrame {
 	public void workerContList() {
 		try {
 
-			dao = new ManagerWorkerDAO();
+			dao = new WorkerDAO();
 			ArrayList contList = dao.workerContInfo(workerCode);
-			String[][] contContent = dao.workerList(contList, contHeader);
+			String[][] contContent = super.changeArrayList(contList, contHeader);
 
 			System.out.println(contContent[0][0]);
 

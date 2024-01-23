@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import model.rec.CustVO;
 import model.rec.MgrVO;
 
 public class LoginDAO extends Connect{
@@ -49,7 +50,7 @@ public class LoginDAO extends Connect{
 		ResultSet resoffice = stmt.executeQuery(officeSql);
 
 		
-		stmt.close();
+
 		
 		return resoffice.next();
 	}
@@ -105,5 +106,46 @@ public class LoginDAO extends Connect{
 		stmt.close();
 		return code;
 
+	}
+	
+	public CustVO custCode(String id) throws Exception {
+		
+		String sql = "select cust_code, cust_name from cust where cust_id = '" + id + "'";
+		
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+		
+		CustVO vo = new CustVO();
+		
+		
+		if(res.next()) {
+			vo.setCustCode(res.getInt("cust_code"));
+			vo.setCustName(res.getString("cust_name"));
+		}
+		
+		
+		stmt.close();  // 닫기 추가
+		res.close();  // 닫기 추가
+		
+		return vo;
+		
+	}
+	
+	public int workerCode(String id) throws Exception {
+		
+		String sql = "select worker_code from worker where worker_id = '" + id + "'";
+		
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+		
+		int code = 0;
+		if(res.next()) {
+			code = res.getInt("worker_code");
+			
+		}
+		
+		return code;
+		
+		
 	}
 }

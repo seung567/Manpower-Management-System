@@ -57,6 +57,8 @@ public class MWorkerVisaView extends JFrame {
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
+							} else if (result == JOptionPane.NO_OPTION) {
+								frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 							}
 
 						}

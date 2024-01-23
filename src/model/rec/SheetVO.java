@@ -18,6 +18,35 @@ public class SheetVO {
 		this.settleCost = settleCost;
 		this.custTax = custTax; 
 	}
+	
+	public SheetVO(int reqContCode, int workerCost, int charge, int settleCost, int custTax) {
+		
+		this.reqContCode= reqContCode; 
+		this.workerCost = workerCost;
+		this.charge = charge;
+		this.settleCost = settleCost;
+		this.custTax = custTax; 
+	}
+	
+	// 이수정	
+	public SheetVO(int sheetCode, int reqContCode, String sheetDate, int workerCost, int charge, int custTax, int settleCost) {
+
+		this.sheetCode = sheetCode;
+		this.reqContCode= reqContCode; 
+		this.sheetDate = sheetDate;
+		this.workerCost = workerCost;
+		this.charge = charge;
+		this.custTax = custTax; 
+		this.settleCost = settleCost;
+	}
+	
+	// 이수정	
+	public SheetVO(String sheetDate, int sheetCode) {
+
+		this.sheetDate = sheetDate;
+		this.sheetCode = sheetCode;
+
+	}
 
 	public String getSheetDate() {
 		return sheetDate;
@@ -35,11 +64,11 @@ public class SheetVO {
 		this.sheetCode = sheetCode;
 	}
 
-	public int getreqContCode() {
+	public int getReqContCode() {
 		return reqContCode;
 	}
 
-	public void setreqContCode(int reqContCode) {
+	public void setReqContCode(int reqContCode) {
 		this.reqContCode = reqContCode;
 	}
 
@@ -74,6 +103,8 @@ public class SheetVO {
 	public void setCustTax(int custTax) {
 		this.custTax = custTax;
 	}
+	
+
 	
 
 }

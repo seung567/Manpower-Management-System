@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 import model.rec.WorkerVO;
 
-public class Connect {
+public class Connect extends JFrame {
 	
 	Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";

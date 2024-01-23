@@ -39,6 +39,52 @@ public class WorkerVO {
 		
 	}
 
+	
+	//오버라이딩 - 장경희 (workerCode 제외)
+	public WorkerVO(
+			String workerID, String workerPW, String workerName, String workerAddr,
+			String workerTel, String workerAge, String workerRnum,
+			String workerEmail, int skillCode) {
+
+		this.workerID = workerID;
+		this.workerPW = workerPW;
+		this.workerName = workerName;
+		this.workerAddr = workerAddr;
+		this.workerTel = workerTel;
+		this.workerAge = workerAge;
+		this.workerRnum = workerRnum;
+		this.workerEmail = workerEmail;
+		this.skillCode = skillCode;
+
+	}
+
+	//@오버라이딩 - 장경희
+	public WorkerVO(
+			String workerName, 
+			String workerPW, 
+			String workerTel, 
+			String workerEmail, 
+			String workerAddr,
+			String workerID,
+			String workerAge,
+			String workerRnum) { 
+
+		this.workerName = workerName;
+		this.workerPW = workerPW;
+		this.workerTel = workerTel;
+		this.workerEmail = workerEmail;
+		this.workerAddr = workerAddr;
+		this.workerID = workerID;
+		this.workerAge = workerAge;
+		this.workerRnum = workerRnum;
+
+	}
+
+	//@오버라이딩 - 장경희
+	public WorkerVO(String workerPW) {
+		this.workerPW = workerPW;
+	}
+	
 	public Date getCareerSdate() {
 		return careerSdate;
 	}

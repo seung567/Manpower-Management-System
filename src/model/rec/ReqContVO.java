@@ -22,6 +22,32 @@ public class ReqContVO {
 		this.workerCode = workerCode;		
 	}
 
+	public ReqContVO(String reqContCk, int reqContCode, int reqCode, 
+			String reqContSdate, String reqContEdate,
+			String actualSdate, String actualEdate, String reqContEwhy) {
+
+		this.reqContCk = reqContCk;
+		this.reqContCode = reqContCode; 
+		this.reqCode = reqCode; 
+		this.reqContSdate = reqContSdate; 
+		this.reqContEdate= reqContEdate; 
+		this.actualSdate = actualSdate;
+		this.actualEdate = actualEdate;
+		this.reqContEwhy = reqContEwhy;
+	}
+	
+	public ReqContVO(
+			String reqContCk, String reqContSdate, String  reqContEdate,
+			String actualSdate, String actualEdate, String reqContEwhy) {
+
+		this.reqContCk = reqContCk;
+		this.reqContSdate = reqContSdate;
+		this.reqContEdate = reqContEdate;
+		this.actualSdate = actualSdate; 
+		this.actualEdate = actualEdate; 
+		this.reqContEwhy = reqContEwhy;		
+	}
+
 	public String getReqContCk() {
 		return reqContCk;
 	}
