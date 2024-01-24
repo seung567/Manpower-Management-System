@@ -10,13 +10,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -28,16 +31,21 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.CareerDAO;
+import model.Connect;
 import model.LoginDAO;
-import model.ManagerReqDAO;
-import model.ManagerWorkerDAO;
+import model.ReqDAO;
+import model.WorkerDAO;
 import model.ReqContDAO;
+import model.SheetDAO;
 import model.rec.MgrVO;
+import model.rec.PayVO;
 import model.rec.ReqContVO;
 import model.rec.ReqVO;
+import model.rec.SheetVO;
 import model.rec.WorkerVO;
+import javax.swing.table.TableModel;
 
-public class MManagerView extends JFrame {
+public class MManagerView extends Connect {
 
 	private JPanel contentPane;
 	private JTextField workerNameTx;
@@ -48,7 +56,6 @@ public class MManagerView extends JFrame {
 	private JTable certiTB;
 	private JLabel careerPeriodLabel_value;
 	private JLabel workerCodeLabel;
-	private JLabel reqCodeLabel;
 
 	private JTable reqTB;
 	private JTextField sexTx;
@@ -83,13 +90,16 @@ public class MManagerView extends JFrame {
 	private DefaultTableModel reqModel;
 	private DefaultTableModel reqContModel;
 	private DefaultTableModel careerModel;
+	private DefaultTableModel sheetModel;
+	private DefaultTableModel priceModel;
 
 	private DefaultTableCellRenderer center;
 
-	private ManagerWorkerDAO dao = null;
-	private ManagerReqDAO reqDao = null;
+	private WorkerDAO dao = null;
+	private ReqDAO reqDao = null;
 	private CareerDAO careerDao = null;
 	private ReqContDAO reqContDao = null;
+	private SheetDAO sheetDao = null;
 
 	private String[][] contents = null;
 	private String[] workerHeader = { "파견인력번호", "이름", "전화번호", "나이", "기술분야" };
@@ -97,8 +107,30 @@ public class MManagerView extends JFrame {
 	private String[] reqHeader = { "파견요청번호", "업체명", "국가명", "도시명", "파견비용", "예상근무시작일", "승인처리" };
 	private String[] reqContHeader = { "파견계약번호", "파견요청번호", "계약성사여부", "계약체결일", "계약만기일", "지원현황" };
 	private String[] careerHeader = { "업체명", "직무시작일", "직무종료일", "경력내용" };
-	
+	private String[] sheetHeader = {"고용계약번호" , "파견계약번호" , "계약체결일" , "명세표번호"};
+	private String[] priceHeader = {"고용계약번호" , "파견계약번호" , "계약체결일" , "업체명세서발행번호","업체명세서발행일","지급여부"};
+
 	private String id;
+	private int code;
+	private JTable sheetTb;
+	private JTable sheetTabel;
+	private JTextField contCodeTx;
+	private JTextField workerCostTx;
+	private JTextField contFeeTx;
+	private JTextField custTaxTx;
+	private JTextField contTotalTx;
+	private JTable table;
+	private JTextField workerCode_tf;
+	private JTextField recontPay_tf;
+	private JTextField tax_tf;
+	private JTextField total_tf;
+	private JTextField workerPay_tf;
+	private JTable table_1;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
 	/**
 	 * Launch the application.
 	 */
@@ -125,7 +157,7 @@ public class MManagerView extends JFrame {
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
 							} else if (result == JOptionPane.NO_OPTION) {
-
+								frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 							}
 						}
 					});
@@ -150,19 +182,15 @@ public class MManagerView extends JFrame {
 
 	// 실행용 생성자 함수
 	public MManagerView(int num) {
+
 	};
 
 	// 메인 뷰 생성자 함수
 	public MManagerView(String id) {
 
-		// try {
-		// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
 		this.id = id;
+
+		codeSearch(id);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1450, 820);
@@ -215,35 +243,49 @@ public class MManagerView extends JFrame {
 			}
 		};
 		
+		sheetModel = new DefaultTableModel(contents, sheetHeader) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		priceModel = new DefaultTableModel(contents, priceHeader) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
 		JLabel mgrName = new JLabel("New label");
-		mgrName.setHorizontalAlignment(SwingConstants.LEFT);
+		mgrName.setHorizontalAlignment(SwingConstants.CENTER);
 		mgrName.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		mgrName.setBounds(1349, 10, 73, 33);
+		mgrName.setBounds(1310, 38, 112, 33);
 		contentPane.add(mgrName);
-		
+
 		JLabel mgrName_1 = new JLabel("New label");
-		mgrName_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		mgrName_1.setHorizontalAlignment(SwingConstants.CENTER);
 		mgrName_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		mgrName_1.setBounds(1213, 10, 126, 33);
+		mgrName_1.setBounds(1310, 10, 112, 33);
 		contentPane.add(mgrName_1);
-		
+
 		try {
-			
+
 			LoginDAO logindao = new LoginDAO();
 			MgrVO vo = logindao.mgrInfoGet(id);
-			
+
 			mgrName_1.setText(String.valueOf(vo.getMgrCode()));
 			mgrName.setText(vo.getMgrName());
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
-		
-		
-		
+
+
+
 		JTabbedPane managerMainTab = new JTabbedPane(JTabbedPane.TOP);
 		managerMainTab.setBorder(null);
 
@@ -269,7 +311,7 @@ public class MManagerView extends JFrame {
 		workerListPanel.setForeground(new Color(255, 255, 255));
 		workerListPanel.setBackground(new Color(16, 24, 32));
 		workerListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		workerListPanel.setBounds(12, 46, 750, 621);
 		workerManagePanel.add(workerListPanel);
 		workerListPanel.setLayout(null);
@@ -285,7 +327,7 @@ public class MManagerView extends JFrame {
 		workerInfoPanel.setForeground(new Color(255, 255, 255));
 		workerInfoPanel.setBackground(new Color(16, 24, 32));
 		workerInfoPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		workerInfoPanel.setBounds(774, 46, 619, 565);
 		workerManagePanel.add(workerInfoPanel);
 		workerInfoPanel.setLayout(null);
@@ -301,10 +343,11 @@ public class MManagerView extends JFrame {
 		workerNameLabel.setForeground(new Color(242, 170, 76));
 		workerNameLabel.setBackground(new Color(242, 170, 76));
 		workerNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerNameLabel.setBounds(28, 72, 84, 31);
+		workerNameLabel.setBounds(68, 78, 84, 31);
 		workerInfoPanel.add(workerNameLabel);
 
 		workerNameTx = new JTextField();
+		workerNameTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		workerNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerNameTx.setEditable(false);
 		workerNameTx.addMouseListener(new MouseAdapter() {
@@ -315,7 +358,7 @@ public class MManagerView extends JFrame {
 			}
 		});
 		workerNameTx.setToolTipText("");
-		workerNameTx.setBounds(102, 72, 107, 31);
+		workerNameTx.setBounds(142, 78, 107, 31);
 		workerInfoPanel.add(workerNameTx);
 		workerNameTx.setColumns(10);
 
@@ -323,28 +366,30 @@ public class MManagerView extends JFrame {
 		workerTelLabel.setForeground(new Color(242, 170, 76));
 		workerTelLabel.setBackground(new Color(242, 170, 76));
 		workerTelLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerTelLabel.setBounds(28, 123, 84, 31);
+		workerTelLabel.setBounds(274, 78, 84, 31);
 		workerInfoPanel.add(workerTelLabel);
 
 		workerTelTx = new JTextField();
+		workerTelTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		workerTelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerTelTx.setEditable(false);
 		workerTelTx.setColumns(10);
-		workerTelTx.setBounds(102, 124, 107, 31);
+		workerTelTx.setBounds(348, 78, 213, 31);
 		workerInfoPanel.add(workerTelTx);
 
 		JLabel workerAgeLabel = new JLabel("나이");
 		workerAgeLabel.setForeground(new Color(242, 170, 76));
 		workerAgeLabel.setBackground(new Color(242, 170, 76));
 		workerAgeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerAgeLabel.setBounds(244, 71, 84, 31);
+		workerAgeLabel.setBounds(68, 119, 67, 31);
 		workerInfoPanel.add(workerAgeLabel);
 
 		workerAgeTx = new JTextField();
+		workerAgeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		workerAgeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerAgeTx.setEditable(false);
 		workerAgeTx.setColumns(10);
-		workerAgeTx.setBounds(329, 71, 62, 31);
+		workerAgeTx.setBounds(142, 119, 107, 31);
 		workerInfoPanel.add(workerAgeTx);
 
 		JLabel careerPeriodLabel = new JLabel("경력기간");
@@ -355,10 +400,11 @@ public class MManagerView extends JFrame {
 		workerInfoPanel.add(careerPeriodLabel);
 
 		workerEmailTx = new JTextField();
+		workerEmailTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		workerEmailTx.setHorizontalAlignment(SwingConstants.CENTER);
 		workerEmailTx.setEditable(false);
 		workerEmailTx.setColumns(10);
-		workerEmailTx.setBounds(329, 123, 213, 31);
+		workerEmailTx.setBounds(348, 119, 213, 31);
 		workerInfoPanel.add(workerEmailTx);
 
 		JLabel certiLabel = new JLabel("취득 자격증");
@@ -400,7 +446,7 @@ public class MManagerView extends JFrame {
 		workerEmailLabel.setForeground(new Color(242, 170, 76));
 		workerEmailLabel.setBackground(new Color(242, 170, 76));
 		workerEmailLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerEmailLabel.setBounds(244, 122, 67, 31);
+		workerEmailLabel.setBounds(274, 119, 67, 31);
 		workerInfoPanel.add(workerEmailLabel);
 
 		JLabel careerDetailLabel = new JLabel("경력내용");
@@ -415,7 +461,7 @@ public class MManagerView extends JFrame {
 		careerPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		careerPanel.setBounds(28, 307, 557, 92);
 		workerInfoPanel.add(careerPanel);
-		
+
 		careerTB = new JTable(careerModel);
 		careerTB.setEnabled(false);
 		careerTB.setColumnSelectionAllowed(true);
@@ -428,7 +474,7 @@ public class MManagerView extends JFrame {
 		certiTBscrollPane_1.setBounds(0, 0, 557, 92);
 		careerPanel.add(certiTBscrollPane_1);
 
-		JButton workerReqInfoBtn = new JButton("계약내역확인");
+		JButton workerReqInfoBtn = new JButton("계약이력확인");
 		workerReqInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerReqInfoBtn.setBackground(new Color(16, 24, 32));
 		workerReqInfoBtn.setForeground(new Color(255, 255, 255));
@@ -449,23 +495,8 @@ public class MManagerView extends JFrame {
 			}
 		});
 
-		workerReqInfoBtn.setBounds(1097, 621, 142, 46);
+		workerReqInfoBtn.setBounds(1251, 621, 142, 46);
 		workerManagePanel.add(workerReqInfoBtn);
-
-		JButton workerVisatBtn = new JButton("비자정보등록");
-		workerVisatBtn.setBackground(new Color(16, 24, 32));
-		workerVisatBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerVisatBtn.setForeground(new Color(255, 255, 255));
-		workerVisatBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				new MWorkerVisaView().Action();
-
-			}
-		});
-
-		workerVisatBtn.setBounds(1251, 621, 142, 46);
-		workerManagePanel.add(workerVisatBtn);
 
 		workerListTB = new JTable(model);
 
@@ -521,7 +552,7 @@ public class MManagerView extends JFrame {
 		JPanel reqListPanel = new JPanel();
 		reqListPanel.setBackground(new Color(16, 24, 32));
 		reqListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqListPanel.setBounds(12, 46, 832, 621);
 		reqManagePanel.add(reqListPanel);
 		reqListPanel.setLayout(null);
@@ -560,17 +591,17 @@ public class MManagerView extends JFrame {
 		reqInfoLabel.setBounds(856, 10, 100, 33);
 		reqManagePanel.add(reqInfoLabel);
 
-		JButton reqCancelBtn = new JButton("파견요청취소");
+		JButton reqCancelBtn = new JButton("취소");
 		reqCancelBtn.setBackground(new Color(16, 24, 32));
 		reqCancelBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		reqCancelBtn.setForeground(new Color(255, 255, 255));
-		reqCancelBtn.setBounds(1085, 621, 142, 46);
+		reqCancelBtn.setBounds(1251, 621, 142, 46);
 		reqManagePanel.add(reqCancelBtn);
 
 		JPanel reqInfoPanel = new JPanel();
 		reqInfoPanel.setLayout(null);
 		reqInfoPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqInfoPanel.setBackground(new Color(16, 24, 32));
 		reqInfoPanel.setBounds(856, 46, 537, 565);
 		reqManagePanel.add(reqInfoPanel);
@@ -624,6 +655,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(expecEdate);
 
 		sexTx = new JTextField();
+		sexTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		sexTx.setEditable(false);
 		sexTx.setHorizontalAlignment(SwingConstants.CENTER);
 		sexTx.setColumns(10);
@@ -631,6 +663,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(sexTx);
 
 		totalCostTx = new JTextField();
+		totalCostTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		totalCostTx.setEditable(false);
 		totalCostTx.setHorizontalAlignment(SwingConstants.CENTER);
 		totalCostTx.setColumns(10);
@@ -638,6 +671,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(totalCostTx);
 
 		qualiTx = new JTextField();
+		qualiTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		qualiTx.setEditable(false);
 		qualiTx.setHorizontalAlignment(SwingConstants.CENTER);
 		qualiTx.setColumns(10);
@@ -645,6 +679,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(qualiTx);
 
 		localTx = new JTextField();
+		localTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		localTx.setEditable(false);
 		localTx.setHorizontalAlignment(SwingConstants.CENTER);
 		localTx.setColumns(10);
@@ -664,6 +699,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(totalCost);
 
 		ageRangeTx = new JTextField();
+		ageRangeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		ageRangeTx.setEditable(false);
 		ageRangeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		ageRangeTx.setColumns(10);
@@ -671,6 +707,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(ageRangeTx);
 
 		langTx = new JTextField();
+		langTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		langTx.setEditable(false);
 		langTx.setHorizontalAlignment(SwingConstants.CENTER);
 		langTx.setColumns(10);
@@ -678,6 +715,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(langTx);
 
 		cityNameTx = new JTextField();
+		cityNameTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		cityNameTx.setEditable(false);
 		cityNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		cityNameTx.setColumns(10);
@@ -685,6 +723,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(cityNameTx);
 
 		reqLangLevelTx = new JTextField();
+		reqLangLevelTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqLangLevelTx.setEditable(false);
 		reqLangLevelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqLangLevelTx.setColumns(10);
@@ -692,6 +731,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(reqLangLevelTx);
 
 		expecEdateTx = new JTextField();
+		expecEdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		expecEdateTx.setEditable(false);
 		expecEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		expecEdateTx.setColumns(10);
@@ -711,6 +751,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(workerNum);
 
 		expecSdateTx = new JTextField();
+		expecSdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		expecSdateTx.setEditable(false);
 		expecSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		expecSdateTx.setColumns(10);
@@ -718,6 +759,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(expecSdateTx);
 
 		custNameTx = new JTextField();
+		custNameTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		custNameTx.setEditable(false);
 		custNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		custNameTx.setForeground(Color.BLACK);
@@ -727,6 +769,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(custNameTx);
 
 		sectorNameTx = new JTextField();
+		sectorNameTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		sectorNameTx.setEditable(false);
 		sectorNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		sectorNameTx.setColumns(10);
@@ -740,6 +783,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(lang);
 
 		worekrNumTx = new JTextField();
+		worekrNumTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		worekrNumTx.setEditable(false);
 		worekrNumTx.setHorizontalAlignment(SwingConstants.CENTER);
 		worekrNumTx.setColumns(10);
@@ -747,6 +791,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel.add(worekrNumTx);
 
 		localLangLevelTx = new JTextField();
+		localLangLevelTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		localLangLevelTx.setEditable(false);
 		localLangLevelTx.setHorizontalAlignment(SwingConstants.CENTER);
 		localLangLevelTx.setColumns(10);
@@ -759,18 +804,52 @@ public class MManagerView extends JFrame {
 		localLangLevel.setBounds(284, 306, 105, 36);
 		reqInfoPanel.add(localLangLevel);
 
-		reqCodeLabel = new JLabel("New label");
-		reqCodeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		reqCodeLabel.setForeground(new Color(255, 255, 255));
-		reqCodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
-		reqCodeLabel.setBounds(382, 10, 143, 33);
-		reqInfoPanel.add(reqCodeLabel);
+		ButtonGroup contStateRaido = new ButtonGroup();
 
-		supportBtn = new JButton("파견요청승인");
+		JRadioButton contAccept = new JRadioButton("승인");
+		contAccept.setBackground(new Color(16, 24, 32));
+		contAccept.setForeground(new Color(255, 255, 255));
+		contAccept.setBounds(8, 12, 61, 23);
+		reqInfoPanel.add(contAccept);
+
+		JRadioButton contCancel = new JRadioButton("거절");
+		contCancel.setBackground(new Color(16, 24, 32));
+		contCancel.setForeground(new Color(255, 255, 255));
+		contCancel.setBounds(81, 12, 61, 23);
+		reqInfoPanel.add(contCancel);
+
+		JRadioButton contReAccept = new JRadioButton("재요청 승인");
+		contReAccept.setBackground(new Color(16, 24, 32));
+		contReAccept.setForeground(new Color(255, 255, 255));
+		contReAccept.setBounds(8, 12, 105, 23);
+		reqInfoPanel.add(contReAccept);
+
+		JRadioButton contRecCancel = new JRadioButton("재요청 반려");
+		contRecCancel.setBackground(new Color(16, 24, 32));
+		contRecCancel.setForeground(new Color(255, 255, 255));
+		contRecCancel.setBounds(122, 12, 105, 23);
+		reqInfoPanel.add(contRecCancel);
+
+		contStateRaido.add(contAccept);
+		contStateRaido.add(contCancel);
+		contStateRaido.add(contReAccept);
+		contStateRaido.add(contRecCancel);
+
+		contAccept.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		contCancel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		contReAccept.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		contRecCancel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		
+		contReAccept.setVisible(false);
+		contRecCancel.setVisible(false);
+		contAccept.setVisible(false);
+		contCancel.setVisible(false);
+
+		supportBtn = new JButton("확인");
 		supportBtn.setForeground(Color.WHITE);
 		supportBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		supportBtn.setBackground(new Color(16, 24, 32));
-		supportBtn.setBounds(1239, 621, 154, 46);
+		supportBtn.setBounds(1097, 621, 142, 46);
 		reqManagePanel.add(supportBtn);
 
 		JButton reqSerchBtn = new JButton("조회");
@@ -780,6 +859,20 @@ public class MManagerView extends JFrame {
 		reqSerchBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		reqSerchBtn.setBounds(755, 16, 89, 23);
 		reqManagePanel.add(reqSerchBtn);
+
+		JLabel conStateLabel = new JLabel("New label");
+		conStateLabel.setForeground(new Color(255, 255, 255));
+		conStateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		conStateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 15));
+		conStateLabel.setBounds(1293, 10, 100, 33);
+		reqManagePanel.add(conStateLabel);
+
+		JLabel reqCodeLabel = new JLabel("New label");
+		reqCodeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		reqCodeLabel.setForeground(Color.WHITE);
+		reqCodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 15));
+		reqCodeLabel.setBounds(1194, 10, 100, 33);
+		reqManagePanel.add(reqCodeLabel);
 
 		JPanel contManagePanel = new JPanel();
 		contManagePanel.setBackground(new Color(16, 24, 32));
@@ -796,7 +889,7 @@ public class MManagerView extends JFrame {
 		JPanel contListPanel = new JPanel();
 		contListPanel.setBackground(new Color(16, 24, 32));
 		contListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		contListPanel.setBounds(12, 46, 832, 621);
 		contManagePanel.add(contListPanel);
 		contListPanel.setLayout(null);
@@ -820,7 +913,7 @@ public class MManagerView extends JFrame {
 		JPanel reqInfoPanel_1 = new JPanel();
 		reqInfoPanel_1.setLayout(null);
 		reqInfoPanel_1
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
 		reqInfoPanel_1.setBackground(new Color(16, 24, 32));
 		reqInfoPanel_1.setBounds(856, 46, 537, 535);
 		contManagePanel.add(reqInfoPanel_1);
@@ -856,6 +949,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel_1.add(reqContEdate);
 
 		reqContEwhyTx = new JTextField();
+		reqContEwhyTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqContEwhyTx.setHorizontalAlignment(SwingConstants.LEFT);
 		reqContEwhyTx.setColumns(10);
 		reqContEwhyTx.setBounds(137, 301, 367, 161);
@@ -868,18 +962,21 @@ public class MManagerView extends JFrame {
 		reqInfoPanel_1.add(reqContEwhy);
 
 		actualEdateTx = new JTextField();
+		actualEdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		actualEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		actualEdateTx.setColumns(10);
 		actualEdateTx.setBounds(382, 222, 122, 33);
 		reqInfoPanel_1.add(actualEdateTx);
 
 		actualSdateTx = new JTextField();
+		actualSdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		actualSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		actualSdateTx.setColumns(10);
 		actualSdateTx.setBounds(137, 222, 122, 33);
 		reqInfoPanel_1.add(actualSdateTx);
 
 		reqContEdateTx = new JTextField();
+		reqContEdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqContEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqContEdateTx.setColumns(10);
 		reqContEdateTx.setBounds(382, 164, 122, 33);
@@ -892,12 +989,14 @@ public class MManagerView extends JFrame {
 		reqInfoPanel_1.add(reqContCk);
 
 		reqContSdateTx = new JTextField();
+		reqContSdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqContSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqContSdateTx.setColumns(10);
 		reqContSdateTx.setBounds(137, 164, 122, 33);
 		reqInfoPanel_1.add(reqContSdateTx);
 
 		reqContCodeTx = new JTextField();
+		reqContCodeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqContCodeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqContCodeTx.setForeground(Color.BLACK);
 		reqContCodeTx.setColumns(10);
@@ -906,6 +1005,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel_1.add(reqContCodeTx);
 
 		reqCheckTx = new JTextField();
+		reqCheckTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqCheckTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqCheckTx.setColumns(10);
 		reqCheckTx.setBounds(382, 24, 123, 33);
@@ -918,6 +1018,7 @@ public class MManagerView extends JFrame {
 		reqInfoPanel_1.add(reqCode);
 
 		reqCodeTx = new JTextField();
+		reqCodeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
 		reqCodeTx.setHorizontalAlignment(SwingConstants.CENTER);
 		reqCodeTx.setForeground(Color.BLACK);
 		reqCodeTx.setColumns(10);
@@ -964,18 +1065,30 @@ public class MManagerView extends JFrame {
 		sheetListPanel.setForeground(new Color(16, 24, 32));
 		sheetListPanel.setLayout(null);
 		sheetListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		sheetListPanel.setBounds(12, 46, 750, 621);
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetListPanel.setBounds(12, 46, 830, 621);
 		sheetManagerPanel.add(sheetListPanel);
+		
+		
+		sheetTabel = new JTable(sheetModel);
+		sheetTabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		sheetTabel.getColumn("고용계약번호").setCellRenderer(center);
+		sheetTabel.getColumn("파견계약번호").setCellRenderer(center);
+		sheetTabel.getColumn("계약체결일").setCellRenderer(center);
+		sheetTabel.getColumn("명세표번호").setCellRenderer(center);
+		
+		sheetTabel.setBounds(12, 46, 830, 621);
+		sheetListPanel.add(sheetTabel);
+		
+		JScrollPane sheetScrollPane = new JScrollPane(sheetTabel);
+		sheetScrollPane.setBounds(10, 10, 808, 601);
+		sheetListPanel.add(sheetScrollPane);
 
-		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(10, 10, 728, 601);
-		sheetListPanel.add(scrollPane_1);
 
-		JLabel sheetCustLabel = new JLabel("업체별 정산 내역");
+		JLabel sheetCustLabel = new JLabel("정산 발행 정보");
 		sheetCustLabel.setForeground(new Color(242, 170, 76));
 		sheetCustLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		sheetCustLabel.setBounds(854, 10, 498, 33);
+		sheetCustLabel.setBounds(854, 10, 166, 33);
 		sheetManagerPanel.add(sheetCustLabel);
 
 		JPanel sheetCustPanel = new JPanel();
@@ -983,27 +1096,100 @@ public class MManagerView extends JFrame {
 		sheetCustPanel.setForeground(new Color(16, 24, 32));
 		sheetCustPanel.setLayout(null);
 		sheetCustPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		sheetCustPanel.setBounds(854, 46, 498, 427);
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetCustPanel.setBounds(854, 46, 539, 400);
 		sheetManagerPanel.add(sheetCustPanel);
+		
+		JLabel lblNewLabel = new JLabel("파견계약번호");
+		lblNewLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(142, 51, 101, 35);
+		sheetCustPanel.add(lblNewLabel);
+		
+		contCodeTx = new JTextField();
+		contCodeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contCodeTx.setEditable(false);
+		contCodeTx.setHorizontalAlignment(SwingConstants.CENTER);
+		contCodeTx.setBounds(255, 51, 162, 35);
+		sheetCustPanel.add(contCodeTx);
+		contCodeTx.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("파견인력수당");
+		lblNewLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBounds(142, 126, 101, 35);
+		sheetCustPanel.add(lblNewLabel_1);
+		
+		workerCostTx = new JTextField();
+		workerCostTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		workerCostTx.setEditable(false);
+		workerCostTx.setHorizontalAlignment(SwingConstants.CENTER);
+		workerCostTx.setColumns(10);
+		workerCostTx.setBounds(255, 126, 162, 35);
+		sheetCustPanel.add(workerCostTx);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("파견수수료");
+		lblNewLabel_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_1_1.setForeground(Color.WHITE);
+		lblNewLabel_1_1.setBounds(142, 196, 101, 35);
+		sheetCustPanel.add(lblNewLabel_1_1);
+		
+		contFeeTx = new JTextField();
+		contFeeTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contFeeTx.setEditable(false);
+		contFeeTx.setHorizontalAlignment(SwingConstants.CENTER);
+		contFeeTx.setColumns(10);
+		contFeeTx.setBounds(255, 196, 162, 35);
+		sheetCustPanel.add(contFeeTx);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("세금");
+		lblNewLabel_1_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_1_2.setForeground(Color.WHITE);
+		lblNewLabel_1_2.setBounds(142, 261, 101, 35);
+		sheetCustPanel.add(lblNewLabel_1_2);
+		
+		custTaxTx = new JTextField();
+		custTaxTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		custTaxTx.setEditable(false);
+		custTaxTx.setHorizontalAlignment(SwingConstants.CENTER);
+		custTaxTx.setColumns(10);
+		custTaxTx.setBounds(255, 261, 162, 35);
+		sheetCustPanel.add(custTaxTx);
+		
+		JLabel lblNewLabel_1_2_1 = new JLabel("실 정산 금액");
+		lblNewLabel_1_2_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_1_2_1.setForeground(Color.WHITE);
+		lblNewLabel_1_2_1.setBounds(142, 325, 101, 35);
+		sheetCustPanel.add(lblNewLabel_1_2_1);
+		
+		contTotalTx = new JTextField();
+		contTotalTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contTotalTx.setEditable(false);
+		contTotalTx.setHorizontalAlignment(SwingConstants.CENTER);
+		contTotalTx.setColumns(10);
+		contTotalTx.setBounds(255, 325, 162, 35);
+		sheetCustPanel.add(contTotalTx);
 
-		JScrollPane scrollPane_1_1 = new JScrollPane((Component) null);
-		scrollPane_1_1.setBounds(12, 10, 474, 407);
-		sheetCustPanel.add(scrollPane_1_1);
-
-		JButton sheetInfoBtn = new JButton("정산 상세 내역정보");
-		sheetInfoBtn.setForeground(new Color(255, 255, 255));
-		sheetInfoBtn.setBackground(new Color(16, 24, 32));
-		sheetInfoBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		sheetInfoBtn.setBounds(1030, 483, 168, 46);
-		sheetManagerPanel.add(sheetInfoBtn);
-
-		JButton sheetCheckBtn = new JButton("입금확인");
+		JButton sheetCheckBtn = new JButton("정산 명세표 발행");
 		sheetCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		sheetCheckBtn.setForeground(new Color(255, 255, 255));
 		sheetCheckBtn.setBackground(new Color(16, 24, 32));
-		sheetCheckBtn.setBounds(1210, 483, 142, 46);
+		sheetCheckBtn.setBounds(923, 481, 401, 46);
 		sheetManagerPanel.add(sheetCheckBtn);
+		
+		JButton sheetJoinBtn = new JButton("조회");
+		sheetJoinBtn.setForeground(Color.WHITE);
+		sheetJoinBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		sheetJoinBtn.setBackground(new Color(16, 24, 32));
+		sheetJoinBtn.setBounds(753, 16, 89, 23);
+		sheetManagerPanel.add(sheetJoinBtn);
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_2.setForeground(new Color(242, 170, 76));
+		lblNewLabel_2.setBounds(1280, 14, 113, 25);
+		sheetManagerPanel.add(lblNewLabel_2);
 
 		JPanel payManagerPanel = new JPanel();
 		payManagerPanel.setBackground(new Color(16, 24, 32));
@@ -1021,38 +1207,248 @@ public class MManagerView extends JFrame {
 		payListPanel.setBackground(new Color(16, 24, 32));
 		payListPanel.setLayout(null);
 		payListPanel
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		payListPanel.setBounds(12, 46, 750, 621);
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		payListPanel.setBounds(12, 46, 824, 621);
 		payManagerPanel.add(payListPanel);
-
-		JScrollPane scrollPane_1_2 = new JScrollPane((Component) null);
-		scrollPane_1_2.setBounds(10, 10, 728, 601);
-		payListPanel.add(scrollPane_1_2);
+				
+		table = new JTable(priceModel);
+		table.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		table.getColumn("고용계약번호").setCellRenderer(center);
+		table.getColumn("파견계약번호").setCellRenderer(center);
+		table.getColumn("계약체결일").setCellRenderer(center);
+		table.getColumn("업체명세서발행번호").setCellRenderer(center);
+		table.getColumn("업체명세서발행일").setCellRenderer(center);
+		table.getColumn("지급여부").setCellRenderer(center);
+		
+		table.setBounds(12, 10, 726, 601);
+		payListPanel.add(table);
+		
+		JScrollPane scrollPane_1 = new JScrollPane(table);
+		scrollPane_1.setBounds(12, 10, 800, 601);
+		payListPanel.add(scrollPane_1);
+		
+		JPanel payManagerPanel_1 = new JPanel();
+		payManagerPanel_1.setLayout(null);
+		payManagerPanel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		payManagerPanel_1.setBackground(new Color(16, 24, 32));
+		scrollPane_1.setColumnHeaderView(payManagerPanel_1);
+		
+		JLabel payListLabel_1 = new JLabel("월별 수당 지급내역");
+		payListLabel_1.setForeground(new Color(242, 170, 76));
+		payListLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		payListLabel_1.setBounds(12, 10, 142, 33);
+		payManagerPanel_1.add(payListLabel_1);
+		
+		JPanel payListPanel_1 = new JPanel();
+		payListPanel_1.setLayout(null);
+		payListPanel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		payListPanel_1.setBackground(new Color(16, 24, 32));
+		payListPanel_1.setBounds(12, 46, 824, 621);
+		payManagerPanel_1.add(payListPanel_1);
+		
+		table_1 = new JTable((TableModel) null);
+		table_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		table_1.setBounds(0, 0, 798, 0);
+		payListPanel_1.add(table_1);
+		
+		JScrollPane scrollPane_1_1 = new JScrollPane((Component) null);
+		scrollPane_1_1.setBounds(12, 10, 800, 601);
+		payListPanel_1.add(scrollPane_1_1);
+		
+		JLabel workerPayLabel_1 = new JLabel("인력별 수당 내역");
+		workerPayLabel_1.setForeground(new Color(242, 170, 76));
+		workerPayLabel_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerPayLabel_1.setBounds(848, 10, 119, 33);
+		payManagerPanel_1.add(workerPayLabel_1);
+		
+		JPanel sheetCustPanel_1_1 = new JPanel();
+		sheetCustPanel_1_1.setLayout(null);
+		sheetCustPanel_1_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetCustPanel_1_1.setBackground(new Color(16, 24, 32));
+		sheetCustPanel_1_1.setBounds(848, 46, 545, 427);
+		payManagerPanel_1.add(sheetCustPanel_1_1);
+		
+		JLabel lblNewLabel_3_4 = new JLabel("파견 지원자 번호");
+		lblNewLabel_3_4.setForeground(Color.WHITE);
+		lblNewLabel_3_4.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_4.setBounds(125, 62, 119, 33);
+		sheetCustPanel_1_1.add(lblNewLabel_3_4);
+		
+		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(271, 62, 176, 33);
+		sheetCustPanel_1_1.add(textField);
+		
+		JLabel lblNewLabel_3_1_2 = new JLabel("재계약 추가 수당");
+		lblNewLabel_3_1_2.setForeground(Color.WHITE);
+		lblNewLabel_3_1_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_1_2.setBounds(125, 195, 119, 33);
+		sheetCustPanel_1_1.add(lblNewLabel_3_1_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(271, 195, 176, 33);
+		sheetCustPanel_1_1.add(textField_1);
+		
+		JLabel lblNewLabel_3_2_1 = new JLabel("세금");
+		lblNewLabel_3_2_1.setForeground(Color.WHITE);
+		lblNewLabel_3_2_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_2_1.setBounds(125, 259, 119, 33);
+		sheetCustPanel_1_1.add(lblNewLabel_3_2_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		textField_2.setBounds(271, 259, 176, 33);
+		sheetCustPanel_1_1.add(textField_2);
+		
+		JLabel lblNewLabel_3_3_1 = new JLabel("실 수당 정산금액");
+		lblNewLabel_3_3_1.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_3_1.setBounds(125, 322, 119, 33);
+		sheetCustPanel_1_1.add(lblNewLabel_3_3_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_3.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		textField_3.setEditable(false);
+		textField_3.setColumns(10);
+		textField_3.setBounds(271, 322, 176, 33);
+		sheetCustPanel_1_1.add(textField_3);
+		
+		JLabel lblNewLabel_3_1_1_1 = new JLabel("재계약 추가 수당");
+		lblNewLabel_3_1_1_1.setForeground(Color.WHITE);
+		lblNewLabel_3_1_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_1_1_1.setBounds(125, 133, 119, 33);
+		sheetCustPanel_1_1.add(lblNewLabel_3_1_1_1);
+		
+		textField_4 = new JTextField();
+		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_4.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		textField_4.setEditable(false);
+		textField_4.setColumns(10);
+		textField_4.setBounds(271, 133, 176, 33);
+		sheetCustPanel_1_1.add(textField_4);
+		
+		JButton payContListCheckBtn_1 = new JButton("파견 지원자 수당 입금 처리");
+		payContListCheckBtn_1.setForeground(Color.WHITE);
+		payContListCheckBtn_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		payContListCheckBtn_1.setBackground(new Color(16, 24, 32));
+		payContListCheckBtn_1.setBounds(898, 501, 445, 46);
+		payManagerPanel_1.add(payContListCheckBtn_1);
+		
+		JButton sheetJoinBtn_1_1 = new JButton("조회");
+		sheetJoinBtn_1_1.setForeground(Color.WHITE);
+		sheetJoinBtn_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		sheetJoinBtn_1_1.setBackground(new Color(16, 24, 32));
+		sheetJoinBtn_1_1.setBounds(747, 15, 89, 23);
+		payManagerPanel_1.add(sheetJoinBtn_1_1);
 
 		JLabel workerPayLabel = new JLabel("인력별 수당 내역");
 		workerPayLabel.setForeground(new Color(242, 170, 76));
 		workerPayLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
-		workerPayLabel.setBounds(870, 10, 498, 33);
+		workerPayLabel.setBounds(848, 10, 119, 33);
 		payManagerPanel.add(workerPayLabel);
 
 		JPanel sheetCustPanel_1 = new JPanel();
 		sheetCustPanel_1.setBackground(new Color(16, 24, 32));
 		sheetCustPanel_1.setLayout(null);
 		sheetCustPanel_1
-				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
-		sheetCustPanel_1.setBounds(870, 46, 498, 427);
+		.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(255, 255, 255)));
+		sheetCustPanel_1.setBounds(848, 46, 545, 427);
 		payManagerPanel.add(sheetCustPanel_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("파견 지원자 번호");
+		lblNewLabel_3.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
+		lblNewLabel_3.setBounds(125, 62, 119, 33);
+		sheetCustPanel_1.add(lblNewLabel_3);
+		
+		workerCode_tf = new JTextField();
+		workerCode_tf.setHorizontalAlignment(SwingConstants.CENTER);
+		workerCode_tf.setEditable(false);
+		workerCode_tf.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerCode_tf.setBounds(271, 62, 176, 33);
+		sheetCustPanel_1.add(workerCode_tf);
+		workerCode_tf.setColumns(10);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("재계약 추가 수당");
+		lblNewLabel_3_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_1.setForeground(Color.WHITE);
+		lblNewLabel_3_1.setBounds(125, 195, 119, 33);
+		sheetCustPanel_1.add(lblNewLabel_3_1);
+		
+		recontPay_tf = new JTextField();
+		recontPay_tf.setHorizontalAlignment(SwingConstants.CENTER);
+		recontPay_tf.setEditable(false);
+		recontPay_tf.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		recontPay_tf.setColumns(10);
+		recontPay_tf.setBounds(271, 195, 176, 33);
+		sheetCustPanel_1.add(recontPay_tf);
+		
+		JLabel lblNewLabel_3_2 = new JLabel("세금");
+		lblNewLabel_3_2.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_2.setForeground(Color.WHITE);
+		lblNewLabel_3_2.setBounds(125, 259, 119, 33);
+		sheetCustPanel_1.add(lblNewLabel_3_2);
+		
+		tax_tf = new JTextField();
+		tax_tf.setHorizontalAlignment(SwingConstants.CENTER);
+		tax_tf.setEditable(false);
+		tax_tf.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		tax_tf.setColumns(10);
+		tax_tf.setBounds(271, 259, 176, 33);
+		sheetCustPanel_1.add(tax_tf);
+		
+		JLabel lblNewLabel_3_3 = new JLabel("실 수당 정산금액");
+		lblNewLabel_3_3.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_3.setForeground(Color.WHITE);
+		lblNewLabel_3_3.setBounds(125, 322, 119, 33);
+		sheetCustPanel_1.add(lblNewLabel_3_3);
+		
+		total_tf = new JTextField();
+		total_tf.setHorizontalAlignment(SwingConstants.CENTER);
+		total_tf.setEditable(false);
+		total_tf.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		total_tf.setColumns(10);
+		total_tf.setBounds(271, 322, 176, 33);
+		sheetCustPanel_1.add(total_tf);
+		
+		JLabel lblNewLabel_3_1_1 = new JLabel("재계약 추가 수당");
+		lblNewLabel_3_1_1.setForeground(Color.WHITE);
+		lblNewLabel_3_1_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		lblNewLabel_3_1_1.setBounds(125, 133, 119, 33);
+		sheetCustPanel_1.add(lblNewLabel_3_1_1);
+		
+		workerPay_tf = new JTextField();
+		workerPay_tf.setHorizontalAlignment(SwingConstants.CENTER);
+		workerPay_tf.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		workerPay_tf.setEditable(false);
+		workerPay_tf.setColumns(10);
+		workerPay_tf.setBounds(271, 133, 176, 33);
+		sheetCustPanel_1.add(workerPay_tf);
 
-		JScrollPane scrollPane_1_1_1 = new JScrollPane((Component) null);
-		scrollPane_1_1_1.setBounds(12, 10, 474, 407);
-		sheetCustPanel_1.add(scrollPane_1_1_1);
-
-		JButton payContListCheckBtn = new JButton("계약내역확인");
+		JButton payContListCheckBtn = new JButton("파견 지원자 수당 입금 처리");
 		payContListCheckBtn.setForeground(new Color(255, 255, 255));
 		payContListCheckBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		payContListCheckBtn.setBackground(new Color(16, 24, 32));
-		payContListCheckBtn.setBounds(1226, 483, 142, 46);
+		payContListCheckBtn.setBounds(898, 501, 445, 46);
 		payManagerPanel.add(payContListCheckBtn);
+		
+		JButton sheetJoinBtn_1 = new JButton("조회");
+		sheetJoinBtn_1.setForeground(Color.WHITE);
+		sheetJoinBtn_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
+		sheetJoinBtn_1.setBackground(new Color(16, 24, 32));
+		sheetJoinBtn_1.setBounds(747, 15, 89, 23);
+		payManagerPanel.add(sheetJoinBtn_1);
 
 		JLabel mainViewLogoLabel = new JLabel("해외파견관리");
 		mainViewLogoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
@@ -1063,6 +1459,22 @@ public class MManagerView extends JFrame {
 		managerLogoLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 20));
 		managerLogoLabel.setBounds(142, 10, 94, 55);
 		contentPane.add(managerLogoLabel);
+		
+		JButton loginOutBtn = new JButton("로그아웃");
+		loginOutBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		loginOutBtn.setBackground(new Color(16, 24, 32));
+		loginOutBtn.setForeground(new Color(255, 255, 255));
+		loginOutBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String[] login = new String[0];
+				new LoginView().main(login);;
+				dispose();
+				
+			}
+		});
+		loginOutBtn.setBounds(1201, 10, 97, 23);
+		contentPane.add(loginOutBtn);
 
 
 
@@ -1077,12 +1489,16 @@ public class MManagerView extends JFrame {
 				String reqCodeString = String.valueOf(reqTB.getValueAt(row, col));
 				int reqCodeInt = Integer.parseInt(reqCodeString);
 
+				int col2 = 6;
+				int row2 = reqTB.getSelectedRow();
+				String reqContState = String.valueOf(reqTB.getValueAt(row2, col2));
+
 				try {
 
-					reqDao = new ManagerReqDAO();
+					reqDao = new ReqDAO();
 					ReqVO vo = reqDao.serachReqInfo(reqCodeInt);
 
-					reqCodeLabel.setText(reqCodeString);
+					
 
 					custNameTx.setText(vo.getCustName()); // 업체명
 					sectorNameTx.setText(vo.getSectorName()); // 업종명
@@ -1097,11 +1513,46 @@ public class MManagerView extends JFrame {
 					sexTx.setText(vo.getSex()); // 성별
 					ageRangeTx.setText(vo.getAgeRange()); // 연령대
 					qualiTx.setText(vo.getQuali()); // 자격요건
-					totalCostTx.setText(vo.gettotalCost()); // 총 파견 비용
+					
+					NumberFormat numberFormat = NumberFormat.getInstance();
+					totalCostTx.setText(numberFormat.format(vo.getTotalCost())); // 총 파견 비용
+
+					conStateLabel.setText(reqContState);
+					reqCodeLabel.setText(reqCodeString);
 
 				} catch (Exception e2) {
 					// TODO: handle exception
 					System.out.println("파견요청테이블 이벤트 " + e2.getMessage());
+					e2.printStackTrace();
+				}
+				
+				if(reqContState.equals("미승인")) {
+					
+					contAccept.setVisible(true);
+					contCancel.setVisible(true);
+					contReAccept.setVisible(false);
+					contRecCancel.setVisible(false);
+					supportBtn.setVisible(true);
+					reqCancelBtn.setVisible(true);
+					
+				}else if(reqContState.equals("재요청")) {
+					
+					contAccept.setVisible(false);
+					contCancel.setVisible(false);
+					contReAccept.setVisible(true);
+					contRecCancel.setVisible(true);
+					supportBtn.setVisible(true);
+					reqCancelBtn.setVisible(true);
+					
+				}else if(reqContState.equals("계약승인")){
+					
+					contAccept.setVisible(false);
+					contCancel.setVisible(false);
+					contReAccept.setVisible(false);
+					contRecCancel.setVisible(false);					
+					supportBtn.setVisible(false);
+					reqCancelBtn.setVisible(false);
+					
 				}
 
 			}
@@ -1155,7 +1606,7 @@ public class MManagerView extends JFrame {
 
 				try {
 
-					ReqContDAO reqContDao = new ReqContDAO();
+					//					ReqContDAO reqContDao = new ReqContDAO();
 					ReqContVO vo = reqContDao.reqContInfo(result);
 
 					reqContCodeTx.setText(String.valueOf(vo.getReqContCode()));
@@ -1181,24 +1632,7 @@ public class MManagerView extends JFrame {
 			}
 		});
 
-		// 사용업체 파견요청건 승인 처리 이벤트
-		supportBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				int col = 6; // 컬럼 위치
-				int row = reqTB.getSelectedRow(); // 내가 클릭한 행의 위치
-				String vNum = String.valueOf(reqTB.getValueAt(row, col));
-
-				if (vNum.equals("승인")) {
-					JOptionPane.showMessageDialog(null, "승인처리된 요청건 입니다.");
-				} else {
-
-					String reqCode = reqCodeLabel.getText();
-					new MReqContInsertView(0).workerContAction(reqCode, id);
-
-				}
-			}
-		});
 
 		// 파견요청 조회 버튼 클릭 이벤트 발생시 목록 새로고침 해주는 이벤트
 		reqSerchBtn.addActionListener(new ActionListener() {
@@ -1230,16 +1664,214 @@ public class MManagerView extends JFrame {
 					new MWorkerSupportListView(0).workerSupportAction(reqContCode,id);
 				}
 
+				actualEdateTx.setEditable(false);
+
 			}
 		});
 
-		// -----------------------------명령 실행부----------------------------
+		// 사용업체 파견요청건 승인 처리 이벤트
+		supportBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-//		workerListTB(workerHeader); // 파견인력 목록 출력
-//		reqTB(reqHeader); // 파견요청 목록 출력
-//		reqContTB(reqContHeader); // 계약 목록 출력
+				int result = JOptionPane.showConfirmDialog(null, "승인 처리 하시겠습니까 ?", "확인", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					String vReqCode = String.valueOf(reqCodeLabel.getText());
 
+					try {
+
+						reqContDao = new ReqContDAO();
+
+						if (contAccept.isSelected()) {
+							new MReqContInsertView(0).workerContAction(vReqCode, id, "승인");
+						} else if (contCancel.isSelected()) {
+							new MReqContInsertView(0).workerContAction(vReqCode, id, "반려");
+						} else if (contReAccept.isSelected()) {
+							reqContDao.reqReAccept(vReqCode, "승인");
+						} else if (contRecCancel.isSelected()) {
+							reqContDao.reqReAccept(vReqCode, "반려");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(managerLogoLabel,
+								"supportBtn.addActionListener " + e1.getMessage());
+					}
+					reqTB(reqHeader);
+				} else if (result == JOptionPane.NO_OPTION) {
+
+				}
+
+			}
+		});
+		
+		// 업체 정산목록 조회 하는 이벤트
+		sheetJoinBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				vSheetTB(sheetHeader);
+				
+			}
+		});
+		
+		// 업체 정산목록 클릭시 상세정보 보기 기능
+		sheetTabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int col = 0; // 컬럼 위치
+				int row = sheetTabel.getSelectedRow(); // 내가 클릭한 행의 위치
+
+				String vNum = String.valueOf(sheetTabel.getValueAt(row, col));
+				int result = Integer.parseInt(vNum);
+				
+				try {
+					
+					SheetVO vo = sheetDao.sheetReceipt(result);
+					
+					NumberFormat numberFormat = NumberFormat.getInstance();
+					
+					
+					lblNewLabel_2.setText(vNum);
+					contCodeTx.setText(String.valueOf(vo.getReqContCode()));
+					workerCostTx.setText(numberFormat.format(vo.getWorkerCost()));
+					contFeeTx.setText(numberFormat.format(vo.getCharge()));
+					custTaxTx.setText(numberFormat.format(vo.getCustTax()));
+					contTotalTx.setText(numberFormat.format(vo.getSettleCost()));
+					
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+				
+
+				
+			}
+		});
+		
+		// 정산발행시 업체 정산내역 추가 이벤트
+		sheetCheckBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int result = JOptionPane.showConfirmDialog(null, "사용업체 정산 명세표 발행 처리", "확인", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+
+					int workerCode = Integer.parseInt(lblNewLabel_2.getText());
+
+					int col = 3; // 컬럼 위치
+					int row = sheetTabel.getSelectedRow(); // 내가 클릭한 행의 위치
+					String vNum = String.valueOf(sheetTabel.getValueAt(row, col));
+
+					if (vNum.equals("미발행")) {
+						try {
+
+							int state = sheetDao.sheetInput(workerCode);
+
+							if (state > 0) {
+								System.out.println("정산서 등록성공");
+							} else {
+								System.out.println("정산서 등록실패");
+							}
+
+						} catch (Exception e2) {
+							// TODO: handle exception
+							e2.printStackTrace();
+						}
+
+						vSheetTB(sheetHeader);
+					} else {
+						JOptionPane.showMessageDialog(null, "이미 발행된 건 입니다.");
+					}
+
+				} else if (result == JOptionPane.NO_OPTION) {
+
+				}
+			}
+		});
+		
+		
+		sheetJoinBtn_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				workerPayTB(priceHeader);
+				
+			}
+		});
+
+		
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				int col = 0; // 컬럼 위치
+				int row = table.getSelectedRow(); // 내가 클릭한 행의 위치
+				int vNum = Integer.parseInt((String)table.getValueAt(row, col));
+				
+				
+				System.out.println(vNum);
+				NumberFormat numberFormat = NumberFormat.getInstance();
+				
+				try {
+					PayVO vo = sheetDao.workerPayOutput(vNum);
+					
+					workerCode_tf.setText(String.valueOf(vo.getWorkerCode()));
+					recontPay_tf.setText(numberFormat.format(vo.getRecontIncen()));
+					tax_tf.setText(numberFormat.format(vo.getWorkerTax()));
+					total_tf.setText(numberFormat.format(vo.getActualPay()));
+					workerPay_tf.setText(numberFormat.format(vo.getPay()));
+					
+				} catch (Exception e2) {
+					// TODO: handle exception
+					e2.printStackTrace();
+				}
+			}
+		});
+		
+		payContListCheckBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				int result = JOptionPane.showConfirmDialog(null, "파견 인력 정산 입금처리", "확인",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					int col = 0; // 컬럼 위치
+					int row = table.getSelectedRow(); // 내가 클릭한 행의 위치
+					int vNum = Integer.parseInt((String) table.getValueAt(row, col));
+
+					int col1 = 5; // 컬럼 위치
+					int row1 = table.getSelectedRow(); // 내가 클릭한 행의 위치
+					String vNum1 = String.valueOf(table.getValueAt(row1, col1));
+
+					if (vNum1.equals("미지급")) {
+
+						try {
+
+							int state = sheetDao.workerPayInsert(vNum);
+
+							if (state > 0) {
+								System.out.println("수당정보 입력 성공");
+							} else {
+								System.out.println("수당정보 입력 실패");
+							}
+						} catch (Exception e2) {
+							JOptionPane.showMessageDialog(null, "수당정보입력실패" + e2.getMessage());
+						}
+
+						workerPayTB(priceHeader);
+					} else {
+						JOptionPane.showMessageDialog(null, "이미 처리된 정산건입니다.");
+					}
+
+				} else if (result == JOptionPane.NO_OPTION) {
+					
+				}
+
+
+
+			}
+
+		});
 	}
+	
 	// 메소드 정의부
 	// -------------------------------------------------------------------------
 
@@ -1247,10 +1879,10 @@ public class MManagerView extends JFrame {
 	void workerListTB(String[] header) {
 		try {
 
-			dao = new ManagerWorkerDAO();
+			dao = new WorkerDAO();
 
 			ArrayList workerList = dao.serchWorkerInfo(); // 인력목록 ArrayList 형태로 가져오기
-			String[][] contentsWorker = dao.workerList(workerList, header);
+			String[][] contentsWorker = super.changeArrayList(workerList, header);
 
 			model.setNumRows(0); // 초기화
 
@@ -1270,10 +1902,10 @@ public class MManagerView extends JFrame {
 	void certiListTB(String[] header, String code) {
 		try {
 
-			dao = new ManagerWorkerDAO();
+			dao = new WorkerDAO();
 
 			ArrayList certiList = dao.serchCertiInfo(code); // 인력목록 ArrayList 형태로 가져오기
-			String[][] certiContents = dao.workerList(certiList, header);
+			String[][] certiContents = super.changeArrayList(certiList, header);
 
 			certiModel.setNumRows(0);
 
@@ -1281,7 +1913,7 @@ public class MManagerView extends JFrame {
 				certiModel.addRow(certiContents[i]);
 
 			}
-			
+
 		} catch (Exception e1) {
 			// TODO: handle exception
 			JOptionPane.showMessageDialog(null, "자격증정보목록오류 : " + e1.getMessage());
@@ -1295,7 +1927,7 @@ public class MManagerView extends JFrame {
 			careerDao = new CareerDAO();
 
 			ArrayList careerList = careerDao.careerList(workerCode); // 인력목록 ArrayList 형태로 가져오기
-			String[][] reqContContents = careerDao.careerChangeArray(careerList, header);
+			String[][] reqContContents = super.changeArrayList(careerList, header);
 
 			careerModel.setNumRows(0);
 
@@ -1314,10 +1946,10 @@ public class MManagerView extends JFrame {
 	void reqTB(String[] header) {
 		try {
 
-			reqDao = new ManagerReqDAO();
+			reqDao = new ReqDAO();
 
 			ArrayList reqList = reqDao.reqList(); // 인력목록 ArrayList 형태로 가져오기
-			String[][] reqContents = reqDao.workerList(reqList, header);
+			String[][] reqContents = super.changeArrayList(reqList, header);
 
 			reqModel.setNumRows(0);
 
@@ -1339,8 +1971,8 @@ public class MManagerView extends JFrame {
 
 			reqContDao = new ReqContDAO();
 
-			ArrayList reqContList = reqContDao.reqContList(); // 인력목록 ArrayList 형태로 가져오기
-			String[][] reqContContents = reqContDao.changeArrayList(reqContList, header);
+			ArrayList reqContList = reqContDao.reqContListManger(); // 인력목록 ArrayList 형태로 가져오기
+			String[][] reqContContents = super.changeArrayList(reqContList, header);
 
 			reqContModel.setNumRows(0);
 
@@ -1354,14 +1986,64 @@ public class MManagerView extends JFrame {
 			JOptionPane.showMessageDialog(null, "계약목록오류 : " + e1.getMessage());
 		}
 	}
+	
+	// 업체 정산목록 메소드
+	void vSheetTB(String[] header) {
+		// TODO: 계약목록 출력 메소드
+		try {
+			
+			sheetDao = new SheetDAO();
+			
+			ArrayList sheetList = sheetDao.sheetArrayList(); // 인력목록 ArrayList 형태로 가져오기
+			String[][] sheetContents = super.changeArrayList(sheetList, header);			
+			
+			sheetModel.setNumRows(0);
+			
+			for (int i = 0; i < sheetContents.length; i++) {
+				sheetModel.addRow(sheetContents[i]);
+			}
+			
+		} catch (Exception e1) {
+			// TODO: handle exception
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "업체정산목록오류 : " + e1.getMessage());
+		}
+	}
+	
+	// 인력 정산목록 메소드
+	void workerPayTB(String[] header) {
+		// TODO: 계약목록 출력 메소드
+		try {
+			
+			
+			sheetDao = new SheetDAO();
+			
+			ArrayList payList = sheetDao.workerPayArrayList(); // 인력목록 ArrayList 형태로 가져오기
+			String[][] payContents = super.changeArrayList(payList, header);			
+			
+			priceModel.setNumRows(0);
+			
+			for (int i = 0; i < payContents.length; i++) {
+				priceModel.addRow(payContents[i]);
+			}
+			
+		} catch (Exception e1) {
+			// TODO: handle exception
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "인력수당목록오류 : " + e1.getMessage());
+		}
+	}
 
-	void setReqCont(int reqCode) {
+	void codeSearch(String id) {
 
 		try {
 
+			LoginDAO dao = new LoginDAO();
+			code = dao.managerCode(id);			
+
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

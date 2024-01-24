@@ -1,10 +1,12 @@
 package model.rec;
 
+import java.sql.Date;
+
 public class CertiVO {
 	
 	int certiCode, workerCode, certiNum;
 	String certiName, certiDate, certiExpPeriod;
-	
+	Date certiDateD, certiExpPeriodD;
 	
 	public CertiVO() {
 	
@@ -21,7 +23,46 @@ public class CertiVO {
 		this.certiExpPeriod = certiExpPeriod;
 		
 	}
+	
+	public CertiVO(int certiCode, int certiNum, String certiName, String certiDate, String certiExpPeriod) {
+		
+		this.certiCode = certiCode;
+		this.certiNum = certiNum;
+		this.certiName = certiName; 
+		this.certiDate = certiDate;
+		this.certiExpPeriod = certiExpPeriod;
+		
+	}
+	
 
+	public CertiVO(int certiCode, int certiNum, String certiName, Date certiDateD, Date certiExpPeriodD) {
+		
+		this.certiCode = certiCode;
+		this.certiName = certiName; 
+		this.certiNum = certiNum;
+		this.certiDateD = certiDateD;
+		this.certiExpPeriodD = certiExpPeriodD;
+		
+	}
+	
+	
+	public CertiVO(String certiName, int certiNum, Date certiDateD, Date certiExpPeriodD) {
+		
+		this.certiName = certiName; 
+		this.certiNum = certiNum;
+		this.certiDateD = certiDateD;
+		this.certiExpPeriodD = certiExpPeriodD;
+		
+	}
+
+	public CertiVO(String certiName, int certiNum, String certiDate, String certiExpPeriod) {
+		
+		this.certiName = certiName; 
+		this.certiNum = certiNum;
+		this.certiDate = certiDate;
+		this.certiExpPeriod = certiExpPeriod;
+		
+	}
 	public int getCertiCode() {
 		return certiCode;
 	}

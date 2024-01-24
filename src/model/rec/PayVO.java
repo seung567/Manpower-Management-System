@@ -3,7 +3,7 @@ package model.rec;
 public class PayVO {
 	private String payDate;
 	private int workerCode, sheetCode, actualPay, recontIncen, workerTax;
-	
+	private int pay;
 	public PayVO( ) {
 
 	}
@@ -16,6 +16,14 @@ public class PayVO {
 		this.actualPay = actualPay;
 		this.recontIncen = recontIncen;
 		this.workerTax = workerTax;
+	}
+
+	public int getPay() {
+		return pay;
+	}
+
+	public void setPay(int pay) {
+		this.pay = pay;
 	}
 
 	public String getPayDate() {

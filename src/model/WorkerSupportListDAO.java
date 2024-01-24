@@ -23,7 +23,7 @@ public class WorkerSupportListDAO extends Connect{
 
 	public   WorkerSupportListDAO() throws Exception {
 		super();
-		conn = super.connectValue("ManagerWorkerDAO");
+		conn = super.connectValue("WorkerDAO");
 	}
 
 	
@@ -41,7 +41,8 @@ public class WorkerSupportListDAO extends Connect{
 				+ "	wo.worker_email,"
 				+ "	wo.worker_age,"
 				+ "	wc.worker_cont_ck,"
-				+ "	wc.cont_state "
+				+ "	wc.cont_state,"
+				+ " wc.worker_cont_code "
 				+ "from apply ap, worker wo, skill sk, worker_cont wc "
 				+ "where ap.worker_code = wo.worker_code and "
 				+ "ap.apply_code = wc.apply_code(+) and "
@@ -58,6 +59,7 @@ public class WorkerSupportListDAO extends Connect{
 
 			ArrayList temp = new ArrayList();
 
+			temp.add(res.getInt("worker_cont_code"));
 			temp.add(res.getInt("apply_code"));
 			temp.add(res.getString("apply_date").substring(0,10));
 			temp.add(res.getString("worker_name"));
@@ -68,34 +70,11 @@ public class WorkerSupportListDAO extends Connect{
 
 			supportList.add(temp);
 		}
-
+		
+		res.close();
 		stmt.close();
 		System.out.println("지원자목록 조회완료");
 		return supportList;
-	}
-	
-	// 유승민
-	// ArrayList 2차원 배열 변환 메소드
-	public String[][] changeArray(ArrayList list, String[] col) throws Exception {
-
-		String[][] result = new String[list.size()][col.length];
-
-		for (int i = 0; i < result.length; i++) {
-			ArrayList temp = (ArrayList) list.get(i);
-
-			for (int j = 0; j < result[i].length; j++) {
-
-				try {
-					result[i][j] = temp.get(j).toString();
-				} catch (Exception e) {
-					// TODO: handle exception
-					result[i][j] = (String) temp.get(j);
-				}
-			}
-		}
-
-		return result;
-
 	}
 	
 	// 유승민
@@ -104,7 +83,7 @@ public class WorkerSupportListDAO extends Connect{
 		
 		SupportVO vo = new SupportVO();
 
-		Statement stmt = conn.createStatement();
+		stmt = conn.createStatement();
 
 		String sql = "select "
 				+ "	a.apply_code,"
@@ -148,7 +127,7 @@ public class WorkerSupportListDAO extends Connect{
 
 
 
-		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,CERTI_DATE,CERTI_EXP_PERIOD "
+		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,to_char(CERTI_DATE,'yyyy-mm-dd') CERTI_DATE,to_char(CERTI_EXP_PERIOD,'yyyy-mm-dd') CERTI_EXP_PERIOD "
 				+ "from certi c, worker w, apply a"
 				+ " where "
 				+ "a.worker_code = w.worker_code and "
@@ -186,8 +165,8 @@ public class WorkerSupportListDAO extends Connect{
 
 		String sql = "select "
 				+ "	career_name,"
-				+ "	career_sdate,"
-				+ "	career_edate, "
+				+ "	to_char(career_sdate,'yyyy-mm-dd') career_sdate,"
+				+ "	to_char(career_edate,'yyyy-mm-dd') career_edate, "
 				+ "	career_detail "
 				+ "from career c, worker w, apply a "
 				+ "where a.worker_code = w.worker_code and "
@@ -218,4 +197,39 @@ public class WorkerSupportListDAO extends Connect{
 
 		return contList;
 	}
-}
+	
+	public void contAgree(String workerContCode) throws Exception{
+		
+		String sql = "update worker_cont set WORKER_CONT_CK = '계약체결', CONT_STATE = '계약체결' where worker_cont_code = " + workerContCode;
+		
+		stmt = conn.createStatement();
+		int state = stmt.executeUpdate(sql);
+		
+		if(state>0) {
+			System.out.println("상태 변경완료 // worker_cont // WORKER_CONT_CK,CONT_STATE");
+		}else {
+			System.out.println("상태 변경 실패 // worker_cont // WORKER_CONT_CK,CONT_STATE");
+		}
+		
+		
+	}
+}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

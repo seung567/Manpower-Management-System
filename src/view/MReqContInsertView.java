@@ -24,8 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import model.ManagerReqDAO;
-import model.ManagerWorkerDAO;
+import model.ReqDAO;
+import model.WorkerDAO;
 import model.rec.CustVO;
 import model.rec.ReqContVO;
 import model.rec.ReqVO;
@@ -37,16 +37,14 @@ public class MReqContInsertView extends JFrame {
 	private JTextField reqCodeTx;
 	private JTextField custNameTx;
 	private JTextField contSdateTx;
-	private JLabel mgrNameLabel;
 
-	private MWorkerInsertViewXXXXXX mWorkerInsertViewXXXXXX = null;
 
-	private ManagerWorkerDAO dao = null;
-	private ManagerReqDAO reqDAO = null;
+	private WorkerDAO dao = null;
+	private ReqDAO reqDAO = null;
 	private String[] contPeriod = { "1년", "3년", "5년" };
 
 	private String mgrID;
-	private String workerCode;
+	private String workerCode,acceptState;
 	private JTextField actualSdateTx;
 	private JTextField actualEdateTx;
 
@@ -56,11 +54,11 @@ public class MReqContInsertView extends JFrame {
 
 	// 계약정보 view
 
-	public static void workerContAction(String workerCode, String mgrID) {
+	public static void workerContAction(String workerCode, String mgrID, String acceptState) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MReqContInsertView frame = new MReqContInsertView(workerCode, mgrID);
+					MReqContInsertView frame = new MReqContInsertView(workerCode, mgrID, acceptState);
 
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -73,6 +71,8 @@ public class MReqContInsertView extends JFrame {
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
+							} else if (result == JOptionPane.NO_OPTION) {
+								frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 							}
 						}
 					});
@@ -90,7 +90,7 @@ public class MReqContInsertView extends JFrame {
 
 	public MReqContInsertView() {
 
-		this.workerContAction(null, null);
+		this.workerContAction(null, null, null);
 
 	}
 
@@ -98,10 +98,11 @@ public class MReqContInsertView extends JFrame {
 
 	}
 
-	public MReqContInsertView(String workerCode, String mgrID) {
+	public MReqContInsertView(String workerCode, String mgrID, String acceptState) {
 
 		this.workerCode = workerCode;
 		this.mgrID = mgrID;
+		this.acceptState = acceptState;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 561, 467);
@@ -135,9 +136,14 @@ public class MReqContInsertView extends JFrame {
 		contSdateLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		contSdateLabel.setBounds(12, 25, 77, 27);
 		workerContPanel.add(contSdateLabel);
+		
+		if(acceptState.equals("승인")) {
+			contSdateLabel.setText("계약시작일");
+		}else {
+			contSdateLabel.setText("임시시작일");
+		}
 
 		contSdateTx = new HintTextField("ex) yyyy-mm-dd");
-
 		contSdateTx.setColumns(10);
 		contSdateTx.setBounds(118, 23, 116, 30);
 		workerContPanel.add(contSdateTx);
@@ -188,17 +194,6 @@ public class MReqContInsertView extends JFrame {
 		applyBtn.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 		applyBtn.setBounds(189, 352, 167, 44);
 		contentPane.add(applyBtn);
-
-		JLabel mgrLabel = new JLabel("관리자");
-		mgrLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		mgrLabel.setBounds(341, 56, 68, 34);
-		contentPane.add(mgrLabel);
-
-		mgrNameLabel = new JLabel("New label");
-		mgrNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		mgrNameLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
-		mgrNameLabel.setBounds(421, 56, 99, 34);
-		contentPane.add(mgrNameLabel);
 
 		JPanel workerContPanel_1 = new JPanel();
 		workerContPanel_1.setLayout(null);
@@ -271,7 +266,7 @@ public class MReqContInsertView extends JFrame {
 
 					// 예상 근무 종료일 계산하는 부분
 
-					ManagerReqDAO dao = new ManagerReqDAO();
+					ReqDAO dao = new ReqDAO();
 
 					ReqVO vo = dao.expecEdateGet(workerCode);
 
@@ -311,7 +306,7 @@ public class MReqContInsertView extends JFrame {
 
 		try {
 
-			reqDAO = new ManagerReqDAO();
+			reqDAO = new ReqDAO();
 			CustVO vo = reqDAO.custSearch(reqCode);
 
 			ReqVO vo1 = reqDAO.expecEdateGet(reqCode);
@@ -332,7 +327,7 @@ public class MReqContInsertView extends JFrame {
 
 		try {
 
-			reqDAO = new ManagerReqDAO();
+			reqDAO = new ReqDAO();
 			ReqContVO vo = new ReqContVO();
 
 			vo.setReqCode(Integer.parseInt(reqCode)); // 파견 요청번호
@@ -340,7 +335,7 @@ public class MReqContInsertView extends JFrame {
 			vo.setActualSdate(actualSdateTx.getText()); // 실 근무 시작일
 			vo.setActualEdate(actualEdateTx.getText()); // 실 근무 종료일
 
-			int state = reqDAO.reqContInsert(reqCode, vo);
+			int state = reqDAO.reqContInsert(reqCode, vo, acceptState);
 
 			if (state > 0) {
 				System.out.println("정상등록완료");

@@ -96,7 +96,7 @@ public class WorkerContDAO extends Connect{
 					+ "?)"; // cont_state
 		
 		ps = conn.prepareStatement(sql);
-		ps.setString(1, vo.getWorkeContSdate());
+		ps.setString(1, vo.getWorkerContSdate());
 		ps.setString(2, vo.getWorkerContEdate());
 		ps.setInt(3, vo.getApplyCode());
 		ps.setString(4, vo.getContPeriod());
@@ -108,6 +108,7 @@ public class WorkerContDAO extends Connect{
 		
 		int state = ps.executeUpdate();
 		
+		ps.close();
 		return state;
 	}
 }

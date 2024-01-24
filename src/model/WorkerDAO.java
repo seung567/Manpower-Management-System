@@ -12,17 +12,17 @@ import model.rec.MgrVO;
 import model.rec.WorkerContVO;
 import model.rec.WorkerVO;
 
-public class ManagerWorkerDAO extends Connect{
+public class WorkerDAO extends Connect{
 	
 	private Connection conn = null;
 	Statement stmt = null;
 	PreparedStatement ps = null;
 	WorkerVO workervo = null;
 
-	public ManagerWorkerDAO() throws Exception {
+	public WorkerDAO() throws Exception {
 
 		super();
-		conn = super.connectValue("ManagerWorkerDAO");
+		conn = super.connectValue("WorkerSupportListDAO");
 
 	}
 
@@ -92,7 +92,8 @@ public class ManagerWorkerDAO extends Connect{
 				+ "	w.worker_tel,"
 				+ " s.skill_name "
 				+ "from worker w, skill s "
-				+ "where w.skill_code = s.skill_code ";
+				+ "where w.skill_code = s.skill_code "
+				+ "order by 1";
 		
 		stmt = conn.createStatement();
 		ResultSet res1 = stmt.executeQuery(sql1);
@@ -126,7 +127,9 @@ public class ManagerWorkerDAO extends Connect{
 
 
 
-		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,CERTI_DATE,CERTI_EXP_PERIOD "
+		String sql = "select CERTI_CODE,CERTI_NAME,CERTI_NUM,"
+				+ "to_char(CERTI_DATE,'yyyy-mm-dd') CERTI_DATE,"
+				+ "to_char(CERTI_EXP_PERIOD,'yyyy-mm-dd') CERTI_EXP_PERIOD "
 				+ "from certi"
 				+ " where WORKER_CODE = " +  workerCode; 
 
@@ -160,9 +163,16 @@ public class ManagerWorkerDAO extends Connect{
 
 
 
-		String sql = "select cont.WORKER_CONT_CODE, worker.worker_name, cont.WORKER_CONT_SDATE, cont.WORKER_CONT_EDATE,cont.CONT_DATE,cont.CONT_STATE "
-				+ "from worker_cont cont, worker worker "
-				+ "where cont.worker_code = worker.worker_code and cont.worker_code = " + workerCode;
+		String sql = "select "
+				+ "wc.worker_cont_code,"
+				+ "to_char(wc.worker_cont_sdate,'yyyy-mm-dd') worker_cont_sdate,"
+				+ "to_char(wc.worker_cont_edate,'yyyy-mm-dd') worker_cont_edate,"
+				+ "to_char(wc.cont_date,'yyyy-mm-dd') cont_date "
+				+ "from worker_cont wc, apply ap, worker w "
+				+ "where "
+				+ "wc.apply_code = ap.apply_code and "
+				+ "ap.worker_code = w.worker_code and "
+				+ "w.worker_code = " + workerCode;
 
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
@@ -173,12 +183,10 @@ public class ManagerWorkerDAO extends Connect{
 
 			ArrayList temp = new ArrayList();
 
-			temp.add(res.getInt("WORKER_CONT_CODE"));
-			temp.add(res.getString("worker_name"));
-			temp.add(res.getString("WORKER_CONT_SDATE").substring(0,10));
-			temp.add(res.getString("WORKER_CONT_EDATE").substring(0,10));
-			temp.add(res.getString("CONT_DATE").substring(0,10));
-			temp.add(res.getString("CONT_STATE"));
+			temp.add(res.getInt("worker_cont_code"));
+			temp.add(res.getString("worker_cont_sdate"));
+			temp.add(res.getString("worker_cont_edate"));
+			temp.add(res.getString("cont_date"));
 
 			contList.add(temp);
 
@@ -189,31 +197,6 @@ public class ManagerWorkerDAO extends Connect{
 
 		return contList;
 	}
-	
-	// 유승민
-	// ArrayList 2차원 배열 변환 메소드
-	public String[][] workerList(ArrayList list, String[] col) throws Exception {
-
-		String[][] result = new String[list.size()][col.length];
-
-		for (int i = 0; i < result.length; i++) {
-			ArrayList temp = (ArrayList) list.get(i);
-
-			for (int j = 0; j < result[i].length; j++) {
-
-				try {
-					result[i][j] = temp.get(j).toString();
-				} catch (Exception e) {
-					// TODO: handle exception
-					result[i][j] = (String) temp.get(j);
-				}
-			}
-		}
-
-		return result;
-
-	}
-
 
 	public String mgrName(String id) {
 
@@ -261,7 +244,7 @@ public class ManagerWorkerDAO extends Connect{
 			String contPeriod = res.getString("CONT_PERIOD");
 			int recontNum = res.getInt("RECONT_NUM");
 			String contState = res.getString("CONT_STATE");
-			int accNum = res.getInt("ACC_NUM");
+			String accNum = res.getString("ACC_NUM");
 			String accBank = res.getString("ACC_BANK");
 			String accName = res.getString("ACC_NAME");
 
@@ -283,7 +266,10 @@ public class ManagerWorkerDAO extends Connect{
 
 		System.out.println("파견인력 계약정보 검색완료");
 		System.out.println("=======================================\n");
-
+		
+		res.close();
+		ps.close();
+		
 		return vo;
 
 	}
@@ -315,7 +301,9 @@ public class ManagerWorkerDAO extends Connect{
 
 		System.out.println("관리자 정보 검색완료");
 		System.out.println("=======================================\n");
-
+		
+		res.close();
+		stmt.close();
 		return vo;
 
 	}
@@ -334,15 +322,16 @@ public class ManagerWorkerDAO extends Connect{
 		if(res.next()) {
 			eDate = res.getDate("max(worker_cont_edate)");
 		}
-
+		
+		
+		res.close();
+		stmt.close();
 		return eDate;
 	}
 	
 	// 유승민
 	// 계약건별 인력 목록 출력 메소드
 	public ArrayList reqWorkerCont(String reqCode) throws Exception {
-
-
 
 		String sql = "select"
 				+ "	c.req_code,"
@@ -376,6 +365,50 @@ public class ManagerWorkerDAO extends Connect{
 		stmt.close();
 
 		return contList;
+	}
+	
+	// 이수정
+	//선발된 지원자 목록을 조회하는 메소드
+	/*
+	 * worker_cont(고용계약관리) table에서 
+	 * worker_cont_ck(고용계약성사여부)가 계약요청인 애들만 파견지원자 목록에 뜨게 할 것.
+	 */
+	public ArrayList searchSelectedList(int workerContCode, int custCode) throws Exception {   
+
+		String sql = "select" 
+				+"cont.worker_cont_code, "//고용계약번호
+				+"ap.apply_date, " //지원일자
+				+"w.worker_name, " //이름
+				+"w.worker+tel, "	//전화번호
+				+"w.worker_age, " //나이
+				+"s.skill_name " //상세기술
+				+"from apply ap, worker_cont cont, worker w, skill s "
+				+"where ap.worker_code = w.worker_code and " //ap & w (worker_code) 
+				+"ap.apply_code = cont.apply_code and " // ap & cont (apply_code)
+				+"cont.worker_cont_code is not null"; // cont (worker_cont_code)
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+
+		ArrayList supportList = new ArrayList();
+
+		while(res.next()) {
+
+			ArrayList temp = new ArrayList();
+
+			temp.add(res.getString("apply_date").substring(0,10));
+			temp.add(res.getString("worker_name"));
+			temp.add(res.getInt("worker_age"));
+			temp.add(res.getString("cont_state"));
+			temp.add(res.getInt("worker_cont_code"));
+
+			supportList.add(temp);
+		}
+
+		stmt.close();
+		System.out.println(sql);
+		System.out.println("지원자목록 조회완료");
+		return supportList;
 	}
 
 }

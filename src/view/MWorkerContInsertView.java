@@ -67,7 +67,7 @@ public class MWorkerContInsertView extends JFrame {
 					
 					frame.setVisible(true);
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+					frame.setResizable(false);
 					frame.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosing(WindowEvent e) {
@@ -78,6 +78,8 @@ public class MWorkerContInsertView extends JFrame {
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
+							}else {
+								frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 							}
 						}
 					});

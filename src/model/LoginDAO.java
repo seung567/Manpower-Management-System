@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import model.rec.CustVO;
 import model.rec.MgrVO;
 
 public class LoginDAO extends Connect{
@@ -30,10 +31,11 @@ public class LoginDAO extends Connect{
 		System.out.println("관리자 로그인 테스트정보 - sql");
 		System.out.println(managerSql);
 		
-		Statement stmtManager = conn.createStatement();
-		ResultSet resManager = stmtManager.executeQuery(managerSql);
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(managerSql);
 
-		return resManager.next();
+		
+		return res.next();
 	}
 	
 	
@@ -44,9 +46,12 @@ public class LoginDAO extends Connect{
 		System.out.println("파견업체 로그인 테스트정보 - sql");
 		System.out.println(officeSql);
 		
-		Statement stmtOffice = conn.createStatement();
-		ResultSet resoffice = stmtOffice.executeQuery(officeSql);
+		stmt = conn.createStatement();
+		ResultSet resoffice = stmt.executeQuery(officeSql);
 
+		
+
+		
 		return resoffice.next();
 	}
 
@@ -56,29 +61,91 @@ public class LoginDAO extends Connect{
 
 		String workerSql = "select worker_id from worker" + " where worker_id = '" + id + "'" + " and WORKER_PW = '" + pw + "'";
 
-		Statement stmtWorker = conn.createStatement();
-		ResultSet resWorker = stmtWorker.executeQuery(workerSql);
+		stmt = conn.createStatement();
+		ResultSet resWorker = stmt.executeQuery(workerSql);
+		
 
 		return resWorker.next();
 	}
 	
-	public MgrVO mgrInfoGet(String mgrID) throws Exception  {
-		
+	public MgrVO mgrInfoGet(String mgrID) throws Exception {
+
 		String sql = "select mgr_code, mgr_name from mgr where mgr_id = '" + mgrID + "'";
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+
+		MgrVO vo = new MgrVO();
+
+		if (res.next()) {
+
+			vo.setMgrCode(res.getInt("mgr_code"));
+			vo.setMgrName(res.getString("mgr_name"));
+
+		}
+		
+		res.close();
+		stmt.close();
+		return vo;
+	}
+
+	public int managerCode(String id) throws Exception {
+
+		String sql = "select mgr_code from mgr where mgr_id = '" + id + "'";
+
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+
+		int code = 0;
+
+		if (res.next()) {
+			code = res.getInt("mgr_code");
+		}
+		
+		res.close();
+		stmt.close();
+		return code;
+
+	}
+	
+	public CustVO custCode(String id) throws Exception {
+		
+		String sql = "select cust_code, cust_name from cust where cust_id = '" + id + "'";
 		
 		stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
 		
-		MgrVO vo = new MgrVO();
+		CustVO vo = new CustVO();
+		
 		
 		if(res.next()) {
-			
-			vo.setMgrCode(res.getInt("mgr_code"));
-			vo.setMgrName(res.getString("mgr_name"));
+			vo.setCustCode(res.getInt("cust_code"));
+			vo.setCustName(res.getString("cust_name"));
+		}
+		
+		
+		stmt.close();  // 닫기 추가
+		res.close();  // 닫기 추가
+		
+		return vo;
+		
+	}
+	
+	public int workerCode(String id) throws Exception {
+		
+		String sql = "select worker_code from worker where worker_id = '" + id + "'";
+		
+		stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(sql);
+		
+		int code = 0;
+		if(res.next()) {
+			code = res.getInt("worker_code");
 			
 		}
 		
-		return vo;
+		return code;
+		
+		
 	}
-	
 }

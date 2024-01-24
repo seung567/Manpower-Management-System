@@ -37,7 +37,7 @@ public class LoginView extends JFrame {
 	private JSeparator separator;
 
 	
-	private String[] loginTypeSelectVal = { "관리자", "사업자회원", "개인회원" };
+	private String[] loginTypeSelectVal = { "관리자", "파견업체", "파견인력" };
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +49,7 @@ public class LoginView extends JFrame {
 					LoginView frame = new LoginView();
 
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+					frame.setResizable(false);
 					frame.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosing(WindowEvent e) {
@@ -60,7 +60,8 @@ public class LoginView extends JFrame {
 									JOptionPane.YES_NO_OPTION);
 							if (result == JOptionPane.YES_OPTION) {
 								frame.dispose();
-							} else {
+							} else if (result == JOptionPane.NO_OPTION) {
+								frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 							}
 						}
 					});
@@ -136,8 +137,8 @@ public class LoginView extends JFrame {
 		newWorkerJoinBtn.setBounds(18, 405, 290, 23);
 		newWorkerJoinBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// LoginJoinView loginJoin = new LoginJoinView();
-				// loginJoin.login_Join();
+				 WLoginJoinView loginJoin = new WLoginJoinView();
+				 loginJoin.login_Join();
 
 			}
 		});
@@ -147,18 +148,20 @@ public class LoginView extends JFrame {
 		LoginConfirmBtn.setBackground(new Color(242, 170, 76));
 		LoginConfirmBtn.setForeground(new Color(16, 24, 32));
 		LoginConfirmBtn.setFont(new Font("한컴 윤고딕 230", Font.PLAIN, 15));
+		
+		loginTypeComboBox.setSelectedIndex(2);
+		
 		LoginConfirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				// 로그인 타입
 				String loginType = loginTypeComboBox.getSelectedItem().toString();
 				// 아이디
-//				String ID = LoginIdTx.getText();
+				String ID = LoginIdTx.getText();
 				// 비밀번호
-//				String PW = LoginPwTx.getText();
+				String PW = LoginPwTx.getText();
 				
-				String ID = "ysm94";
-				String PW = "sm1234";
+
 
 				try {
 					LoginDAO dao = new LoginDAO();
@@ -167,6 +170,7 @@ public class LoginView extends JFrame {
 
 						// 관리자 view 실행부분
 						if(dao.managerLoginCheck(ID, PW)) {
+							
 							new MManagerView(0).managerMainView(ID);
 							dispose();
 							
@@ -179,8 +183,10 @@ public class LoginView extends JFrame {
 
 						// 파견업체 view 실행부분
 						if(dao.custLoginCheck(ID, PW)) {
-							System.out.println("파견업체 view");
+							
+							new CCustManagerView(0).CustManagerAction(ID);
 							dispose();
+							
 						}else {
 							JOptionPane.showMessageDialog(LoginCustP, "로그인 실패 정보를 확인 해주세요");
 						}
@@ -189,8 +195,10 @@ public class LoginView extends JFrame {
 
 						// 파견자 view 실행부분
 						if(dao.workerLoginCheck(ID, PW)) {
-							System.out.println("파견자 view");
+							
+							new WWorkerView(0).workerMainView(ID);
 							dispose();
+							
 						}else {
 							JOptionPane.showMessageDialog(LoginCustP, "로그인 실패 정보를 확인 해주세요");
 						}
