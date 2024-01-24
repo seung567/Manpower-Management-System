@@ -78,17 +78,17 @@ public class WorkerContInfoDAO {
 		String sql = "SELECT " +
 	             "a.req_cont_code, " +
 	             "wc.worker_cont_code, " +
-	             "wc.worker_cont_sdate, " +
-	             "wc.worker_cont_edate, " +
-	             "wc.cont_date, " +
+	             "to_char(wc.worker_cont_sdate,'yyyy-mm-dd') worker_cont_sdate, " +
+	             "to_char(wc.worker_cont_edate,'yyyy-mm-dd') worker_cont_edate, " +
+	             "to_char(wc.cont_date,'yyyy-mm-dd') cont_date, " +
 	             "wc.cont_period, " +
 	             "wc.recont_num, " +
 	             "wc.acc_name, " +
-	             "wc.acc_num, " +
+	             "decode(wc.acc_num,null,'',wc.acc_num) acc_num, " +
 	             "wc.acc_bank, " +
 	             "wc.worker_cont_ck, " +
-	             "rc.actual_sdate, " +
-	             "rc.actual_edate " +
+	             "to_char(rc.actual_sdate,'yyyy-mm-dd') actual_sdate, " +
+	             "to_char(rc.actual_edate,'yyyy-mm-dd') actual_edate " +
 	             "FROM worker w, worker_cont wc, apply a, req_cont rc " +
 	             "WHERE a.apply_code = wc.apply_code AND " +
 	             "a.req_cont_code = rc.req_cont_code AND " +
@@ -148,7 +148,7 @@ public class WorkerContInfoDAO {
 		
 		ps.setString(1, vo.getAccName());
 		ps.setString(2, vo.getAccBank());
-		ps.setString(3, String.valueOf(vo.getAccNum()));
+		ps.setInt(3, Integer.parseInt(vo.getAccNum()));
 		ps.setInt(4, vo.getWorkerContCode());
 		
 		int state = ps.executeUpdate();

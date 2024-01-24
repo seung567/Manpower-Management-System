@@ -1308,7 +1308,14 @@ public class WWorkerView extends Connect {
 					actualSdateTx.setText(vo.getActualSdate());
 					actualEdateTx.setText(vo.getActualEdate());
 					accBankTx.setText(vo.getAccBank());
-					accNumTx.setText(String.valueOf(vo.getAccNum()));
+					
+					if(vo.getAccNum() == null) {
+						accNumTx.setText(null);
+					}else {
+						accNumTx.setText(String.valueOf(vo.getAccNum()));
+					}
+					
+				
 					
 					accNameTx.setEditable(true);
 					accBankTx.setEditable(true);
@@ -1350,6 +1357,8 @@ public class WWorkerView extends Connect {
 		contInfoPanel.add(contNumLabel);
 
 		contNumTx = new JTextField();
+		contNumTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contNumTx.setHorizontalAlignment(SwingConstants.CENTER);
 		contNumTx.setEditable(false);
 		contNumTx.setBounds(156, 41, 157, 33);
 		contInfoPanel.add(contNumTx);
@@ -1375,24 +1384,32 @@ public class WWorkerView extends Connect {
 		recontNumTitel.setBackground(new Color(255, 128, 128));
 
 		contSdateTx = new JTextField();
+		contSdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		contSdateTx.setEditable(false);
 		contSdateTx.setBounds(156, 115, 133, 33);
 		contInfoPanel.add(contSdateTx);
 		contSdateTx.setColumns(10);
 
 		contReconTx = new JTextField();
+		contReconTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contReconTx.setHorizontalAlignment(SwingConstants.CENTER);
 		contReconTx.setEditable(false);
 		contReconTx.setBounds(156, 189, 133, 33);
 		contInfoPanel.add(contReconTx);
 		contReconTx.setColumns(10);
 
 		contEdateTx = new JTextField();
+		contEdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		contEdateTx.setEditable(false);
 		contEdateTx.setBounds(446, 115, 133, 33);
 		contInfoPanel.add(contEdateTx);
 		contEdateTx.setColumns(10);
 
 		contPeriodTx = new JTextField();
+		contPeriodTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		contPeriodTx.setHorizontalAlignment(SwingConstants.CENTER);
 		contPeriodTx.setEditable(false);
 		contPeriodTx.setBounds(446, 189, 133, 33);
 		contInfoPanel.add(contPeriodTx);
@@ -1425,13 +1442,17 @@ public class WWorkerView extends Connect {
 		accNumLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 
 		accNameTx = new JTextField();
+		accNameTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		accNameTx.setHorizontalAlignment(SwingConstants.CENTER);
 		accNameTx.setBounds(156, 428, 133, 33);
 		contInfoPanel.add(accNameTx);
 		accNameTx.setText((String) null);
 		accNameTx.setEditable(false);
 		accNameTx.setColumns(10);
 
-		accNumTx = new JTextField();
+		accNumTx = new HintTextField("'-' 빼고 숫자만 입력 하여 주세요");
+		accNumTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		accNumTx.setHorizontalAlignment(SwingConstants.CENTER);
 		accNumTx.setBounds(156, 501, 423, 33);
 		contInfoPanel.add(accNumTx);
 		accNumTx.setColumns(10);
@@ -1443,6 +1464,8 @@ public class WWorkerView extends Connect {
 		accBankLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 17));
 
 		accBankTx = new JTextField();
+		accBankTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		accBankTx.setHorizontalAlignment(SwingConstants.CENTER);
 		accBankTx.setBounds(430, 428, 149, 33);
 		contInfoPanel.add(accBankTx);
 		accBankTx.setText((String) null);
@@ -1456,6 +1479,8 @@ public class WWorkerView extends Connect {
 		contInfoPanel.add(actualSdateLabel);
 
 		actualSdateTx = new JTextField();
+		actualSdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		actualSdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		actualSdateTx.setEditable(false);
 		actualSdateTx.setColumns(10);
 		actualSdateTx.setBounds(156, 263, 133, 33);
@@ -1469,6 +1494,8 @@ public class WWorkerView extends Connect {
 		contInfoPanel.add(actualEdateLabel);
 
 		actualEdateTx = new JTextField();
+		actualEdateTx.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 12));
+		actualEdateTx.setHorizontalAlignment(SwingConstants.CENTER);
 		actualEdateTx.setEditable(false);
 		actualEdateTx.setColumns(10);
 		actualEdateTx.setBounds(446, 263, 133, 33);
@@ -1484,13 +1511,14 @@ public class WWorkerView extends Connect {
 						JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
 					int workerContCode = Integer.parseInt(contNumTx.getText());
+					
 					String accName = accNameTx.getText();
 					String accBank = accBankTx.getText();
 					String accNum = accNumTx.getText();
 
 					try {
 						WorkerContInfoDAO dao = new WorkerContInfoDAO();
-						vo = new WorkerContVO(workerContCode, accName, accBank, accNum);
+						vo = new WorkerContVO(workerContCode, accNum, accBank, accName);
 						// dao.workerAccUpdate(vo);
 
 						int srrr = dao.workerAccUpdate(vo);
@@ -1518,11 +1546,6 @@ public class WWorkerView extends Connect {
 
 			}
 		});
-
-		workerContCodeLabel = new JLabel("New label");
-		workerContCodeLabel.setForeground(new Color(255, 255, 0));
-		workerContCodeLabel.setBounds(446, 41, 96, 33);
-		contInfoPanel.add(workerContCodeLabel);
 
 		JLabel lblNewLabel = new JLabel(
 				"* \uACC4\uC57D\uCCB4\uACB0 \uD76C\uB9DD \uC2DC, \uACC4\uC88C\uC815\uBCF4\uB97C \uC6B0\uC120 \uB4F1\uB85D\uD574\uC8FC\uC138\uC694.");
@@ -1674,6 +1697,13 @@ public class WWorkerView extends Connect {
 		workerSerchBtn_1.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		workerSerchBtn_1.setBounds(673, 15, 89, 23);
 		contInfoP.add(workerSerchBtn_1);
+		
+				workerContCodeLabel = new JLabel("");
+				workerContCodeLabel.setBounds(1260, 10, 133, 33);
+				contInfoP.add(workerContCodeLabel);
+				workerContCodeLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 14));
+				workerContCodeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				workerContCodeLabel.setForeground(new Color(255, 255, 255));
 		
 		//========================================================================================
 		

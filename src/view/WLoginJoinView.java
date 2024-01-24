@@ -21,6 +21,7 @@ import javax.swing.border.EtchedBorder;
 
 import model.JoinWorkerDAO;
 import model.rec.WorkerVO;
+import javax.swing.JPasswordField;
 
 public class WLoginJoinView extends JFrame {
 
@@ -30,10 +31,10 @@ public class WLoginJoinView extends JFrame {
 	private JTextField WorJoinInfo_IdTx;
 	private JTextField WorkerJoinInfo_telTx;
 	private JTextField WorJoinInfo_addrTx;
-	private JTextField WorJoinInfo_PwTx;
-	private JTextField WorJoinInfo_PwConfTx;
 	private JTextField WorJoinInfo_ageTx;
 	private JTextField WorJoinInfo_rnumTx;
+	private JPasswordField WorJoinInfo_PwTx;
+	private JPasswordField WorJoinInfo_PwConfTx;
 
 	/**
 	 * Launch the application.
@@ -155,21 +156,11 @@ public class WLoginJoinView extends JFrame {
 		WorkerJoinInfo_PwLabel.setBounds(24, 45, 118, 23);
 		panel.add(WorkerJoinInfo_PwLabel);
 
-		WorJoinInfo_PwTx = new HintTextField("(숫자,문자 조합 최대 30자리)");
-		WorJoinInfo_PwTx.setBounds(182, 45, 169, 23);
-		panel.add(WorJoinInfo_PwTx);
-		WorJoinInfo_PwTx.setColumns(10);
-
 		JLabel WorJoinInfo_PwConfLabel = new JLabel("비밀번호 확인");
 		WorJoinInfo_PwConfLabel.setForeground(new Color(242, 170, 76));
 		WorJoinInfo_PwConfLabel.setFont(new Font("한컴 윤고딕 250", Font.PLAIN, 16));
 		WorJoinInfo_PwConfLabel.setBounds(24, 79, 118, 23);
 		panel.add(WorJoinInfo_PwConfLabel);
-
-		WorJoinInfo_PwConfTx = new JTextField();
-		WorJoinInfo_PwConfTx.setBounds(182, 79, 169, 23);
-		panel.add(WorJoinInfo_PwConfTx);
-		WorJoinInfo_PwConfTx.setColumns(10);
 
 		JLabel WorJoinInfo_nameLabel = new JLabel("이름");
 		WorJoinInfo_nameLabel.setForeground(new Color(242, 170, 76));
@@ -300,6 +291,14 @@ public class WLoginJoinView extends JFrame {
 		WorJoinInfo_IdConftn_1.setBackground(new Color(16, 24, 32));
 		WorJoinInfo_IdConftn_1.setBounds(363, 79, 124, 23);
 		panel.add(WorJoinInfo_IdConftn_1);
+		
+		WorJoinInfo_PwTx = new JPasswordField();
+		WorJoinInfo_PwTx.setBounds(182, 45, 169, 21);
+		panel.add(WorJoinInfo_PwTx);
+		
+		WorJoinInfo_PwConfTx = new JPasswordField();
+		WorJoinInfo_PwConfTx.setBounds(182, 79, 169, 21);
+		panel.add(WorJoinInfo_PwConfTx);
 
 		JButton WorkerJoinInfo_IdConfirmBtn_1 = new JButton("\uB4F1\uB85D");
 		WorkerJoinInfo_IdConfirmBtn_1.addActionListener(new ActionListener() {

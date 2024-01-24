@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import model.rec.ApplyVO;
 import model.rec.ReqVO;
 
-// ÆÄ°ß¿äÃ»À» µî·ÏÇÏ´Â DAO Å¬·¡½º
+// ï¿½Ä°ß¿ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ DAO Å¬ï¿½ï¿½ï¿½ï¿½
 public class WorkerReqDAO {
 	// ###########################################################
-	// ¸â¹öº¯¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private Connection conn = null;
 	private String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
@@ -33,7 +33,7 @@ public class WorkerReqDAO {
 
 	}
 
-	// ¿äÃ»¸ñ·ÏÀ» Á¶È¸ÇÏ´Â ¸Þ¼Òµå
+	// ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
 	public ArrayList serchReqInfo(String workerCode) throws Exception {
 		
 		String sql = "select "
@@ -51,7 +51,8 @@ public class WorkerReqDAO {
 				+ "r.sector_code = se.sector_code and "
 				+ "r.city_code = ci.city_code and "
 				+ "ci.country_code = con.country_code and "
-				+ "rc.req_cont_code = ru.req_cont_code";
+				+ "rc.req_cont_code = ru.req_cont_code "
+				+ "order by 1";
 
 		
 		ps = conn.prepareStatement(sql);
@@ -85,7 +86,7 @@ public class WorkerReqDAO {
 
 	public String[][] reqList(ArrayList list, String[] col) throws Exception {
 
-		System.out.println("¿äÃ»¸ñ·Ï Ãâ·Â");
+		System.out.println("ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½");
 		String[][] result = new String[list.size()][col.length];
 
 		for (int i = 0; i < result.length; i++) {
@@ -100,13 +101,13 @@ public class WorkerReqDAO {
 				}
 			}
 		}
-		System.out.println("¿äÃ»¸ñ·Ï Ãâ·Â¿Ï·á");
+		System.out.println("ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ ï¿½ï¿½Â¿Ï·ï¿½");
 
 		return result;
 
 	}
 
-	// ±âÅ¸¿ä±¸»çÇ×À» ¼öÁ¤ÇÏ´Â ¸Þ¼Òµå
+	// ï¿½ï¿½Å¸ï¿½ä±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
 	public void etcModify(ReqVO vo) throws Exception {
 		String sql = "update req " + "set etc_req = ? " + "where req_code = ?";
 
@@ -116,7 +117,7 @@ public class WorkerReqDAO {
 		ps.executeUpdate();
 	}
 
-	// @Àå°æÈñ - (ÀÎ·Â¸ÞÀÎ) ÆÄ°ß¿äÃ»¸ñ·Ï »ó¼¼Á¤º¸
+	// @ï¿½ï¿½ï¿½ï¿½ï¿½ - (ï¿½Î·Â¸ï¿½ï¿½ï¿½) ï¿½Ä°ß¿ï¿½Ã»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ReqVO workerreqInfoSearch(String vNum) throws Exception {
 		ReqVO vo = new ReqVO();
 
@@ -154,7 +155,7 @@ public class WorkerReqDAO {
 
 	}
 
-	// Áö¿øµî·Ï ÀÏÀÚ Ãâ·Â ¸Þ¼Òµå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	public void applyDateInsert(ApplyVO vo) throws Exception {
 
 		String sql = "insert into apply(apply_code, req_cont_code, worker_code, apply_date)  values (apply_sq.nextval, ?, ?, sysdate)";
@@ -170,7 +171,7 @@ public class WorkerReqDAO {
 
 	}
 
-	// Áßº¹Áö¿ø ºÒ°¡ ¸Þ¼Òµå
+	// ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ ï¿½Þ¼Òµï¿½
 	public int noDupApply(int vRcc, String vWc) throws Exception {
 		
 		Statement stmt = conn.createStatement();
@@ -187,7 +188,7 @@ public class WorkerReqDAO {
 		return result;
 	}
 
-	// (Áö¿øÇöÈ²) Áö¿øÃë¼Ò ¸Þ¼Òµå
+	// (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È²) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	public int cancelApply(int vAc) throws Exception {
 
 		Statement stmt = conn.createStatement();
