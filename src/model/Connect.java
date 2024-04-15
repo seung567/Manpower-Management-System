@@ -14,8 +14,7 @@ public class Connect extends JFrame {
 	
 	Connection conn = null;
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.0.73:1521:game1";
-	//	String url = "jdbc:oracle:thin:@192.168.0.2:1521:bridb";
+	String url = "jdbc:oracle:thin:@";
 	String user = "worker";
 	String pw = "1111";
 	Statement stmt = null;
