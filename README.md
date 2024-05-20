@@ -1,4 +1,5 @@
 <h2>팀 프로젝트 - 해외 파견 인력 관리 시스템</h2>
+
 1. 진행기간 : 2024.01.08 ~ 2024.01.23
 2. 주요내용 : HTML, CSS, JavaScript, jQuery를 이용하여 웹 사이트 구현
 3. 사용언어 및 개발환경 : HTML, CSS, JavaScript, jQuery, Apache Tomcat9.0
